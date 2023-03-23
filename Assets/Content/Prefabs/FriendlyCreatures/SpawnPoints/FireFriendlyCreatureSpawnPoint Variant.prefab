@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: creatureType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 387690621694858137, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
+      propertyPath: FrindlyCreaturePrefab
+      value: 
+      objectReference: {fileID: 1956266467479205085, guid: bd146a6cf0777fb4f841765fc0a20e3c, type: 3}
     - target: {fileID: 7867493984535267583, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
       propertyPath: m_RootOrder
       value: 0

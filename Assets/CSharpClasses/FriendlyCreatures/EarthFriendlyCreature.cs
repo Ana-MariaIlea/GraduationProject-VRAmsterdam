@@ -8,18 +8,20 @@ public class EarthFriendlyCreature : AbstractFriendlyCreature
     protected override void Start()
     {
         base.Start();
-    }
-
-    protected override void UnfriendedBehaviour()
-    {
-
-    }
-    protected override void BefriendedBehaviour()
-    {
-
+        type = CreatureType.Earth;
     }
     protected override void HelpingBehaviour()
     {
 
+    }
+    public void CreadureBefriendTransition()
+    {
+        StartCoroutine(CreadureBefriendTransitionCorutine());
+    }
+    IEnumerator CreadureBefriendTransitionCorutine()
+    {
+        yield return null;
+
+        BefriendCreature();
     }
 }

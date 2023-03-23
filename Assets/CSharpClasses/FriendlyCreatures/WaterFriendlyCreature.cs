@@ -8,18 +8,26 @@ public class WaterFriendlyCreature : AbstractFriendlyCreature
     protected override void Start()
     {
         base.Start();
+        type = CreatureType.Water;
     }
 
     protected override void UnfriendedBehaviour()
     {
 
     }
-    protected override void BefriendedBehaviour()
-    {
-
-    }
     protected override void HelpingBehaviour()
     {
 
+    }
+
+    public void CreadureBefriendTransition()
+    {
+        StartCoroutine(CreadureBefriendTransitionCorutine());
+    }
+    IEnumerator CreadureBefriendTransitionCorutine()
+    {
+        yield return null;
+
+        BefriendCreature();
     }
 }
