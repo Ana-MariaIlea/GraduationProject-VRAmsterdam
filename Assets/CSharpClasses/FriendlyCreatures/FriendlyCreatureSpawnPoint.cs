@@ -7,7 +7,8 @@ public class FriendlyCreatureSpawnPoint : MonoBehaviour
 {
     [SerializeField] private CreatureType creatureType;
     [SerializeField] private GameObject frindlyCreaturePrefab;
-    [SerializeField] private List<FriendlyCreatureUnfriendedSpot> unfriendedSpots;
+    [SerializeField] private LayerMask whatIsPlayer;
+    private List<FriendlyCreatureUnfriendedSpot> unfriendedSpots;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +24,7 @@ public class FriendlyCreatureSpawnPoint : MonoBehaviour
         {
             case CreatureType.Fire:
                 FireFriendlyCreature fire = creature.GetComponent<FireFriendlyCreature>();
-                fire.InitializeCreatureData(unfriendedSpots);
+                fire.InitializeCreatureData(unfriendedSpots, whatIsPlayer);
                 break;
             case CreatureType.Water:
                 WaterFriendlyCreature water = creature.GetComponent<WaterFriendlyCreature>();

@@ -7,13 +7,13 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
 {
     private bool doesPlayerHaveFood = false;
     private LayerMask whatIsPlayer;
-    private Transform unbefriendedInitialSpace;
-    private Transform unbefriendedSpace;
+    [SerializeField] private Vector3 unbefriendedInitialSpace;
+    [SerializeField] private Transform unbefriendedSpace;
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
-        unbefriendedInitialSpace = transform;
+        unbefriendedInitialSpace = transform.position;
         type = CreatureType.Fire;
     }
 
@@ -39,6 +39,7 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                 if (minDist < 2f)
                 {
                     BefriendCreature();
+                    //Send client RPC player does not have food 
                 }
                 else
                 {
@@ -60,14 +61,14 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
         }
         else
         {
-            Vector3 distance = transform.position - unbefriendedInitialSpace.transform.position;
+            Vector3 distance = transform.position - unbefriendedInitialSpace;
             if (distance.magnitude < 2f)
             {
                 meshAgent.SetDestination(transform.position);
             }
             else
             {
-                meshAgent.SetDestination(unbefriendedInitialSpace.transform.position);
+                meshAgent.SetDestination(unbefriendedInitialSpace);
             }
         }
     }
@@ -76,8 +77,9 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
 
     }
 
-    public void InitializeCreatureData(List<FriendlyCreatureUnfriendedSpot> unfriendedSpots)
+    public void InitializeCreatureData(List<FriendlyCreatureUnfriendedSpot> unfriendedSpots, LayerMask playerLayer)
     {
+        whatIsPlayer = playerLayer;
         float minDist = 20;
         for (int i = 0; i < unfriendedSpots.Count; i++)
         {

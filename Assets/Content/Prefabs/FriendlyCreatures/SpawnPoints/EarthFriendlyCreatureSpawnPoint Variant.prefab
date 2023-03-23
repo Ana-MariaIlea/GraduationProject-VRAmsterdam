@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: FrindlyCreaturePrefab
       value: 
       objectReference: {fileID: 2065317517498702079, guid: 7c4eccd65f424454487b9ac4d4889a80, type: 3}
+    - target: {fileID: 387690621694858137, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
+      propertyPath: frindlyCreaturePrefab
+      value: 
+      objectReference: {fileID: 2065317517498702079, guid: 7c4eccd65f424454487b9ac4d4889a80, type: 3}
     - target: {fileID: 7867493984535267583, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
       propertyPath: m_RootOrder
       value: 0
