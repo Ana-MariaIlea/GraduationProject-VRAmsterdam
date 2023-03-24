@@ -5,15 +5,23 @@ using UnityEngine.InputSystem;
 
 public class GrabbableItem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private ItemID itemID;
 
-    // Update is called once per frame
-    void Update()
+    public ItemID IItemID
     {
-
+        get
+        {
+            //Some other code
+            return itemID;
+        }
     }
+}
+
+public enum ItemID
+{
+    [HideInInspector]
+    None,
+    Food,
+    Tool,
+    Water
 }

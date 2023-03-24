@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.LowLevel;
 
 public class PlayerVRGrabbing : MonoBehaviour
 {
@@ -14,7 +15,31 @@ public class PlayerVRGrabbing : MonoBehaviour
     [SerializeField] ControllerType controllerType;
     private PlayerInputActions controls;
 
-    private GrabbableItem grabbable = null;
+    private GrabbableItem grabedItem = null;
+    private ItemID grabedItemID = ItemID.None;
+
+    public GrabbableItem GrabedItem
+    {
+        get
+        {
+            //Some other code
+            return grabedItem;
+        }
+    }
+
+    public ItemID GrabedItemID
+    {
+        get
+        {
+            //Some other code
+            return grabedItemID;
+        }
+        set
+        {
+            //Some other code
+            grabedItemID = value;
+        }
+    }
 
     void Awake()
     {
@@ -43,7 +68,17 @@ public class PlayerVRGrabbing : MonoBehaviour
     {
         if (other.tag == "Grab")
         {
-            grabbable = other.GetComponent<GrabbableItem>();
+            grabedItem = other.GetComponent<GrabbableItem>();
+        }
+        else if (other.tag == "GrabDestination")
+        {
+            if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID)
+            {
+                Destroy(grabedItem.gameObject);
+                grabedItemID = ItemID.None;
+                other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleCleared();
+                other.GetComponent<FriendlyCreatureItemObstacle>().GetComponent<BoxCollider>().enabled = false;
+            }
         }
     }
 
@@ -51,7 +86,8 @@ public class PlayerVRGrabbing : MonoBehaviour
     {
         if (other.tag == "Grab")
         {
-            grabbable = null;
+            grabedItem = null;
+            grabedItemID = ItemID.None;
         }
     }
 
@@ -70,8 +106,8 @@ public class PlayerVRGrabbing : MonoBehaviour
         }
         else
         {
-            controls.PlayerPart1.GrabbingLeft.performed += GrabItem;
-            controls.PlayerPart1.GrabbingLeft.canceled += ResealseItem;
+            controls.PlayerPart1.GrabbingRight.performed += GrabItem;
+            controls.PlayerPart1.GrabbingRight.canceled += ResealseItem;
         }
 
     }
@@ -85,25 +121,28 @@ public class PlayerVRGrabbing : MonoBehaviour
         }
         else
         {
-            controls.PlayerPart1.GrabbingLeft.performed -= GrabItem;
-            controls.PlayerPart1.GrabbingLeft.canceled -= ResealseItem;
+            controls.PlayerPart1.GrabbingRight.performed -= GrabItem;
+            controls.PlayerPart1.GrabbingRight.canceled -= ResealseItem;
         }
     }
 
     void GrabItem(InputAction.CallbackContext ctx)
     {
-        if(grabbable != null)
+        if (grabedItem != null)
         {
-            grabbable.gameObject.transform.SetParent(this.gameObject.transform);
+            grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
+            grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
+            grabedItemID = grabedItem.IItemID;
         }
     }
 
     void ResealseItem(InputAction.CallbackContext ctx)
     {
-        if (grabbable != null)
+        if (grabedItem != null)
         {
-            grabbable.gameObject.transform.SetParent(null);
-            grabbable = null;
+            grabedItem.gameObject.transform.SetParent(null);
+            grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
+            grabedItemID = ItemID.None;
         }
     }
 }

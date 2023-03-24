@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FriendlyCreatureFoodObstacle : MonoBehaviour
+public class FriendlyCreatureFoodObstacle : FriendlyCreatureItemObstacle
 {
     // Start is called before the first frame update
     void Start()
@@ -10,8 +10,8 @@ public class FriendlyCreatureFoodObstacle : MonoBehaviour
         
     }
 
-    private void ObstacleCleared()
+    public override void ObstacleCleared()
     {
-        GetComponent<EarthFriendlyCreature>().CreadureBefriendTransition();
+        GetComponentInParent<EarthFriendlyCreature>().CreadureBefriendTransition();
     }
 }

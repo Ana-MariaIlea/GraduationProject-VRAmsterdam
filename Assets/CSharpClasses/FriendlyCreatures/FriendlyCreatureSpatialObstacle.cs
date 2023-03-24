@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FriendlyCreatureSpatialObstacle : MonoBehaviour
+public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
 {
-    
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    private void ObstacleCleared()
+    public override void ObstacleCleared()
     {
-        GetComponent<WaterFriendlyCreature>().CreadureBefriendTransition();
+        GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition();
     }
 }
