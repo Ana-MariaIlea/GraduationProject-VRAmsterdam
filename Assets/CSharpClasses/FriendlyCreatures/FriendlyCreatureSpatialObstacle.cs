@@ -13,5 +13,6 @@ public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
     public override void ObstacleCleared()
     {
         GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition();
+        GetComponent<BoxCollider>().enabled = false;
     }
 }

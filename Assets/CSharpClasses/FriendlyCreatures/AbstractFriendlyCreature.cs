@@ -6,6 +6,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public enum CreatureType
 {
+    None,
     Fire,
     Water,
     Earth
@@ -24,6 +25,14 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
     protected CreatureType type;
     protected GameObject playerTarget;
 
+    public CreatureType CCreatureType
+    {
+        get
+        {
+            //Some other code
+            return type;
+        }
+    }
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -31,6 +40,7 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
         meshAgent = GetComponent<NavMeshAgent>();
         playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
         InitializeCreatureVisuals();
+        FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
     }
 
     // Update is called once per frame
@@ -50,10 +60,10 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
         }
     }
 
-    //public void InitializeCreatureData(CreatureType type)
-    //{
-    //    this.type = type;
-    //}
+    void Part2Start()
+    {
+        
+    }
 
     void InitializeCreatureVisuals()
     {

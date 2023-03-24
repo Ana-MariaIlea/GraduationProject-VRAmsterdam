@@ -57,6 +57,7 @@ public class PlayerVRGrabbing : MonoBehaviour
     void Start()
     {
         BindInputActions();
+        FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
     }
 
     private void OnDestroy()
@@ -72,13 +73,26 @@ public class PlayerVRGrabbing : MonoBehaviour
         }
         else if (other.tag == "GrabDestination")
         {
-            if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID)
+            CreatureType aux = CreatureType.None;
+            switch (other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType)
+            {
+                case CreatureType.Water:
+                    if (GetComponentInParent<PlayerCreatureHandler>().IsWaterCretureCollected) return;
+                    aux = CreatureType.Water;
+                    break;
+                case CreatureType.Earth:
+                    if (GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected) return;
+                    aux = CreatureType.Earth;
+                    break;
+            }
+
+            if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID && aux != CreatureType.None)
             {
                 Destroy(grabedItem.gameObject);
                 grabedItemID = ItemID.None;
                 other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleCleared();
-                other.GetComponent<FriendlyCreatureItemObstacle>().GetComponent<BoxCollider>().enabled = false;
             }
+
         }
     }
 
@@ -89,12 +103,6 @@ public class PlayerVRGrabbing : MonoBehaviour
             grabedItem = null;
             grabedItemID = ItemID.None;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     void BindInputActions()
@@ -125,6 +133,11 @@ public class PlayerVRGrabbing : MonoBehaviour
             controls.PlayerPart1.GrabbingRight.canceled -= ResealseItem;
         }
     }
+    void Part2Start()
+    {
+        UnBindInputActions();
+        this.enabled = false;
+    }
 
     void GrabItem(InputAction.CallbackContext ctx)
     {
@@ -132,7 +145,8 @@ public class PlayerVRGrabbing : MonoBehaviour
         {
             grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
-            grabedItemID = grabedItem.IItemID;
+            if (!GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
+                grabedItemID = grabedItem.IItemID;
         }
     }
 
