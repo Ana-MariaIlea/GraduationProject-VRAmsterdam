@@ -136,6 +136,7 @@ public class PlayerVRGrabbing : MonoBehaviour
     void Part2Start()
     {
         UnBindInputActions();
+        GetComponent<SphereCollider>().enabled = false;
         this.enabled = false;
     }
 
