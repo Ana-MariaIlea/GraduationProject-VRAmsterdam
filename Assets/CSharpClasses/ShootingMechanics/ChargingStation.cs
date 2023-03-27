@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class ChargingStation : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private CreatureType creatureType;
 
-    // Update is called once per frame
-    void Update()
+    public CreatureType CCreatureType
     {
-        
+        get
+        {
+            //Some other code
+            return creatureType;
+        }
     }
 }

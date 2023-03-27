@@ -23,6 +23,14 @@ public class PlayerVRShooting : MonoBehaviour
     private Coroutine shootingStreamLeftCooldown = null;
     private Coroutine shootingStreamRightCooldown = null;
 
+    private ShootingMode shootingMode = ShootingMode.None;
+    public enum ShootingMode
+    {
+        None,
+        Projectile,
+        Stream
+    }
+
     void Awake()
     {
         controls = new PlayerInputActions();
@@ -38,12 +46,61 @@ public class PlayerVRShooting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BindInputActions();
+        //BindInputActions();
     }
 
     private void OnDestroy()
     {
         UnBindInputActions();
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "ChargingStation")
+        {
+            switch (other.GetComponent<ChargingStation>().CCreatureType)
+            {
+                case CreatureType.Fire:
+                    ChangeShootingModeToProjectile();
+                    break;
+                case CreatureType.Water:
+                    ChangeShootingModeToStream();
+                    break;
+                case CreatureType.Earth:
+                    ChangeShootingModeToProjectile();
+                    break;
+            }
+        }
+    }
+
+    private void ChangeShootingModeToStream()
+    {
+        controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
+        controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
+
+        controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
+        controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
+
+        if (shootingMode == ShootingMode.Projectile)
+        {
+            controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
+            controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+        }
+        shootingMode = ShootingMode.Stream;
+    }
+
+    private void ChangeShootingModeToProjectile()
+    {
+        controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
+        controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
+        if (shootingMode == ShootingMode.Stream)
+        {
+            controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
+            controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
+
+            controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
+            controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
+        }
+        shootingMode = ShootingMode.Projectile;
     }
 
     void BindInputActions()
