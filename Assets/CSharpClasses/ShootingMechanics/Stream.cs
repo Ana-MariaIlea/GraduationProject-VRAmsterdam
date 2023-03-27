@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stream : MonoBehaviour
+public class Stream : PlayerHitObject
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnParticleCollision(GameObject other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //Also do damage
+        switch (other.tag)
+        {
+            case "Boss":
+                ScoreSystemManager.Instance.ScoreAddedToPlayer(shooterPlayerID);
+                break;
+            case "Miniboss":
+                ScoreSystemManager.Instance.ScoreAddedToPlayer(shooterPlayerID);
+                break;
+        }
     }
 }

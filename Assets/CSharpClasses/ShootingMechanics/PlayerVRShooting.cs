@@ -150,7 +150,13 @@ public class PlayerVRShooting : MonoBehaviour
             controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
         }
         projectileRotation.z = 0;
-        Instantiate(projectilePrefab, projectilePosition, projectileRotation);
+        GameObject projectile = Instantiate(projectilePrefab, projectilePosition, projectileRotation);
+        projectile.GetComponent<Projectile>().Damage = currentDamage;
+
+        //-------------------------------------------------------------
+        //Add player connection;
+        //projectile.GetComponent<Projectile>().ShooterPlayerID = 0;
+        //-------------------------------------------------------------
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
@@ -271,6 +277,8 @@ public class PlayerVRShooting : MonoBehaviour
     public void PlayerHit(int livesLeft)
     {
         currentDamage = currentMaxDamage - currentMaxDamage / livesLeft;
+        streamObjectLeft.GetComponent<Stream>().Damage = currentDamage;
+        streamObjectRight.GetComponent<Stream>().Damage = currentDamage;
     }
 
     public void PlayerDie()
