@@ -248,6 +248,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2464814281222028934, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
+      propertyPath: creatureType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5366998894992188896, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -295,6 +299,10 @@ PrefabInstance:
     - target: {fileID: 6602615089405311988, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
       propertyPath: m_Name
       value: WaterFriendlyCreatureSpawnPoint Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6602615089405311988, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
@@ -894,6 +902,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1668568226976677754, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2109180853545549293, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -941,6 +953,14 @@ PrefabInstance:
     - target: {fileID: 2795337031691148671, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 3137894526206576955, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
+      propertyPath: projectileOffset.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051661892876842745, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}

@@ -70,6 +70,54 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerPart2"",
+            ""id"": ""b1745e1e-68ac-4b76-b866-450880f37e27"",
+            ""actions"": [
+                {
+                    ""name"": ""ShootingLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a34b7ff-0eba-4d65-98b1-6075562964a3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShootingRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd0c7880-01ff-43e9-b763-e41b80ec6b05"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""411bd8f9-45de-47e4-95c9-f3130af93d11"",
+                    ""path"": ""<XRController>{LeftHand}/triggerPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShootingLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bfdfc9e7-b2d7-424b-9c15-e168d894dc80"",
+                    ""path"": ""<XRController>{RightHand}/triggerPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShootingRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -78,6 +126,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerPart1 = asset.FindActionMap("PlayerPart1", throwIfNotFound: true);
         m_PlayerPart1_GrabbingLeft = m_PlayerPart1.FindAction("GrabbingLeft", throwIfNotFound: true);
         m_PlayerPart1_GrabbingRight = m_PlayerPart1.FindAction("GrabbingRight", throwIfNotFound: true);
+        // PlayerPart2
+        m_PlayerPart2 = asset.FindActionMap("PlayerPart2", throwIfNotFound: true);
+        m_PlayerPart2_ShootingLeft = m_PlayerPart2.FindAction("ShootingLeft", throwIfNotFound: true);
+        m_PlayerPart2_ShootingRight = m_PlayerPart2.FindAction("ShootingRight", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -189,9 +241,68 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         }
     }
     public PlayerPart1Actions @PlayerPart1 => new PlayerPart1Actions(this);
+
+    // PlayerPart2
+    private readonly InputActionMap m_PlayerPart2;
+    private List<IPlayerPart2Actions> m_PlayerPart2ActionsCallbackInterfaces = new List<IPlayerPart2Actions>();
+    private readonly InputAction m_PlayerPart2_ShootingLeft;
+    private readonly InputAction m_PlayerPart2_ShootingRight;
+    public struct PlayerPart2Actions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public PlayerPart2Actions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ShootingLeft => m_Wrapper.m_PlayerPart2_ShootingLeft;
+        public InputAction @ShootingRight => m_Wrapper.m_PlayerPart2_ShootingRight;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerPart2; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerPart2Actions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerPart2Actions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayerPart2ActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerPart2ActionsCallbackInterfaces.Add(instance);
+            @ShootingLeft.started += instance.OnShootingLeft;
+            @ShootingLeft.performed += instance.OnShootingLeft;
+            @ShootingLeft.canceled += instance.OnShootingLeft;
+            @ShootingRight.started += instance.OnShootingRight;
+            @ShootingRight.performed += instance.OnShootingRight;
+            @ShootingRight.canceled += instance.OnShootingRight;
+        }
+
+        private void UnregisterCallbacks(IPlayerPart2Actions instance)
+        {
+            @ShootingLeft.started -= instance.OnShootingLeft;
+            @ShootingLeft.performed -= instance.OnShootingLeft;
+            @ShootingLeft.canceled -= instance.OnShootingLeft;
+            @ShootingRight.started -= instance.OnShootingRight;
+            @ShootingRight.performed -= instance.OnShootingRight;
+            @ShootingRight.canceled -= instance.OnShootingRight;
+        }
+
+        public void RemoveCallbacks(IPlayerPart2Actions instance)
+        {
+            if (m_Wrapper.m_PlayerPart2ActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayerPart2Actions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayerPart2ActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayerPart2ActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlayerPart2Actions @PlayerPart2 => new PlayerPart2Actions(this);
     public interface IPlayerPart1Actions
     {
         void OnGrabbingLeft(InputAction.CallbackContext context);
         void OnGrabbingRight(InputAction.CallbackContext context);
+    }
+    public interface IPlayerPart2Actions
+    {
+        void OnShootingLeft(InputAction.CallbackContext context);
+        void OnShootingRight(InputAction.CallbackContext context);
     }
 }

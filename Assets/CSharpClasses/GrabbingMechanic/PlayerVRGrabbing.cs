@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.LowLevel;
 
+public enum ControllerType
+{
+    Left,
+    Right
+}
+
 public class PlayerVRGrabbing : MonoBehaviour
 {
-    public enum ControllerType
-    {
-        Left,
-        Right
-    }
-
     [SerializeField] ControllerType controllerType;
     private PlayerInputActions controls;
 

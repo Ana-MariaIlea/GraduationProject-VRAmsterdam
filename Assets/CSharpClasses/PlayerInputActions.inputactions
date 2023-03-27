@@ -48,6 +48,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "PlayerPart2",
+            "id": "b1745e1e-68ac-4b76-b866-450880f37e27",
+            "actions": [
+                {
+                    "name": "ShootingLeft",
+                    "type": "Button",
+                    "id": "5a34b7ff-0eba-4d65-98b1-6075562964a3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ShootingRight",
+                    "type": "Button",
+                    "id": "dd0c7880-01ff-43e9-b763-e41b80ec6b05",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "411bd8f9-45de-47e4-95c9-f3130af93d11",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShootingLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bfdfc9e7-b2d7-424b-9c15-e168d894dc80",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShootingRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
