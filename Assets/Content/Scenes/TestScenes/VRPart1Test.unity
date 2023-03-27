@@ -954,10 +954,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3137894526206576955, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
-      propertyPath: projectileOffset.y
-      value: -0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8051661892876842745, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
       propertyPath: m_Enabled
       value: 0
