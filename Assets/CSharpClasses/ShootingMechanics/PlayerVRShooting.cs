@@ -5,15 +5,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerVRShooting : MonoBehaviour
 {
-    [SerializeField] Transform controllerLeft;
-    [SerializeField] Transform controllerRight;
-    [SerializeField] GameObject projectilePrefab;
-    [SerializeField] Vector3 projectileOffset;
-    [SerializeField] float projectileShootCooldown = 1;
-    [SerializeField] ParticleSystem streamObjectLeft;
-    [SerializeField] ParticleSystem streamObjectRight;
-    [SerializeField] float streamShootTime = 5;
-    [SerializeField] float streamShootCooldown = 3;
+    [SerializeField] private Transform controllerLeft;
+    [SerializeField] private Transform controllerRight;
+    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private Vector3 projectileOffset;
+    [SerializeField] private float projectileShootCooldown = 1;
+    [SerializeField] private ParticleSystem streamObjectLeft;
+    [SerializeField] private ParticleSystem streamObjectRight;
+    [SerializeField] private float streamShootTime = 5;
+    [SerializeField] private float streamShootCooldown = 3;
+    [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
+
+
+    private float currentDamage;
+    private float currentMaxDamage;
 
     private PlayerInputActions controls;
 
@@ -31,6 +36,14 @@ public class PlayerVRShooting : MonoBehaviour
         Stream
     }
 
+    [System.Serializable]
+    public struct ShootingVisualsAndInfo
+    {
+        public CreatureType magicType;
+        public float maxDamage;
+        public GameObject visualsPrefab;
+    }
+
     void Awake()
     {
         controls = new PlayerInputActions();
@@ -43,11 +56,6 @@ public class PlayerVRShooting : MonoBehaviour
     {
         controls.Disable();
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        //BindInputActions();
-    }
 
     private void OnDestroy()
     {
@@ -57,7 +65,8 @@ public class PlayerVRShooting : MonoBehaviour
     {
         if (other.tag == "ChargingStation")
         {
-            switch (other.GetComponent<ChargingStation>().CCreatureType)
+            CreatureType aux = other.GetComponent<ChargingStation>().CCreatureType;
+            switch (aux)
             {
                 case CreatureType.Fire:
                     ChangeShootingModeToProjectile();
@@ -68,6 +77,15 @@ public class PlayerVRShooting : MonoBehaviour
                 case CreatureType.Earth:
                     ChangeShootingModeToProjectile();
                     break;
+            }
+            for (int i = 0; i < shootingVisuals.Count; i++)
+            {
+                if (shootingVisuals[i].magicType == aux)
+                {
+                    currentDamage = shootingVisuals[i].maxDamage;
+                    currentMaxDamage = shootingVisuals[i].maxDamage;
+                    break;
+                }
             }
         }
     }
@@ -102,19 +120,6 @@ public class PlayerVRShooting : MonoBehaviour
         }
         shootingMode = ShootingMode.Projectile;
     }
-
-    void BindInputActions()
-    {
-        //controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
-        //controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
-
-        controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
-        controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
-
-        controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
-        controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
-    }
-
     void UnBindInputActions()
     {
         controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
@@ -263,4 +268,34 @@ public class PlayerVRShooting : MonoBehaviour
         }
     }
 
+    public void PlayerHit(int livesLeft)
+    {
+        currentDamage = currentMaxDamage - currentMaxDamage / livesLeft;
+    }
+
+    public void PlayerDie()
+    {
+        switch (shootingMode)
+        {
+            case ShootingMode.Projectile:
+                controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
+                controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+                break;
+            case ShootingMode.Stream:
+                controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
+                controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
+
+                controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
+                controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
+
+                StopAllCoroutines();
+                shootingStreamLeft = null;
+                shootingStreamRight = null;
+                shootingStreamLeftCooldown = null;
+                shootingStreamRightCooldown = null;
+                break;
+        }
+
+        shootingMode = ShootingMode.None;
+    }
 }
