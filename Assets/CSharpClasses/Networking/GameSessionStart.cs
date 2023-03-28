@@ -12,7 +12,8 @@ public class GameSessionStart : MonoBehaviour
     {
         if (isServer)
         {
-            NetworkManager.Singleton.StartServer();
+           // NetworkManager.Singleton.StartServer();
+            NetworkManager.Singleton.StartHost();
         }
         else
         {

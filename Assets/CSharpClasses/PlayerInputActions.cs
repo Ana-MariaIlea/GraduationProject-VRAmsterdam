@@ -50,7 +50,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""23b0135e-355f-4169-b81c-0681c4bd848e"",
-                    ""path"": ""<OculusTouchController>{LeftHand}/gripPressed"",
+                    ""path"": ""<XRController>{LeftHand}/triggerPressed"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -61,7 +61,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""aeef98b3-845f-4994-a579-8367a95762af"",
-                    ""path"": ""<OculusTouchController>{RightHand}/gripPressed"",
+                    ""path"": ""<XRController>{RightHand}/triggerPressed"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

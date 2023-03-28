@@ -15,10 +15,15 @@ public enum ControllerType
 public class PlayerVRGrabbing : NetworkBehaviour
 {
     [SerializeField] ControllerType controllerType;
+    [SerializeField] private Vector3 grabbingGlobalOffset = new Vector3(0,-1f,0);
+
     private PlayerInputActions controls;
 
     private GrabbableItem grabedItem = null;
     private NetworkVariable<ItemID> grabedItemID = new NetworkVariable<ItemID>(ItemID.None);
+    private Vector3 grabedItemOffset = Vector3.zero;
+    private NetworkVariable<bool> grabbing = new NetworkVariable<bool>(false);
+    //private bool grabbing = false;
 
     public GrabbableItem GrabedItem
     {
@@ -164,9 +169,11 @@ public class PlayerVRGrabbing : NetworkBehaviour
         //{
         //grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
         //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
-        GrabItemClientRPC();
+        grabbing.Value = true;
         if (!GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
             grabedItemID.Value = grabedItem.IItemID;
+        GrabItemClientRPC();
+
         // }
     }
 
@@ -175,10 +182,21 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         if (grabedItem != null)
         {
-            grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
+            //grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
+            grabedItemOffset = transform.position - grabedItem.transform.position;
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
+            StartCoroutine(GrabbingObjectCorutine());
             //if (!GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
             //  grabedItemID.Value = grabedItem.IItemID;
+        }
+    }
+
+    private IEnumerator GrabbingObjectCorutine()
+    {
+        while (grabbing.Value)
+        {
+            grabedItem.transform.position = transform.position + grabedItemOffset + grabbingGlobalOffset;
+            yield return null;
         }
     }
 
@@ -193,6 +211,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         //{
         //grabedItem.gameObject.transform.SetParent(null);
         //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
+        grabbing.Value = false;
         grabedItemID.Value = ItemID.None;
         ResleaseItemClientRPC();
         // }
@@ -203,7 +222,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         if (grabedItem != null)
         {
-            grabedItem.gameObject.transform.SetParent(null);
+            //grabedItem.gameObject.transform.SetParent(null);
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
             //grabedItemID.Value = ItemID.None;
         }
