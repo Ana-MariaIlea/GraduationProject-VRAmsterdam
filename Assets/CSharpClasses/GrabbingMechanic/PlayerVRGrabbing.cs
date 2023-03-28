@@ -51,7 +51,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls = new PlayerInputActions();
             controls.Enable();
             BindInputActions();
-            FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+            //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
         }
         else
         {
