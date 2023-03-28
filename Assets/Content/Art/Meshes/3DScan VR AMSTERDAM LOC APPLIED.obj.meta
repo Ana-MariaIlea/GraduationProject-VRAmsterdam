@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fd09f870c5cb89b43a79bd78c0c8dcbf
+guid: 540650609ed9f2f42beb06c5fa19f148
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,12 +7,42 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Border Warning Tape
+      name: Ceiling_Default_MatMat
+    second: {fileID: 2100000, guid: 331acd987c9947a49aac2dc3bce04fa0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Column_1_Default_MatMat
+    second: {fileID: 2100000, guid: 331acd987c9947a49aac2dc3bce04fa0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Column_2_Default_MatMat
+    second: {fileID: 2100000, guid: 331acd987c9947a49aac2dc3bce04fa0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Column_3_Default_MatMat
+    second: {fileID: 2100000, guid: 331acd987c9947a49aac2dc3bce04fa0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor_Default_MatMat
+    second: {fileID: 2100000, guid: 331acd987c9947a49aac2dc3bce04fa0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Game_zone_Border_Warning_TapeMat
     second: {fileID: 2100000, guid: ead66e698a071fa4d8013efbf0c9a42b, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Default Mat
+      name: Rest_Default_MatMat
+    second: {fileID: 2100000, guid: 331acd987c9947a49aac2dc3bce04fa0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Walls_play_area_Default_MatMat
     second: {fileID: 2100000, guid: 331acd987c9947a49aac2dc3bce04fa0, type: 2}
   materials:
     materialImportMode: 2
@@ -76,7 +106,7 @@ ModelImporter:
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
-    useFileScale: 1
+    useFileScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
