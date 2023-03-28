@@ -4,6 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.LowLevel;
+using UnityEngine.XR.ARSubsystems;
 
 public enum ControllerType
 {
@@ -42,11 +43,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        controls.Disable();
-    }
-
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -68,7 +64,10 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         base.OnNetworkDespawn();
         if (IsOwner)
+        {
             UnBindInputActions();
+            controls.Disable();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -95,12 +94,15 @@ public class PlayerVRGrabbing : NetworkBehaviour
             if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value && aux != CreatureType.None)
             {
                 Destroy(grabedItem.gameObject);
+                //grabedItem.GetComponent<NetworkObject>().Despawn(true);
                 grabedItemID.Value = ItemID.None;
                 other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleCleared();
             }
 
         }
     }
+
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -142,26 +144,30 @@ public class PlayerVRGrabbing : NetworkBehaviour
     void Part2Start()
     {
         UnBindInputActions();
+        controls.Disable();
         GetComponent<SphereCollider>().enabled = false;
         this.enabled = false;
     }
 
     void GrabItem(InputAction.CallbackContext ctx)
     {
-        GrabItemServerRPC();
+        if (grabedItem != null)
+        {
+            GrabItemServerRPC();
+        }
     }
 
     [ServerRpc]
     private void GrabItemServerRPC()
     {
-        if (grabedItem != null)
-        {
-            //grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
-            //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
-            GrabItemClientRPC();
-            if (!GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
-                grabedItemID.Value = grabedItem.IItemID;
-        }
+        // if (grabedItem != null)
+        //{
+        //grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
+        //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
+        GrabItemClientRPC();
+        if (!GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
+            grabedItemID.Value = grabedItem.IItemID;
+        // }
     }
 
     [ClientRpc]
@@ -172,7 +178,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
             //if (!GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
-              //  grabedItemID.Value = grabedItem.IItemID;
+            //  grabedItemID.Value = grabedItem.IItemID;
         }
     }
 
@@ -185,11 +191,11 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         //if (grabedItem != null)
         //{
-            //grabedItem.gameObject.transform.SetParent(null);
-            //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
-            grabedItemID.Value = ItemID.None;
+        //grabedItem.gameObject.transform.SetParent(null);
+        //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
+        grabedItemID.Value = ItemID.None;
         ResleaseItemClientRPC();
-       // }
+        // }
     }
 
     [ClientRpc]

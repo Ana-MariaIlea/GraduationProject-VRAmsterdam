@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public abstract class FriendlyCreatureItemObstacle : MonoBehaviour
+public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
 {
     [SerializeField] private ItemID obstacleItemID;
 
@@ -24,9 +25,10 @@ public abstract class FriendlyCreatureItemObstacle : MonoBehaviour
             return creatureType;
         }
     }
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         creatureType = GetComponentInParent<AbstractFriendlyCreature>().CCreatureType;
     }
 

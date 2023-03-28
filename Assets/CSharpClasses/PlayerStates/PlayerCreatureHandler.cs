@@ -1,39 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
-using static Unity.Burst.Intrinsics.X86;
 
-public class PlayerCreatureHandler : MonoBehaviour
+public class PlayerCreatureHandler : NetworkBehaviour
 {
-    private bool isFireCretureCollected = false;
-    private bool isWaterCretureCollected = false;
-    private bool isEarthCretureCollected = false;
+    //private bool isFireCretureCollected = false;
+    //private bool isWaterCretureCollected = false;
+    //private bool isEarthCretureCollected = false;
+    private NetworkVariable<bool> isFireCretureCollected = new NetworkVariable<bool>(false);
+    private NetworkVariable<bool> isWaterCretureCollected = new NetworkVariable<bool>(false);
+    private NetworkVariable<bool> isEarthCretureCollected = new NetworkVariable<bool>(false);
 
-    private int creaturesColected = 0;
+    //private int creaturesColected = 0;
+    private NetworkVariable<int> creaturesColected = new NetworkVariable<int>(0);
+
 
     public bool IsFireCretureCollected
     {
         get
         {
-            //Some other code
-            return isFireCretureCollected;
+            return isFireCretureCollected.Value;
         }
     }
     public bool IsWaterCretureCollected
     {
         get
         {
-            //Some other code
-            return isWaterCretureCollected;
+            return isWaterCretureCollected.Value;
         }
     }
     public bool IsEarthCretureCollected
     {
         get
         {
-            //Some other code
-            return isEarthCretureCollected;
+            return isEarthCretureCollected.Value;
         }
     }
 
@@ -42,19 +44,19 @@ public class PlayerCreatureHandler : MonoBehaviour
         switch (type)
         {
             case CreatureType.Fire:
-                isFireCretureCollected = true;
+                isFireCretureCollected.Value = true;
                 break;
             case CreatureType.Water:
-                isWaterCretureCollected = true;
+                isWaterCretureCollected.Value = true;
                 break;
             case CreatureType.Earth:
-                isEarthCretureCollected = true;
+                isEarthCretureCollected.Value = true;
                 break;
         }
-        creaturesColected++;
-        if(creaturesColected == 3)
-        {
-            GetComponent<PlayerStateManager>().ChangeStateTo(PlayerStateManager.PlayerState.Part2);
-        }
+        creaturesColected.Value++;
+        //if(creaturesColected == 3)
+        //{
+        //    GetComponent<PlayerStateManager>().ChangeStateTo(PlayerStateManager.PlayerState.Part2);
+        //}
     }
 }

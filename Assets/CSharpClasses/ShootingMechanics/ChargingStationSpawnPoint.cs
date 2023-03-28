@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.XR.ARSubsystems;
 
 public class ChargingStationSpawnPoint : MonoBehaviour
 {
     [SerializeField] private GameObject chargingStationPrefab;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Part2Start()
     {
-        Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
+        GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
+        station.GetComponent<NetworkObject>().Spawn(true);
     }
 }

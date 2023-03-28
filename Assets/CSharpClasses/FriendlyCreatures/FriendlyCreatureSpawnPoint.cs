@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Unity.Netcode;
 
-public class FriendlyCreatureSpawnPoint : MonoBehaviour
+public class FriendlyCreatureSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private CreatureType creatureType;
     [SerializeField] private GameObject frindlyCreaturePrefab;
     [SerializeField] private LayerMask whatIsPlayer;
     private List<FriendlyCreatureUnfriendedSpot> unfriendedSpots;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
+        base.OnNetworkSpawn();
         unfriendedSpots = FindObjectsOfType<FriendlyCreatureUnfriendedSpot>().ToList();
         SpawnCreature();
     }
@@ -20,6 +22,7 @@ public class FriendlyCreatureSpawnPoint : MonoBehaviour
     {
         GameObject creature;
         creature = Instantiate(frindlyCreaturePrefab, transform.position, Quaternion.identity);
+        creature.GetComponent<NetworkObject>().Spawn(true);
         switch (creatureType)
         {
             case CreatureType.Fire:
