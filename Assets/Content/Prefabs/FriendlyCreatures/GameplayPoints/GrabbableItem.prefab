@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 982070458773851787}
   - component: {fileID: 982070458773851790}
   - component: {fileID: -1398708503471224240}
-  - component: {fileID: 4241397153102312542}
+  - component: {fileID: -8399825345033305002}
   m_Layer: 0
   m_Name: GrabbableItem
   m_TagString: Grab
@@ -95,7 +95,7 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &4241397153102312542
+--- !u!114 &-8399825345033305002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

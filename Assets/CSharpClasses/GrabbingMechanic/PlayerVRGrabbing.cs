@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.LowLevel;
@@ -156,14 +157,17 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     void GrabItem(InputAction.CallbackContext ctx)
     {
+        Debug.Log("try grab");
         if (grabedItem != null)
         {
-            GrabItemServerRPC();
+            Debug.Log("grab-------------------------------");
+
+            GrabItemServerRPC(grabedItem.IItemID);
         }
     }
 
     [ServerRpc]
-    private void GrabItemServerRPC()
+    private void GrabItemServerRPC(ItemID id)
     {
         // if (grabedItem != null)
         //{
@@ -171,17 +175,25 @@ public class PlayerVRGrabbing : NetworkBehaviour
         //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
         grabbing.Value = true;
         if (!GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
-            grabedItemID.Value = grabedItem.IItemID;
+            grabedItemID.Value = id;
+        Debug.Log("Server RPC-------------------------------" + grabbing.Value);
+
         GrabItemClientRPC();
 
         // }
     }
-
+    //private void Update()
+    //{
+    //    Debug.Log(OwnerClientId + "  is grabbing " + grabbing.Value + " is server "+ IsServer);
+    //}
     [ClientRpc]
     private void GrabItemClientRPC()
     {
+        Debug.Log("Client RPC-------------------------------");
         if (grabedItem != null)
         {
+            Debug.Log("Client RPCccc-------------------------------  " + grabbing.Value);
+
             //grabedItem.gameObject.transform.SetParent(this.gameObject.transform);
             grabedItemOffset = transform.position - grabedItem.transform.position;
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
@@ -193,6 +205,8 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     private IEnumerator GrabbingObjectCorutine()
     {
+        Debug.Log("start corutine-------------------------------");
+        yield return new WaitForEndOfFrame();
         while (grabbing.Value)
         {
             grabedItem.transform.position = transform.position + grabedItemOffset + grabbingGlobalOffset;
@@ -202,6 +216,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     void ResealseItem(InputAction.CallbackContext ctx)
     {
+        Debug.Log("ResealseItem-------------------------------");
         ResleaseItemServerRPC();
     }
     [ServerRpc]
@@ -213,6 +228,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         //grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
         grabbing.Value = false;
         grabedItemID.Value = ItemID.None;
+        Debug.Log("Server RPC release-------------------------------" + grabbing.Value);
         ResleaseItemClientRPC();
         // }
     }

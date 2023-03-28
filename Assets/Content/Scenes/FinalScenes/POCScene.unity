@@ -228,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851785, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.02
+      value: 0.671
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851785, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -265,6 +265,10 @@ PrefabInstance:
     - target: {fileID: 982070458773851786, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_Name
       value: GrabbableItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 982070458773851787, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851790, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: itemID
@@ -366,7 +370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4989647301741229227, guid: d4a4d2fc65e66774da9cafed0aa57ebb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -5.63
       objectReference: {fileID: 0}
     - target: {fileID: 4989647301741229227, guid: d4a4d2fc65e66774da9cafed0aa57ebb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -616,7 +620,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 524070144}
-  isServer: 0
+  isServer: 1
 --- !u!114 &1969124450
 MonoBehaviour:
   m_ObjectHideFlags: 0

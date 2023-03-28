@@ -1,12 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerVRMovement : MonoBehaviour
+public class PlayerVRMovement : NetworkBehaviour
 {
     [SerializeField] private Transform CameraRig;
     [SerializeField] private Transform Head;
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if (!IsOwner) 
+        {
+            Head.gameObject.SetActive(false);
+            this.enabled = false; 
+        }
+    }
     private void Update()
     {
         HandleRotation();
