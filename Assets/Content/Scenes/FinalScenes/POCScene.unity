@@ -340,7 +340,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 127.0.0.1
+    Address: 145.76.94.167
     Port: 7777
     ServerListenAddress: 
   DebugSimulator:
@@ -408,3 +408,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c560667907480449d2793db7234402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 524070144}
+  isServer: 1
