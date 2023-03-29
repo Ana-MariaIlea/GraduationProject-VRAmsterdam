@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.LowLevel;
-using UnityEngine.XR.ARSubsystems;
 
 public enum ControllerType
 {
@@ -13,6 +10,11 @@ public enum ControllerType
     Right
 }
 
+//------------------------------------------------------------------------------
+// </summary>
+//     VR Grabbing script attacted to both controllers. Used in Part 1 to grab items
+// </summary>
+//------------------------------------------------------------------------------
 public class PlayerVRGrabbing : NetworkBehaviour
 {
     [SerializeField] ControllerType controllerType;
