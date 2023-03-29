@@ -12,11 +12,16 @@ public class PlayerVRMovement : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        if (!IsOwner) 
+
+        if (IsClient && IsOwner)
         {
-            Head.gameObject.SetActive(false);
-            this.enabled = false; 
+            CameraRig.gameObject.SetActive(true);
         }
+        else
+        {
+            this.enabled = false;
+        }
+
     }
     private void Update()
     {

@@ -51,7 +51,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
         if (IsOwner)
         {
             controls = new PlayerInputActions();
@@ -64,16 +63,19 @@ public class PlayerVRGrabbing : NetworkBehaviour
             GetComponent<SphereCollider>().enabled = false;
             this.enabled = false;
         }
+        base.OnNetworkSpawn();
+
     }
 
     public override void OnNetworkDespawn()
     {
-        base.OnNetworkDespawn();
         if (IsOwner)
         {
             UnBindInputActions();
             controls.Disable();
         }
+        base.OnNetworkDespawn();
+
     }
 
     private void OnTriggerEnter(Collider other)

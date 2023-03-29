@@ -18,7 +18,7 @@ public class GameSessionStart : MonoBehaviour
         else
         {
             cam.SetActive(false);
-            NetworkManager.Singleton.StartClient();
+            NetworkManager.Singleton.StartHost();
         }
 
         //this.enabled = false;
