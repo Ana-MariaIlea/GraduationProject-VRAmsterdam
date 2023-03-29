@@ -1,15 +1,22 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Fire friendly creature class inherited from AbstractFriendlyCreature
+// </summary>
+//------------------------------------------------------------------------------
 public class FireFriendlyCreature : AbstractFriendlyCreature
 {
     private bool doesPlayerHaveFood = false;
     private LayerMask whatIsPlayer;
     [SerializeField] private Vector3 unbefriendedInitialSpace;
+
+    //Spot the creature runs to when unfriended
     [SerializeField] private Transform unbefriendedSpace;
+
     private GrabbableItem playerFood = null;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -18,13 +25,21 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
         type = CreatureType.Fire;
     }
 
+    //------------------------------------------------------------------------------
+    // </summary>
+    //     Custom behaviour when the creature is not befriended
+    // </summary>
+    //------------------------------------------------------------------------------
     protected override void UnfriendedBehaviour()
     {
         Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 20, whatIsPlayer);
 
+        // If there is a player in sight
         if (hitCollidersSight.Length >= 1)
         {
             float minDist = 20;
+
+            //Get the closest player
             for (int i = 0; i < hitCollidersSight.Length; i++)
             {
                 Vector3 distance = transform.position - hitCollidersSight[i].transform.position;
@@ -48,6 +63,7 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
 
             if (doesPlayerHaveFood)
             {
+                // If the player has food, go to the player
                 if (minDist < 2f)
                 {
                     playerFood.gameObject.transform.SetParent(null);
@@ -63,6 +79,7 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
             }
             else
             {
+                // If the player doesn't have food, run to the unfriended spot
                 if (minDist < 20f)
                 {
                     meshAgent.SetDestination(unbefriendedSpace.position);
@@ -76,6 +93,7 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
         }
         else
         {
+            //If there are no players go to the spawn point
             Vector3 distance = transform.position - unbefriendedInitialSpace;
             if (distance.magnitude < 2f)
             {
@@ -91,7 +109,11 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     {
 
     }
-
+    //------------------------------------------------------------------------------
+    // </summary>
+    //     Funtion to get the closest unfriended spot
+    // </summary>
+    //------------------------------------------------------------------------------
     public void InitializeCreatureData(List<FriendlyCreatureUnfriendedSpot> unfriendedSpots, LayerMask playerLayer)
     {
         whatIsPlayer = playerLayer;

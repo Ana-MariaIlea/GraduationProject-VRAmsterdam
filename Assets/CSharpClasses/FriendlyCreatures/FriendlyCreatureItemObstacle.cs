@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Obstacle needed to be cleared for the creature to be friended
+//     Base class for all the obstacles
+// </summary>
+//------------------------------------------------------------------------------
 public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
 {
     [SerializeField] private ItemID obstacleItemID;

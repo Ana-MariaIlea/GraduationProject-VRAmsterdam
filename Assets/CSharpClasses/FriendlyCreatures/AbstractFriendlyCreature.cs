@@ -1,9 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Enum used for defining creature types
+// </summary>
+//------------------------------------------------------------------------------
 public enum CreatureType
 {
     None,
@@ -11,6 +13,11 @@ public enum CreatureType
     Water,
     Earth
 }
+//------------------------------------------------------------------------------
+// </summary>
+//     This class is the base class for all friendly creatures.
+// </summary>
+//------------------------------------------------------------------------------
 public abstract class AbstractFriendlyCreature : MonoBehaviour
 {
     public enum CreatureState
@@ -29,7 +36,6 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
     {
         get
         {
-            //Some other code
             return type;
         }
     }
@@ -62,30 +68,52 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
 
     void Part2Start()
     {
-        
+        state = CreatureState.Helping;
     }
 
     void InitializeCreatureVisuals()
     {
+        // Get the atlas
         CreatureAtlas atlas = GetComponent<CreatureAtlas>();
+
         for (int i = 0; i < atlas.creatureVisualDatas.Count; i++)
         {
             if (atlas.creatureVisualDatas[i].creatureType == type)
             {
+                // If the atlas contains a creature with the type, choose a random prefab from list 
                 int randomIndex = Random.Range(0, atlas.creatureVisualDatas[i].Mesh.Count - 1);
+
+                // Instantiate it with a random prfab from list
                 Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, Quaternion.identity, gameObject.transform);
                 break;
             }
         }
     }
 
+    //------------------------------------------------------------------------------
+    // </summary>
+    //      This function will be called when the creature is not befriended in Part 1
+    // </summary>
+    //------------------------------------------------------------------------------
     protected virtual void UnfriendedBehaviour()
     {
-
+        // Override the method in other classes
     }
+
+
+    //------------------------------------------------------------------------------
+    // </summary>
+    //      This function will be called after the creature has been befriended in Part 1
+    //          This function can be overrided, though all creature behave the same after befriending
+    // </summary>
+    //------------------------------------------------------------------------------
     protected virtual void BefriendedBehaviour()
     {
+        // Get the distance between the creature and the player
         Vector3 distance = transform.position - playerTarget.transform.position;
+
+        // If the creature is close to the player, the agent will not move,
+        //      else the creature will move to the player
         if (distance.magnitude < 2f)
         {
             meshAgent.SetDestination(transform.position);
@@ -95,6 +123,12 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
             meshAgent.SetDestination(playerTarget.transform.position);
         }
     }
+
+    //------------------------------------------------------------------------------
+    // </summary>
+    //      This function will be called in Part 2
+    // </summary>
+    //------------------------------------------------------------------------------
     protected virtual void HelpingBehaviour()
     {
 

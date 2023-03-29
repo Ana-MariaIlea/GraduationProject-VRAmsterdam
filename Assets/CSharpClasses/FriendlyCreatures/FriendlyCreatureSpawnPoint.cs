@@ -4,6 +4,11 @@ using UnityEngine;
 using System.Linq;
 using Unity.Netcode;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Spawn point class for the friendly creatures
+// </summary>
+//------------------------------------------------------------------------------
 public class FriendlyCreatureSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private CreatureType creatureType;

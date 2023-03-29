@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Spatial Obstacle class inherited from FriendlyCreatureItemObstacle
+// </summary>
+//------------------------------------------------------------------------------
 public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
 {
     // Start is called before the first frame update

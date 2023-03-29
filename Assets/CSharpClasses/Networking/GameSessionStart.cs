@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Class for starting Server or Clients.
+//     Used for testing when there is no lobby system to start the session
+// </summary>
+//------------------------------------------------------------------------------
 public class GameSessionStart : MonoBehaviour
 {
     [SerializeField] GameObject cam;
@@ -18,9 +24,8 @@ public class GameSessionStart : MonoBehaviour
         else
         {
             cam.SetActive(false);
-            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.StartClient();
+            //NetworkManager.Singleton.StartHost();
         }
-
-        //this.enabled = false;
     }
 }
