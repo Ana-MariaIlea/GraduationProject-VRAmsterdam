@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Score system class. This class handles scoreing for all the players
+//     individually and in teams. Score is increased when a projectile 
+//     collisdes with an enemy.
+// </summary>
+//------------------------------------------------------------------------------
 public class ScoreSystemManager : MonoBehaviour
 {
     public static ScoreSystemManager Instance;

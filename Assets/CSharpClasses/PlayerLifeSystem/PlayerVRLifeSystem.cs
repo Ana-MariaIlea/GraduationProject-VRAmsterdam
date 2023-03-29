@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Player life system class. This class handles collision with enemy projectiles
+//     PlayerHit and PlayerDie are called when a collision happens
+// </summary>
+//------------------------------------------------------------------------------
 public class PlayerVRLifeSystem : MonoBehaviour
 {
     [SerializeField] int maxHP = 10;

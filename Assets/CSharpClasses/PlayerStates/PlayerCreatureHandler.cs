@@ -4,6 +4,12 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Class used for deciding when Part 1 is complete. When all creatures are
+//     collected Part 2 starts.
+// </summary>
+//------------------------------------------------------------------------------
 public class PlayerCreatureHandler : NetworkBehaviour
 {
     //private bool isFireCretureCollected = false;
