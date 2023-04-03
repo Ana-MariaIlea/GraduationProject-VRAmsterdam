@@ -44,7 +44,20 @@ using Debug = UnityEngine.Debug;
 [DisallowMultipleComponent]
 public class OVRSpatialAnchor : MonoBehaviour
 {
-	private bool _startCalled;
+    private int _assignedObjectId = -1; //default
+    public int AssignedObjectId
+    {
+        get
+        {
+            return _assignedObjectId;
+        }
+        set
+        {
+            _assignedObjectId = value;
+        }
+    }
+
+    private bool _startCalled;
 
 	private ulong _requestId;
 
