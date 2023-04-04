@@ -232,6 +232,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerType: 1
   grabbingGlobalOffset: {x: 0, y: -1, z: 0}
+  anchor: {fileID: 1844976261673456751}
 --- !u!1 &7025222621498917925
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +362,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerType: 0
   grabbingGlobalOffset: {x: 0, y: -1, z: 0}
+  anchor: {fileID: 1844976261673459819}
 --- !u!1 &9156914263141042365
 GameObject:
   m_ObjectHideFlags: 0

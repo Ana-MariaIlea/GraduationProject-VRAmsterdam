@@ -19,13 +19,13 @@ public class GameSessionStart : MonoBehaviour
         if (isServer)
         {
             NetworkManager.Singleton.StartServer();
-           // NetworkManager.Singleton.StartHost();
+            //NetworkManager.Singleton.StartHost();
         }
         else
         {
             cam.SetActive(false);
-            //NetworkManager.Singleton.StartClient();
-            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.StartClient();
+            //NetworkManager.Singleton.StartHost();
         }
     }
 }
