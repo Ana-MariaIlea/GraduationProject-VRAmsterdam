@@ -18,7 +18,7 @@ public enum ControllerType
 public class PlayerVRGrabbing : NetworkBehaviour
 {
     [SerializeField] ControllerType controllerType;
-    [SerializeField] private Vector3 grabbingGlobalOffset = new Vector3(0,-1f,0);
+    [SerializeField] private Vector3 grabbingGlobalOffset = new Vector3(0, -0.5f, 0);
 
     private PlayerInputActions controls;
 
@@ -79,48 +79,38 @@ public class PlayerVRGrabbing : NetworkBehaviour
         base.OnNetworkDespawn();
 
     }
-
-    private void OnTriggerEnter(Collider other)
+    public void TriggerEnterGrab(Collider other)
     {
-        if (other.tag == "Grab")
+        grabedItem = other.GetComponent<GrabbableItem>();
+    }
+    public void TriggerEnterGrabDestination(Collider other)
+    {
+        CreatureType aux = CreatureType.None;
+        switch (other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType)
         {
-            grabedItem = other.GetComponent<GrabbableItem>();
+            case CreatureType.Water:
+                if (GetComponentInParent<PlayerCreatureHandler>().IsWaterCretureCollected) return;
+                aux = CreatureType.Water;
+                break;
+            case CreatureType.Earth:
+                if (GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected) return;
+                aux = CreatureType.Earth;
+                break;
         }
-        else if (other.tag == "GrabDestination")
+
+        if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value && aux != CreatureType.None)
         {
-            CreatureType aux = CreatureType.None;
-            switch (other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType)
-            {
-                case CreatureType.Water:
-                    if (GetComponentInParent<PlayerCreatureHandler>().IsWaterCretureCollected) return;
-                    aux = CreatureType.Water;
-                    break;
-                case CreatureType.Earth:
-                    if (GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected) return;
-                    aux = CreatureType.Earth;
-                    break;
-            }
-
-            if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value && aux != CreatureType.None)
-            {
-                Destroy(grabedItem.gameObject);
-                //grabedItem.GetComponent<NetworkObject>().Despawn(true);
-                grabedItemID.Value = ItemID.None;
-                other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleCleared();
-            }
-
+            Destroy(grabedItem.gameObject);
+            //grabedItem.GetComponent<NetworkObject>().Despawn(true);
+            grabedItemID.Value = ItemID.None;
+            other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleCleared();
         }
     }
 
-
-
-    private void OnTriggerExit(Collider other)
+    public void TriggerExit()
     {
-        if (other.tag == "Grab")
-        {
-            grabedItem = null;
-            grabedItemID.Value = ItemID.None;
-        }
+        grabedItem = null;
+        grabedItemID.Value = ItemID.None;
     }
 
     void BindInputActions()
