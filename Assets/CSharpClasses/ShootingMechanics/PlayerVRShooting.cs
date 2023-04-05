@@ -20,7 +20,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
     [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
 
-
+    //[SerializeField]private NetworkVariable<ulong> clientID = new NetworkVariable<ulong>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     private float currentDamage;
     private float currentMaxDamage;
 
@@ -55,7 +55,9 @@ public class PlayerVRShooting : NetworkBehaviour
             base.OnNetworkSpawn();
             controls = new PlayerInputActions();
             controls.Enable();
-            ChangeShootingModeToStream();
+            //clientID.Value = OwnerClientId;
+            //ChangeShootingModeToStream();
+            ChangeShootingModeToProjectile();
         }
     }
 
@@ -210,7 +212,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private IEnumerator ShootSteam(ControllerType controller)
     {
-        ShootStreamServerRPC(controller);
+        ShootStreamServerRPC(controller);//, clientID.Value);
 
         if (controller == ControllerType.Left)
         {
@@ -223,7 +225,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
         yield return new WaitForSeconds(streamShootTime);
 
-        StopStreamServerRPC(controller);
+        StopStreamServerRPC(controller);//, clientID.Value);
 
         if (controller == ControllerType.Left)
         {
@@ -237,83 +239,101 @@ public class PlayerVRShooting : NetworkBehaviour
         }
     }
     [ServerRpc]
-    private void ShootStreamServerRPC(ControllerType controller)
+    private void ShootStreamServerRPC(ControllerType controller)//, ulong pClientID)
     {
-        if (controller == ControllerType.Left)
-        {
-            streamObjectLeft.Play();
-        }
-        else
-        {
-            streamObjectRight.Play();
-        }
-        ShootStreamClientRPC(controller);
+        //if (pClientID == clientID.Value)
+        //{
+            if (controller == ControllerType.Left)
+            {
+                streamObjectLeft.Play();
+            }
+            else
+            {
+                streamObjectRight.Play();
+            }
+        ShootStreamClientRPC(controller);//, pClientID);
+        //}
     }
     [ClientRpc]
-    private void ShootStreamClientRPC(ControllerType controller)
+    private void ShootStreamClientRPC(ControllerType controller)//, ulong pClientID)
     {
-        if (controller == ControllerType.Left)
-        {
-            streamObjectLeft.Play();
-        }
-        else
-        {
-            streamObjectRight.Play();
-        }
+        //if (pClientID == clientID.Value)
+        //{
+            if (controller == ControllerType.Left)
+            {
+                streamObjectLeft.Play();
+            }
+            else
+            {
+                streamObjectRight.Play();
+            }
+       // }
     }
 
     [ServerRpc]
-    private void StopStreamServerRPC(ControllerType controller)
+    private void StopStreamServerRPC(ControllerType controller)//, ulong pClientID)
     {
-        if (controller == ControllerType.Left)
-        {
-            if (streamObjectLeft.isPlaying)
-                streamObjectLeft.Stop();
-        }
-        else
-        {
-            if (streamObjectRight.isPlaying)
-                streamObjectRight.Stop();
-        }
-        StopStreamClientRPC(controller);
+        //if (pClientID == clientID.Value)
+        //{
+            if (controller == ControllerType.Left)
+            {
+                if (streamObjectLeft.isPlaying)
+                    streamObjectLeft.Stop();
+            }
+            else
+            {
+                if (streamObjectRight.isPlaying)
+                    streamObjectRight.Stop();
+            }
+        StopStreamClientRPC(controller);//, pClientID);
+        //}
     }
 
     [ClientRpc]
-    private void StopStreamClientRPC(ControllerType controller)
+    private void StopStreamClientRPC(ControllerType controller)//, ulong pClientID)
     {
-        if (controller == ControllerType.Left)
-        {
-            if (streamObjectLeft.isPlaying)
-                streamObjectLeft.Stop();
-        }
-        else
-        {
-            if (streamObjectRight.isPlaying)
-                streamObjectRight.Stop();
-        }
+        //if (pClientID == clientID.Value)
+        //{
+            if (controller == ControllerType.Left)
+            {
+                if (streamObjectLeft.isPlaying)
+                    streamObjectLeft.Stop();
+            }
+            else
+            {
+                if (streamObjectRight.isPlaying)
+                    streamObjectRight.Stop();
+            }
+        //}
     }
 
     [ServerRpc]
-    private void UpdateLeftStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)
+    private void UpdateLeftStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)//, ulong pClientID)
     {
-        streamObjectLeft.transform.localPosition = new Vector3(posX, posY, posZ);
-        streamObjectLeft.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
+        //if (pClientID == clientID.Value)
+        //{
+            streamObjectLeft.transform.localPosition = new Vector3(posX, posY, posZ);
+            streamObjectLeft.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
+        //}
     }
 
     [ServerRpc]
-    private void UpdateRightStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)
+    private void UpdateRightStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)//, ulong pClientID)
     {
-        streamObjectRight.transform.localPosition = new Vector3(posX, posY, posZ);
-        streamObjectRight.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
+        //if (pClientID == clientID.Value)
+        //{
+            streamObjectRight.transform.localPosition = new Vector3(posX, posY, posZ);
+            streamObjectRight.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
+        //}
     }
     private IEnumerator UpdateLeftStreamCorutineClient()
     {
-        Debug.Log("start corutine left-------------------------------");
         yield return new WaitForSeconds(.3f);
         while (streamObjectLeft.isPlaying)
         {
-            UpdateLeftStreamPositionServerRPC(controllerLeft.position.x, controllerLeft.position.y, controllerLeft.position.z, 
+            UpdateLeftStreamPositionServerRPC(controllerLeft.position.x, controllerLeft.position.y, controllerLeft.position.z,
                 controllerLeft.rotation.eulerAngles.x, controllerLeft.rotation.eulerAngles.y, controllerLeft.rotation.eulerAngles.z);
+                // clientID.Value);
             yield return null;
         }
     }
@@ -322,10 +342,9 @@ public class PlayerVRShooting : NetworkBehaviour
         yield return new WaitForSeconds(.3f);
         while (streamObjectRight.isPlaying)
         {
-            Debug.Log("start corutine right-------------------------------");
-
             UpdateRightStreamPositionServerRPC(controllerRight.position.x, controllerRight.position.y, controllerRight.position.z,
-                controllerRight.rotation.eulerAngles.x, controllerRight.rotation.eulerAngles.y, controllerRight.rotation.eulerAngles.z);
+                controllerRight.rotation.eulerAngles.x, controllerRight.rotation.eulerAngles.y, controllerRight.rotation.eulerAngles.z);//,
+                //clientID.Value);
             yield return null;
         }
     }
@@ -354,7 +373,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
             controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
         }
-        StopStreamServerRPC(controller);
+        StopStreamServerRPC(controller);//, clientID.Value);
         // add formula for partial stream cooldown
         yield return new WaitForSeconds(streamShootCooldown);
 
