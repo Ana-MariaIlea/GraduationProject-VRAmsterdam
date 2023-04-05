@@ -2,18 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Netcode;
 
-public class PlayerVRShooting : MonoBehaviour
+public class PlayerVRShooting : NetworkBehaviour
 {
     [SerializeField] private Transform controllerLeft;
     [SerializeField] private Transform controllerRight;
+
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Vector3 projectileOffset;
     [SerializeField] private float projectileShootCooldown = 1;
+
     [SerializeField] private ParticleSystem streamObjectLeft;
     [SerializeField] private ParticleSystem streamObjectRight;
     [SerializeField] private float streamShootTime = 5;
     [SerializeField] private float streamShootCooldown = 3;
+
     [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
 
 
@@ -44,23 +48,27 @@ public class PlayerVRShooting : MonoBehaviour
         public GameObject visualsPrefab;
     }
 
-    void Awake()
+    public override void OnNetworkSpawn()
     {
-        controls = new PlayerInputActions();
-    }
-    private void OnEnable()
-    {
-        controls.Enable();
-    }
-    private void OnDisable()
-    {
-        controls.Disable();
+        if (IsOwner && IsClient)
+        {
+            base.OnNetworkSpawn();
+            controls = new PlayerInputActions();
+            controls.Enable();
+            ChangeShootingModeToStream();
+        }
     }
 
-    private void OnDestroy()
+    public override void OnNetworkDespawn()
     {
-        UnBindInputActions();
+        if (IsOwner && IsClient)
+        {
+            base.OnNetworkDespawn();
+            PlayerDie();
+            controls.Disable();
+        }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "ChargingStation")
@@ -120,11 +128,6 @@ public class PlayerVRShooting : MonoBehaviour
         }
         shootingMode = ShootingMode.Projectile;
     }
-    void UnBindInputActions()
-    {
-        controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
-        controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
-    }
     private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)
     {
         StartCoroutine(ShootProjectile(ControllerType.Left));
@@ -150,13 +153,10 @@ public class PlayerVRShooting : MonoBehaviour
             controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
         }
         projectileRotation.z = 0;
-        GameObject projectile = Instantiate(projectilePrefab, projectilePosition, projectileRotation);
-        projectile.GetComponent<Projectile>().Damage = currentDamage;
 
-        //-------------------------------------------------------------
-        //Add player connection;
-        //projectile.GetComponent<Projectile>().ShooterPlayerID = 0;
-        //-------------------------------------------------------------
+        ShootProjectileServerRPC(projectilePosition.x, projectilePosition.y, projectilePosition.z,
+                                 projectileRotation.eulerAngles.x, projectileRotation.eulerAngles.y, projectileRotation.eulerAngles.z,
+                                 currentDamage);
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
@@ -168,6 +168,14 @@ public class PlayerVRShooting : MonoBehaviour
         {
             controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
         }
+    }
+
+    [ServerRpc]
+    private void ShootProjectileServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float damage)
+    {
+        GameObject projectile = Instantiate(projectilePrefab, new Vector3(posX, posY, posZ), Quaternion.Euler(rotX, rotY, rotZ));
+        projectile.GetComponent<Projectile>().Damage = damage;
+        projectile.GetComponent<NetworkObject>().Spawn();
     }
 
     private void ShootStreamLeftProxi(InputAction.CallbackContext ctx)
@@ -202,6 +210,35 @@ public class PlayerVRShooting : MonoBehaviour
 
     private IEnumerator ShootSteam(ControllerType controller)
     {
+        ShootStreamServerRPC(controller);
+
+        if (controller == ControllerType.Left)
+        {
+            StartCoroutine(UpdateLeftStreamCorutineClient());
+        }
+        else
+        {
+            StartCoroutine(UpdateRightStreamCorutineClient());
+        }
+
+        yield return new WaitForSeconds(streamShootTime);
+
+        StopStreamServerRPC(controller);
+
+        if (controller == ControllerType.Left)
+        {
+            controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
+            shootingStreamLeft = null;
+        }
+        else
+        {
+            controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
+            shootingStreamRight = null;
+        }
+    }
+    [ServerRpc]
+    private void ShootStreamServerRPC(ControllerType controller)
+    {
         if (controller == ControllerType.Left)
         {
             streamObjectLeft.Play();
@@ -210,22 +247,90 @@ public class PlayerVRShooting : MonoBehaviour
         {
             streamObjectRight.Play();
         }
-
-        yield return new WaitForSeconds(streamShootTime);
-
+        ShootStreamClientRPC(controller);
+    }
+    [ClientRpc]
+    private void ShootStreamClientRPC(ControllerType controller)
+    {
         if (controller == ControllerType.Left)
         {
-            streamObjectLeft.Stop();
-            controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
-            shootingStreamLeft = null;
+            streamObjectLeft.Play();
         }
         else
         {
-            streamObjectRight.Stop();
-            controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
-            shootingStreamRight = null;
+            streamObjectRight.Play();
         }
     }
+
+    [ServerRpc]
+    private void StopStreamServerRPC(ControllerType controller)
+    {
+        if (controller == ControllerType.Left)
+        {
+            if (streamObjectLeft.isPlaying)
+                streamObjectLeft.Stop();
+        }
+        else
+        {
+            if (streamObjectRight.isPlaying)
+                streamObjectRight.Stop();
+        }
+        StopStreamClientRPC(controller);
+    }
+
+    [ClientRpc]
+    private void StopStreamClientRPC(ControllerType controller)
+    {
+        if (controller == ControllerType.Left)
+        {
+            if (streamObjectLeft.isPlaying)
+                streamObjectLeft.Stop();
+        }
+        else
+        {
+            if (streamObjectRight.isPlaying)
+                streamObjectRight.Stop();
+        }
+    }
+
+    [ServerRpc]
+    private void UpdateLeftStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)
+    {
+        streamObjectLeft.transform.localPosition = new Vector3(posX, posY, posZ);
+        streamObjectLeft.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
+    }
+
+    [ServerRpc]
+    private void UpdateRightStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)
+    {
+        streamObjectRight.transform.localPosition = new Vector3(posX, posY, posZ);
+        streamObjectRight.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
+    }
+    private IEnumerator UpdateLeftStreamCorutineClient()
+    {
+        Debug.Log("start corutine left-------------------------------");
+        yield return new WaitForSeconds(.3f);
+        while (streamObjectLeft.isPlaying)
+        {
+            UpdateLeftStreamPositionServerRPC(controllerLeft.position.x, controllerLeft.position.y, controllerLeft.position.z, 
+                controllerLeft.rotation.eulerAngles.x, controllerLeft.rotation.eulerAngles.y, controllerLeft.rotation.eulerAngles.z);
+            yield return null;
+        }
+    }
+    private IEnumerator UpdateRightStreamCorutineClient()
+    {
+        yield return new WaitForSeconds(.3f);
+        while (streamObjectRight.isPlaying)
+        {
+            Debug.Log("start corutine right-------------------------------");
+
+            UpdateRightStreamPositionServerRPC(controllerRight.position.x, controllerRight.position.y, controllerRight.position.z,
+                controllerRight.rotation.eulerAngles.x, controllerRight.rotation.eulerAngles.y, controllerRight.rotation.eulerAngles.z);
+            yield return null;
+        }
+    }
+
+
 
     private IEnumerator ShootSteamPartialCooldown(ControllerType controller)
     {
@@ -234,7 +339,6 @@ public class PlayerVRShooting : MonoBehaviour
             if (shootingStreamLeft != null)
             {
                 StopCoroutine(shootingStreamLeft);
-                streamObjectLeft.Stop();
                 controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
             }
 
@@ -244,13 +348,13 @@ public class PlayerVRShooting : MonoBehaviour
         {
             if (shootingStreamRight != null)
             {
-                streamObjectRight.Stop();
                 StopCoroutine(shootingStreamRight);
                 controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
             }
 
             controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
         }
+        StopStreamServerRPC(controller);
         // add formula for partial stream cooldown
         yield return new WaitForSeconds(streamShootCooldown);
 

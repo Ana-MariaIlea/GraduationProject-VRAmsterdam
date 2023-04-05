@@ -58,25 +58,25 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (IsOwner)
+        if (IsOwner && IsClient)
         {
             controls = new PlayerInputActions();
             controls.Enable();
             BindInputActions();
-            //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+            FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+            base.OnNetworkSpawn();
         }
         else
         {
             //GetComponent<SphereCollider>().enabled = false;
             this.enabled = false;
         }
-        base.OnNetworkSpawn();
 
     }
 
     public override void OnNetworkDespawn()
     {
-        if (IsOwner)
+        if (IsOwner && IsClient)
         {
             UnBindInputActions();
             controls.Disable();

@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Stream : PlayerHitObject
 {
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        if (!IsServer)
+        {
+            this.enabled = false;
+        }
+    }
     private void OnParticleCollision(GameObject other)
     {
         //Also do damage

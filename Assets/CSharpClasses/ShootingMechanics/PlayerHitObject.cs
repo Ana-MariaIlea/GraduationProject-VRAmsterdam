@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public abstract class PlayerHitObject : MonoBehaviour
+public abstract class PlayerHitObject : NetworkBehaviour
 {
     protected float damage;
     protected int shooterPlayerID;
