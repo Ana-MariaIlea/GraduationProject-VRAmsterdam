@@ -21,9 +21,13 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     {
         if (IsServer)
         {
-            base.OnNetworkSpawn();
             unbefriendedInitialSpace = transform.position;
             type = CreatureType.Fire;
+            base.OnNetworkSpawn();
+        }
+        else
+        {
+            this.enabled = false;
         }
     }
 

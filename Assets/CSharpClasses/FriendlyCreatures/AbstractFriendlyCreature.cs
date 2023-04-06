@@ -46,11 +46,14 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
         if (IsServer)
         {
             meshAgent = GetComponent<NavMeshAgent>();
-            meshAgent.enabled = true;
-            playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
+            //playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
             InitializeCreatureVisuals();
             FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
             base.OnNetworkSpawn();
+        }
+        else
+        {
+            this.enabled = false;
         }
     }
 
@@ -78,6 +81,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
 
     void InitializeCreatureVisuals()
     {
+        
         // Get the atlas
         CreatureAtlas atlas = GetComponent<CreatureAtlas>();
 
@@ -91,6 +95,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
                 // Instantiate it with a random prfab from list
                 GameObject visual = Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, Quaternion.identity, gameObject.transform);
                 visual.GetComponent<NetworkObject>().Spawn();
+                Debug.Log("Mesh");
                 break;
             }
         }

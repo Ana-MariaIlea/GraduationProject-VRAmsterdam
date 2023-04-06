@@ -13,8 +13,12 @@ public class WaterFriendlyCreature : AbstractFriendlyCreature
     {
         if (IsServer)
         {
-            base.OnNetworkSpawn();
             type = CreatureType.Water;
+            base.OnNetworkSpawn();
+        }
+        else
+        {
+            this.enabled = false;
         }
     }
 

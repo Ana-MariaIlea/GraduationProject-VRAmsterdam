@@ -13,8 +13,12 @@ public class EarthFriendlyCreature : AbstractFriendlyCreature
     {
         if (IsServer)
         {
-            base.OnNetworkSpawn();
             type = CreatureType.Earth;
+            base.OnNetworkSpawn();
+        }
+        else
+        {
+            this.enabled = false;
         }
     }
     protected override void HelpingBehaviour()
