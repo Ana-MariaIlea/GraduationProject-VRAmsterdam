@@ -17,12 +17,14 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
 
     private GrabbableItem playerFood = null;
 
-    // Start is called before the first frame update
-    protected override void Start()
+    public override void OnNetworkSpawn()
     {
-        base.Start();
-        unbefriendedInitialSpace = transform.position;
-        type = CreatureType.Fire;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            unbefriendedInitialSpace = transform.position;
+            type = CreatureType.Fire;
+        }
     }
 
     //------------------------------------------------------------------------------

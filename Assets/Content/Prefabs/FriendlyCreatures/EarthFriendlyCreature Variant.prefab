@@ -55,7 +55,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: FriendlyCreatureFoodObstacle
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8734693460052986305, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
 --- !u!1001 &7741264762328093407
 PrefabInstance:
@@ -107,6 +108,10 @@ PrefabInstance:
     - target: {fileID: 2889481019014880517, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664006375359531730, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
       objectReference: {fileID: 0}
     - target: {fileID: 8630871745227016736, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
       propertyPath: m_Name

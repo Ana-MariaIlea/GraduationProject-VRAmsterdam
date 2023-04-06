@@ -9,11 +9,13 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class EarthFriendlyCreature : AbstractFriendlyCreature
 {
-    // Start is called before the first frame update
-    protected override void Start()
+    public override void OnNetworkSpawn()
     {
-        base.Start();
-        type = CreatureType.Earth;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            type = CreatureType.Earth;
+        }
     }
     protected override void HelpingBehaviour()
     {

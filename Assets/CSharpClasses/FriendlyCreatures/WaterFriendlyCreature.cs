@@ -9,11 +9,13 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class WaterFriendlyCreature : AbstractFriendlyCreature
 {
-    // Start is called before the first frame update
-    protected override void Start()
+    public override void OnNetworkSpawn()
     {
-        base.Start();
-        type = CreatureType.Water;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            type = CreatureType.Water;
+        }
     }
 
     protected override void UnfriendedBehaviour()
