@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.21061061, g: 0.6006205, b: 1.1189859, a: 1}
+  m_IndirectSpecularColor: {r: 0.21174768, g: 0.60281706, b: 1.1241385, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -739,6 +739,18 @@ PrefabInstance:
     - target: {fileID: 4284226751721798857, guid: 301257378781c9440b658a128eccf9a4, type: 3}
       propertyPath: m_Name
       value: SM_Stone_Obelisk (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531346624900010242, guid: 301257378781c9440b658a128eccf9a4, type: 3}
+      propertyPath: m_LODs.Array.data[0].screenRelativeHeight
+      value: 0.5014502
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531346624900010242, guid: 301257378781c9440b658a128eccf9a4, type: 3}
+      propertyPath: m_LODs.Array.data[1].screenRelativeHeight
+      value: 0.2347893
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531346624900010242, guid: 301257378781c9440b658a128eccf9a4, type: 3}
+      propertyPath: m_LODs.Array.data[2].screenRelativeHeight
+      value: 0.11714406
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 301257378781c9440b658a128eccf9a4, type: 3}
