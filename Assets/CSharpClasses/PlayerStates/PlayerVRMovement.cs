@@ -16,7 +16,6 @@ public class PlayerVRMovement : NetworkBehaviour
 {
     [SerializeField] private Transform CameraRig;
     [SerializeField] private Transform Head;
-
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -25,6 +24,7 @@ public class PlayerVRMovement : NetworkBehaviour
         {
             // Enable the camera so that the owning player has control
             CameraRig.gameObject.SetActive(true);
+
         }
         else
         {
