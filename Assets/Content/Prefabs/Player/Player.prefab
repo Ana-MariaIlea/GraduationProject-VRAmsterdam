@@ -104,6 +104,8 @@ MonoBehaviour:
   - magicType: 3
     maxDamage: 10
     visualsPrefab: {fileID: 0}
+  shootingMode:
+    m_InternalValue: 0
 --- !u!136 &900358185848464175
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -218,7 +220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4388325186412311441
 Transform:
   m_ObjectHideFlags: 0
@@ -348,7 +350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4744822880971962913
 Transform:
   m_ObjectHideFlags: 0
