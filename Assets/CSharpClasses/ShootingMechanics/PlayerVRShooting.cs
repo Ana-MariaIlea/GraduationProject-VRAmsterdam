@@ -23,8 +23,8 @@ public class PlayerVRShooting : NetworkBehaviour
 
     [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
 
-    private float currentDamage;
-    private float currentMaxDamage;
+    private NetworkVariable<float> currentDamage = new NetworkVariable<float>(0);
+    private NetworkVariable<float> currentMaxDamage = new NetworkVariable<float>(0);
 
     private PlayerInputActions controls;
 
@@ -34,7 +34,7 @@ public class PlayerVRShooting : NetworkBehaviour
     private Coroutine shootingStreamLeftCooldown = null;
     private Coroutine shootingStreamRightCooldown = null;
 
-    private ShootingMode shootingMode = ShootingMode.None;
+    [SerializeField] private NetworkVariable<ShootingMode> shootingMode = new NetworkVariable<ShootingMode>(ShootingMode.None, NetworkVariableReadPermission.Everyone);
     public enum ShootingMode
     {
         None,
@@ -57,7 +57,6 @@ public class PlayerVRShooting : NetworkBehaviour
             base.OnNetworkSpawn();
             controls = new PlayerInputActions();
             controls.Enable();
-            ChangeShootingModeToStream();
         }
     }
 
@@ -73,62 +72,86 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "ChargingStation")
+        if (IsServer)
         {
-            CreatureType aux = other.GetComponent<ChargingStation>().CCreatureType;
-            switch (aux)
+            if (other.tag == "ChargingStation")
             {
-                case CreatureType.Fire:
-                    ChangeShootingModeToProjectile();
-                    break;
-                case CreatureType.Water:
-                    ChangeShootingModeToStream();
-                    break;
-                case CreatureType.Earth:
-                    ChangeShootingModeToProjectile();
-                    break;
-            }
-            for (int i = 0; i < shootingVisuals.Count; i++)
-            {
-                if (shootingVisuals[i].magicType == aux)
+                CreatureType aux = other.GetComponent<ChargingStation>().CCreatureType;
+                switch (aux)
                 {
-                    currentDamage = shootingVisuals[i].maxDamage;
-                    currentMaxDamage = shootingVisuals[i].maxDamage;
-                    break;
+                    case CreatureType.Earth:
+                    case CreatureType.Fire:
+                        ChangeShootingModeToProjectileClientRpc();
+                        break;
+                    case CreatureType.Water:
+                        ChangeShootingModeToStreamClientRpc();
+                        break;
+                }
+                StartCoroutine(ChangeShootingModeVariable(aux));
+
+                for (int i = 0; i < shootingVisuals.Count; i++)
+                {
+                    if (shootingVisuals[i].magicType == aux)
+                    {
+                        currentDamage.Value = shootingVisuals[i].maxDamage;
+                        currentMaxDamage.Value = shootingVisuals[i].maxDamage;
+                        break;
+                    }
                 }
             }
         }
     }
-
-    private void ChangeShootingModeToStream()
+    private IEnumerator ChangeShootingModeVariable(CreatureType aux)
     {
-        controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
-        controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
-
-        controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
-        controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
-
-        if (shootingMode == ShootingMode.Projectile)
+        yield return new WaitForSeconds(.3f);
+        switch (aux)
         {
-            controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
-            controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+            case CreatureType.Earth:
+            case CreatureType.Fire:
+                shootingMode.Value = ShootingMode.Projectile;
+                break;
+            case CreatureType.Water:
+                shootingMode.Value = ShootingMode.Stream;
+                break;
         }
-        shootingMode = ShootingMode.Stream;
     }
-
-    private void ChangeShootingModeToProjectile()
+    [ClientRpc]
+    private void ChangeShootingModeToStreamClientRpc()
     {
-        controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
-        controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
-        if (shootingMode == ShootingMode.Stream)
+        if (controls != null && shootingMode.Value != ShootingMode.Stream)
         {
-            controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
-            controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
+            controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
+            controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
 
-            controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
-            controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
+            controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
+            controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
+
+            if (shootingMode.Value == ShootingMode.Projectile)
+            {
+                Debug.Log("disable projectile");
+                controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
+                controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+            }
         }
-        shootingMode = ShootingMode.Projectile;
+    }
+    [ClientRpc]
+    private void ChangeShootingModeToProjectileClientRpc()
+    {
+        if (controls != null && shootingMode.Value != ShootingMode.Projectile)
+        {
+            controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
+            controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
+            if (shootingMode.Value == ShootingMode.Stream)
+            {
+                Debug.Log("disable stream");
+
+                controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
+                controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
+
+                controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
+                controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
+            }
+        }
     }
     private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)
     {
@@ -158,7 +181,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
         ShootProjectileServerRPC(projectilePosition.x, projectilePosition.y, projectilePosition.z,
                                  projectileRotation.eulerAngles.x, projectileRotation.eulerAngles.y, projectileRotation.eulerAngles.z,
-                                 currentDamage);
+                                 currentDamage.Value);
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
@@ -380,14 +403,14 @@ public class PlayerVRShooting : NetworkBehaviour
 
     public void PlayerHit(int livesLeft)
     {
-        currentDamage = currentMaxDamage - currentMaxDamage / livesLeft;
-        streamObjectLeft.GetComponent<Stream>().Damage = currentDamage;
-        streamObjectRight.GetComponent<Stream>().Damage = currentDamage;
+        currentDamage.Value = currentMaxDamage.Value - currentMaxDamage.Value / livesLeft;
+        streamObjectLeft.GetComponent<Stream>().Damage = currentDamage.Value;
+        streamObjectRight.GetComponent<Stream>().Damage = currentDamage.Value;
     }
 
     public void PlayerDie()
     {
-        switch (shootingMode)
+        switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
                 controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
@@ -408,6 +431,6 @@ public class PlayerVRShooting : NetworkBehaviour
                 break;
         }
 
-        shootingMode = ShootingMode.None;
+        //shootingMode = ShootingMode.None;
     }
 }
