@@ -1,4 +1,5 @@
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -45,11 +46,13 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
     {
         if (IsServer)
         {
+            base.OnNetworkSpawn();
+
             meshAgent = GetComponent<NavMeshAgent>();
             //playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
             InitializeCreatureVisuals();
+            GetComponent<NetworkTransform>().enabled = true;
             FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
-            base.OnNetworkSpawn();
         }
         else
         {
@@ -93,9 +96,10 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
                 int randomIndex = Random.Range(0, atlas.creatureVisualDatas[i].Mesh.Count - 1);
 
                 // Instantiate it with a random prfab from list
-                GameObject visual = Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, Quaternion.identity, gameObject.transform);
-                visual.GetComponent<NetworkObject>().Spawn();
-                Debug.Log("Mesh");
+                GameObject visual = Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, transform.rotation);
+                
+                visual.GetComponent<NetworkObject>().Spawn(true);
+                visual.GetComponent<NetworkObject>().TrySetParent(transform);
                 break;
             }
         }
