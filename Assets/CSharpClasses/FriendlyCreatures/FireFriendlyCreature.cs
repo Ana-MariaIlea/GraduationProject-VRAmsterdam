@@ -53,10 +53,10 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                 {
                     minDist = distance.magnitude;
                     playerTarget = hitCollidersSight[i].gameObject;
-                    if (playerTarget.GetComponent<PlayerVRGrabbing>().GrabedItemID == ItemID.Food)
+                    if (playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID == ItemID.Food)
                     {
                         doesPlayerHaveFood = true;
-                        playerFood = playerTarget.GetComponent<PlayerVRGrabbing>().GrabedItem;
+                        playerFood = playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItem;
                     }
                     else
                     {
@@ -73,8 +73,8 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                 if (minDist < 2f)
                 {
                     playerFood.gameObject.transform.SetParent(null);
-                    playerTarget.GetComponent<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
-                    Destroy(playerFood.gameObject);
+                    playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
+                    //Destroy(playerFood.gameObject);
                     BefriendCreature();
                     //Send client RPC player does not have food 
                 }

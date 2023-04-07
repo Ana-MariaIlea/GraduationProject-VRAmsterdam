@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -27,6 +28,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     private GrabbableItem grabedItem = null;
     private NetworkVariable<ItemID> grabedItemID = new NetworkVariable<ItemID>(ItemID.None);
+    private NetworkVariable<int> grabedItemObjectID = new NetworkVariable<int>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     private Vector3 grabedItemOffset = Vector3.zero;
     private NetworkVariable<bool> grabbing = new NetworkVariable<bool>(false);
 
@@ -167,6 +169,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [ServerRpc]
     private void GrabItemServerRPC(ItemID id, int ObjectID)
     {
+        grabedItemObjectID.Value = ObjectID;
         grabedItem = GrabbableItemManager.Singleton.FindGivenObject(ObjectID);
         if (grabedItem != null)
         {
@@ -237,6 +240,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
             grabbing.Value = false;
             grabedItemID.Value = ItemID.None;
+            grabedItemObjectID.Value = -1;
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
             ReleaseItemClientRPC();
         }
