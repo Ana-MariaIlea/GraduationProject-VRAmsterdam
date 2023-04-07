@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
@@ -74,7 +75,10 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                 {
                     playerFood.gameObject.transform.SetParent(null);
                     playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
-                    //Destroy(playerFood.gameObject);
+                    GrabbableItemManager.Singleton.RemoveGivenObject(playerFood);
+                    playerTarget.GetComponentInChildren<PlayerVRGrabbing>().ReleaseItemServerCall();
+                    playerFood.GetComponent<NetworkObject>().Despawn();
+                    Destroy(playerFood.gameObject);
                     BefriendCreature();
                     //Send client RPC player does not have food 
                 }

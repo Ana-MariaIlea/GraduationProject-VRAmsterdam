@@ -193,7 +193,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         yield return new WaitForSeconds(.2f);
         grabedItemOffset = anchorPosition - grabedItem.transform.position;
 
-        while (grabbing.Value)
+        while (grabbing.Value && grabedItem != null)
         {
             grabedItem.transform.position = anchorPosition + grabedItemOffset;// + grabbingGlobalOffset;
             yield return null;
@@ -211,10 +211,10 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         Debug.Log("start corutine-------------------------------");
         yield return new WaitForSeconds(.1f);
-        while (grabbing.Value)
+        while (grabbing.Value && grabedItem != null)
         {
             Debug.Log(anchor.position);
-            SetAnchorServerRPC(anchor.position.x, anchor.position.y -0.5f, anchor.position.z);
+            SetAnchorServerRPC(anchor.position.x, anchor.position.y - 0.5f, anchor.position.z);
             yield return null;
         }
     }
@@ -231,6 +231,12 @@ public class PlayerVRGrabbing : NetworkBehaviour
         Debug.Log("ResealseItem-------------------------------");
         ResleaseItemServerRPC();
     }
+
+    public void ReleaseItemServerCall()
+    {
+        ResleaseItemServerRPC();
+    }
+
     [ServerRpc]
     private void ResleaseItemServerRPC()
     {

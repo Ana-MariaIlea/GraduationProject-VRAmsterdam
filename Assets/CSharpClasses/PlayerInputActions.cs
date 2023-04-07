@@ -60,6 +60,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7c58a575-7a4a-4ca1-b98f-35d069eb406a"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""GrabbingLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""aeef98b3-845f-4994-a579-8367a95762af"",
                     ""path"": ""<XRController>{RightHand}/triggerPressed"",
                     ""interactions"": """",

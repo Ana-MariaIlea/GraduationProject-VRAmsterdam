@@ -43,4 +43,9 @@ public class GrabbableItemManager : MonoBehaviour
 
         return null;
     }
+
+    public void RemoveGivenObject(GrabbableItem item)
+    {
+        grabbableItems.Remove(item);
+    }
 }
