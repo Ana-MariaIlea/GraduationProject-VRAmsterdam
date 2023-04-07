@@ -34,11 +34,15 @@ public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        creatureType = GetComponentInParent<AbstractFriendlyCreature>().CCreatureType;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            creatureType = GetComponentInParent<AbstractFriendlyCreature>().CCreatureType;
+        }
     }
 
-    public virtual void ObstacleCleared()
+    [ServerRpc]
+    public virtual void ObstacleClearedServerRpc()
     {
     }
 }

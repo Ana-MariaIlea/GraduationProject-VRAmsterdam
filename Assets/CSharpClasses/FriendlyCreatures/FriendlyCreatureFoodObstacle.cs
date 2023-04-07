@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
@@ -9,15 +10,17 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class FriendlyCreatureFoodObstacle : FriendlyCreatureItemObstacle
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    public override void ObstacleCleared()
+    [ServerRpc]
+    public override void ObstacleClearedServerRpc()
     {
         GetComponentInParent<EarthFriendlyCreature>().CreadureBefriendTransition();
         GetComponent<BoxCollider>().enabled = false;
+        ObstacleClearedClientRpc();
+    }
+
+    [ClientRpc]
+    public void ObstacleClearedClientRpc()
+    {
+        gameObject.SetActive(false);
     }
 }

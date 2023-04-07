@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.LowLevel;
 using static TMPro.TMP_Compatibility;
 
 public enum ControllerType
@@ -106,11 +107,18 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
         if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value && aux != CreatureType.None)
         {
-            Destroy(grabedItem.gameObject);
-            //grabedItem.GetComponent<NetworkObject>().Despawn(true);
-            grabedItemID.Value = ItemID.None;
-            other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleCleared();
+            Debug.Log("Clear obstacle");
+            DestroyItemServerRPC();
+            other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleClearedServerRpc();
         }
+    }
+    [ServerRpc]
+    private void DestroyItemServerRPC()
+    {
+        GrabbableItemManager.Singleton.RemoveGivenObject(grabedItem);
+        grabedItem.GetComponent<NetworkObject>().Despawn();
+        Destroy(grabedItem.gameObject);
+        grabedItemID.Value = ItemID.None;
     }
 
     public void TriggerExit()
@@ -156,11 +164,8 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     void GrabItem(InputAction.CallbackContext ctx)
     {
-        Debug.Log("try grab");
         if (grabedItem != null)
         {
-            Debug.Log("grab-------------------------------");
-
             GrabItemServerRPC(grabedItem.IItemID, grabedItem.ObjectID);
         }
     }
@@ -171,7 +176,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
         grabedItem = GrabbableItemManager.Singleton.FindGivenObject(ObjectID);
         if (grabedItem != null)
         {
-            Debug.Log("Server RPC-------------------------------" + grabbing.Value);
             grabedItemID.Value = id;
             grabbing.Value = true;
             //if (GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
@@ -186,14 +190,12 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     private IEnumerator GrabbingObjectCorutineServer()
     {
-        Debug.Log("start corutine Server-------------------------------");
-        //yield return new WaitForEndOfFrame();
         yield return new WaitForSeconds(.2f);
         grabedItemOffset = anchorPosition - grabedItem.transform.position;
 
         while (grabbing.Value && grabedItem != null)
         {
-            grabedItem.transform.position = anchorPosition + grabedItemOffset;// + grabbingGlobalOffset;
+            grabedItem.transform.position = anchorPosition + grabedItemOffset;
             yield return null;
         }
     }
@@ -201,13 +203,11 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [ClientRpc]
     private void GrabItemClientRPC()
     {
-        Debug.Log("Client RPC-------------------------------");
         if (updateAnchorPositionCorutine == null)
             updateAnchorPositionCorutine = StartCoroutine(GrabbingObjectCorutineClient());
     }
     private IEnumerator GrabbingObjectCorutineClient()
     {
-        Debug.Log("start corutine-------------------------------");
         yield return new WaitForSeconds(.1f);
         while (grabbing.Value && grabedItem != null)
         {
@@ -220,13 +220,11 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [ServerRpc]
     private void SetAnchorServerRPC(float x, float y, float z)
     {
-        Debug.Log("Change anchor server RPC");
-        anchorPosition = new Vector3(x, y, z);// + grabbingGlobalOffset;
+        anchorPosition = new Vector3(x, y, z);
     }
 
     void ResealseItem(InputAction.CallbackContext ctx)
     {
-        Debug.Log("ResealseItem-------------------------------");
         ResleaseItemServerRPC();
     }
 
@@ -240,8 +238,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         if (grabedItem != null)
         {
-            Debug.Log("Server RPC release-------------------------------" + grabbing.Value);
-
             grabbing.Value = false;
             grabedItemID.Value = ItemID.None;
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
@@ -252,7 +248,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [ClientRpc]
     private void ReleaseItemClientRPC()
     {
-        Debug.Log("Client RPC-------------------------------");
         if (updateAnchorPositionCorutine != null)
         {
             StopCoroutine(updateAnchorPositionCorutine);
