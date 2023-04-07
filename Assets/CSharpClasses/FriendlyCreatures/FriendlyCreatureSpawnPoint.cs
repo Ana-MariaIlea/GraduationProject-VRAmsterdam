@@ -18,9 +18,12 @@ public class FriendlyCreatureSpawnPoint : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        unfriendedSpots = FindObjectsOfType<FriendlyCreatureUnfriendedSpot>().ToList();
-        SpawnCreature();
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            unfriendedSpots = FindObjectsOfType<FriendlyCreatureUnfriendedSpot>().ToList();
+            SpawnCreature();
+        }
     }
 
     private void SpawnCreature()
