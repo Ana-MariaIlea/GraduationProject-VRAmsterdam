@@ -8,6 +8,7 @@ TagManager:
   - GrabDestination
   - ChargingStation
   - PlayerHitObject
+  - Obstacle
   layers:
   - Default
   - TransparentFX
