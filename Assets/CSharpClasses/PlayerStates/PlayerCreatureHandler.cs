@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using Oculus.Platform.Samples.VrHoops;
 using System;
 using System.Collections;
@@ -19,7 +20,7 @@ public class PlayerCreatureHandler : NetworkBehaviour
 {
     public static PlayerCreatureHandler Singleton;
 
-    private NetworkList<PlayerCreatures> playerCreatures = new NetworkList<PlayerCreatures>();
+    private NetworkList<PlayerCreatures> playerCreatures;
 
     public struct PlayerCreatures : INetworkSerializable, IEquatable<PlayerCreatures>
     {
@@ -59,17 +60,19 @@ public class PlayerCreatureHandler : NetworkBehaviour
 
     private void Awake()
     {
-        if (IsServer)
-        {
-            if (Singleton == null)
+        //if (IsServer)
+        //{
+            if (Singleton == null) 
             {
                 Singleton = this;
+                playerCreatures = new NetworkList<PlayerCreatures>(default);
+                Debug.Log("test");
             }
             else
             {
                 Destroy(this);
             }
-        }
+        //}
     }
 
     [ServerRpc]
@@ -175,5 +178,12 @@ public class PlayerCreatureHandler : NetworkBehaviour
         }
 
         //Start part 2
+        StartPart2ClientRpc();
+    }
+
+    [ClientRpc]
+    private void StartPart2ClientRpc()
+    {
+        Debug.Log("Start Part 2");
     }
 }

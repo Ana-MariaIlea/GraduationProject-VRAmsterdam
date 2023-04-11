@@ -41,8 +41,8 @@ public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public virtual void ObstacleClearedServerRpc()
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void ObstacleClearedServerRpc(ServerRpcParams serverRpcParams = default)
     {
     }
 }

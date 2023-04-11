@@ -12,23 +12,20 @@ public class GrabbableItemManager : NetworkBehaviour
 
     private void Awake()
     {
-        if (IsServer)
+        if (Singleton == null)
         {
-            if (Singleton == null)
-            {
-                Singleton = this;
-            }
-            else
-            {
-                Destroy(this);
-            }
+            Singleton = this;
+        }
+        else
+        {
+            Destroy(this);
         }
     }
     // Start is called before the first frame update
     void Start()
     {
         int indexID = 0;
-        grabbableItems = FindObjectsOfType<GrabbableItem>().ToList(); 
+        grabbableItems = FindObjectsOfType<GrabbableItem>().ToList();
         foreach (GrabbableItem grabbableItem in grabbableItems)
         {
             grabbableItem.ObjectID = indexID;

@@ -10,10 +10,11 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
 {
-    [ServerRpc]
-    public override void ObstacleClearedServerRpc()
+    [ServerRpc(RequireOwnership = false)]
+    public override void ObstacleClearedServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition();
+        Debug.Log("Water obstacle clear server rpc"); 
+        GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
         GetComponent<BoxCollider>().enabled = false;
         ObstacleClearedClientRpc();
     }
@@ -21,6 +22,8 @@ public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
     [ClientRpc]
     public void ObstacleClearedClientRpc()
     {
+        Debug.Log("Water obstacle clear client rpc");
+
         gameObject.SetActive(false);
     }
 }

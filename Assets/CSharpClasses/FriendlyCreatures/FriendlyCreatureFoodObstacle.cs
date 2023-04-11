@@ -10,10 +10,10 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class FriendlyCreatureFoodObstacle : FriendlyCreatureItemObstacle
 {
-    [ServerRpc]
-    public override void ObstacleClearedServerRpc()
+    [ServerRpc(RequireOwnership = false)]
+    public override void ObstacleClearedServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        GetComponentInParent<EarthFriendlyCreature>().CreadureBefriendTransition();
+        GetComponentInParent<EarthFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
         GetComponent<BoxCollider>().enabled = false;
         ObstacleClearedClientRpc();
     }

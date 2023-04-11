@@ -65,7 +65,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls = new PlayerInputActions();
             controls.Enable();
             BindInputActions();
-            FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+            //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
             base.OnNetworkSpawn();
         }
         else
@@ -97,20 +97,25 @@ public class PlayerVRGrabbing : NetworkBehaviour
         PlayerCreatureHandler.Singleton.CreatureCollectedServerRpc(OwnerClientId, otherType);
 
         if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value &&
-            PlayerCreatureHandler.Singleton.CheckCollectedCreature(OwnerClientId, otherType))
+            !PlayerCreatureHandler.Singleton.CheckCollectedCreature(OwnerClientId, otherType))
         {
             Debug.Log("Clear obstacle");
-            DestroyItemServerRPC();
             other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleClearedServerRpc();
+            DestroyItemServerRPC();
         }
     }
     [ServerRpc]
     private void DestroyItemServerRPC()
     {
+        StartCoroutine(DestroyItemCorutine());
+    }
+    private IEnumerator DestroyItemCorutine()
+    {
+        ReleaseItemServerCall();
+        yield return new WaitForSeconds(.2f);
         GrabbableItemManager.Singleton.RemoveGivenObject(grabedItem);
         grabedItem.GetComponent<NetworkObject>().Despawn();
         Destroy(grabedItem.gameObject);
-        grabedItemID.Value = ItemID.None;
     }
 
     public void TriggerExit()
@@ -185,7 +190,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         yield return new WaitForSeconds(.2f);
         grabedItemOffset = anchorPosition - grabedItem.transform.position;
 
-        while (grabbing.Value && grabedItem != null)
+        while (grabbing.Value)
         {
             grabedItem.transform.position = anchorPosition + grabedItemOffset;
             yield return null;
@@ -201,9 +206,8 @@ public class PlayerVRGrabbing : NetworkBehaviour
     private IEnumerator GrabbingObjectCorutineClient()
     {
         yield return new WaitForSeconds(.1f);
-        while (grabbing.Value && grabedItem != null)
+        while (grabbing.Value)
         {
-            Debug.Log(anchor.position);
             SetAnchorServerRPC(anchor.position.x, anchor.position.y - 0.5f, anchor.position.z);
             yield return null;
         }

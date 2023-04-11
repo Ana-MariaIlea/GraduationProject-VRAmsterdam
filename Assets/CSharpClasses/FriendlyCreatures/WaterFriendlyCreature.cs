@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -36,8 +37,14 @@ public class WaterFriendlyCreature : AbstractFriendlyCreature
     //     This function is called instead of BefriendCreature to have some delay for animations
     // </summary>
     //------------------------------------------------------------------------------
-    public void CreadureBefriendTransition()
+    public void CreadureBefriendTransition(ulong playerID)
     {
+        GameObject playerObj = NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.gameObject;
+        if (playerObj != null)
+        {
+            playerTarget = playerObj;
+        }
+        
         StartCoroutine(CreadureBefriendTransitionCorutine());
     }
 
@@ -52,4 +59,10 @@ public class WaterFriendlyCreature : AbstractFriendlyCreature
 
         BefriendCreature();
     }
+
+    private void GetPlayerTransform()
+    {
+
+    }
+
 }

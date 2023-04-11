@@ -52,7 +52,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
             //playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
             InitializeCreatureVisuals();
             GetComponent<NetworkTransform>().enabled = true;
-            FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+            //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
         }
         else
         {

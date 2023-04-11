@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851785, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.17
+      value: 0.66
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851785, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -148,7 +148,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851785, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.43
+      value: -0.46
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851785, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -188,7 +188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851790, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: itemID
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 982070460145146335, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -536,7 +536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 982070458773851790, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: itemID
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 982070460145146335, guid: 6f99dc4b138d906479795a550bb7105b, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -903,7 +903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 524070144}
-  isServer: 0
+  isServer: 1
 --- !u!114 &1969124450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,7 +924,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 145.126.106.94
+    Address: 145.76.94.117
     Port: 7777
     ServerListenAddress: 
   DebugSimulator:
@@ -1064,6 +1064,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7714329502431660045, guid: 982d3ceb45369834a84014bb71d8f352, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 3681910221
+      objectReference: {fileID: 0}
     - target: {fileID: 8296399424609764603, guid: 982d3ceb45369834a84014bb71d8f352, type: 3}
       propertyPath: m_Name
       value: PlayerGameState

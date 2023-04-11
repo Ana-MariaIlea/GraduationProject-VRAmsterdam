@@ -71,7 +71,7 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
             if (doesPlayerHaveFood)
             {
                 // If the player has food, go to the player
-                if (minDist < 2f)
+                if (minDist < 20f)
                 {
                     //playerFood.gameObject.transform.SetParent(null);
                     playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
