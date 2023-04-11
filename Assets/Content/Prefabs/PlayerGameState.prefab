@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8296399424609764605}
-  - component: {fileID: 8296399424609764604}
+  - component: {fileID: 8631307569803082196}
+  - component: {fileID: 7714329502431660045}
   m_Layer: 0
   m_Name: PlayerGameState
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8296399424609764604
+--- !u!114 &8631307569803082196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,12 +42,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 8296399424609764603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b47e4b1eff7b34d4b8ccf5b86a9d7f2e, type: 3}
+  m_Script: {fileID: 11500000, guid: b5d15cd00e3ef6e4f93853d3baf8e869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  part2Start:
-    m_PersistentCalls:
-      m_Calls: []
-  part3Start:
-    m_PersistentCalls:
-      m_Calls: []
+--- !u!114 &7714329502431660045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8296399424609764603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

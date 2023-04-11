@@ -92,20 +92,12 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
     public void TriggerEnterGrabDestination(Collider other)
     {
-        CreatureType aux = CreatureType.None;
-        switch (other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType)
-        {
-            case CreatureType.Water:
-                if (GetComponentInParent<PlayerCreatureHandler>().IsWaterCretureCollected) return;
-                aux = CreatureType.Water;
-                break;
-            case CreatureType.Earth:
-                if (GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected) return;
-                aux = CreatureType.Earth;
-                break;
-        }
+        CreatureType otherType = other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType;
 
-        if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value && aux != CreatureType.None)
+        PlayerCreatureHandler.Singleton.CreatureCollectedServerRpc(OwnerClientId, otherType);
+
+        if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value &&
+            PlayerCreatureHandler.Singleton.CheckCollectedCreature(OwnerClientId, otherType))
         {
             Debug.Log("Clear obstacle");
             DestroyItemServerRPC();

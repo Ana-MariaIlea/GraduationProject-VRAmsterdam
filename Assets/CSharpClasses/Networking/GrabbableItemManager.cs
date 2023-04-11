@@ -1,22 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
-public class GrabbableItemManager : MonoBehaviour
+public class GrabbableItemManager : NetworkBehaviour
 {
     public static GrabbableItemManager Singleton;
     private List<GrabbableItem> grabbableItems;
 
     private void Awake()
     {
-        if(Singleton == null)
+        if (IsServer)
         {
-            Singleton = this;
-        }
-        else
-        {
-            Destroy(this);
+            if (Singleton == null)
+            {
+                Singleton = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
         }
     }
     // Start is called before the first frame update

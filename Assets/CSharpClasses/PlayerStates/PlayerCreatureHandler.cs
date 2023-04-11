@@ -1,8 +1,13 @@
+using Oculus.Platform.Samples.VrHoops;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking.Types;
+using static Unity.Burst.Intrinsics.X86;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -12,57 +17,163 @@ using UnityEngine.Events;
 //------------------------------------------------------------------------------
 public class PlayerCreatureHandler : NetworkBehaviour
 {
-    //private bool isFireCretureCollected = false;
-    //private bool isWaterCretureCollected = false;
-    //private bool isEarthCretureCollected = false;
-    private NetworkVariable<bool> isFireCretureCollected = new NetworkVariable<bool>(false);
-    private NetworkVariable<bool> isWaterCretureCollected = new NetworkVariable<bool>(false);
-    private NetworkVariable<bool> isEarthCretureCollected = new NetworkVariable<bool>(false);
+    public static PlayerCreatureHandler Singleton;
 
-    //private int creaturesColected = 0;
-    private NetworkVariable<int> creaturesColected = new NetworkVariable<int>(0);
+    private NetworkList<PlayerCreatures> playerCreatures = new NetworkList<PlayerCreatures>();
 
-
-    public bool IsFireCretureCollected
+    public struct PlayerCreatures : INetworkSerializable, IEquatable<PlayerCreatures>
     {
-        get
+        public ulong PlayerID;
+        public int creaturesCollected;
+        public bool isFireCretureCollected;
+        public bool isWaterCretureCollected;
+        public bool isEarthCretureCollected;
+
+        public void ChangeValues(PlayerCreatures other)
         {
-            return isFireCretureCollected.Value;
+            if (other.PlayerID == PlayerID)
+            {
+                creaturesCollected = other.creaturesCollected;
+                isFireCretureCollected = other.isFireCretureCollected;
+                isWaterCretureCollected = other.isWaterCretureCollected;
+                isEarthCretureCollected = other.isEarthCretureCollected;
+            }
+        }
+        public bool Equals(PlayerCreatures other)
+        {
+            return PlayerID == other.PlayerID && creaturesCollected == other.creaturesCollected &&
+                isFireCretureCollected == other.isFireCretureCollected &&
+                isWaterCretureCollected == other.isWaterCretureCollected &&
+                isEarthCretureCollected == other.isEarthCretureCollected;
+        }
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref PlayerID);
+            serializer.SerializeValue(ref creaturesCollected);
+            serializer.SerializeValue(ref isFireCretureCollected);
+            serializer.SerializeValue(ref isWaterCretureCollected);
+            serializer.SerializeValue(ref isEarthCretureCollected);
         }
     }
-    public bool IsWaterCretureCollected
+
+    private void Awake()
     {
-        get
+        if (IsServer)
         {
-            return isWaterCretureCollected.Value;
-        }
-    }
-    public bool IsEarthCretureCollected
-    {
-        get
-        {
-            return isEarthCretureCollected.Value;
+            if (Singleton == null)
+            {
+                Singleton = this;
+            }
+            else
+            {
+                Destroy(this);
+            }
         }
     }
 
-    public void CreatureColected(CreatureType type)
+    [ServerRpc]
+    public void AddEmptyPlayerStructureServerRpc(ulong playerID)
     {
-        switch (type)
+        PlayerCreatures playerCreature = new PlayerCreatures();
+        playerCreature.PlayerID = playerID;
+        playerCreature.creaturesCollected = 0;
+        playerCreature.isFireCretureCollected = false;
+        playerCreature.isWaterCretureCollected = false;
+        playerCreature.isEarthCretureCollected = false;
+
+        playerCreatures.Add(playerCreature);
+    }
+
+    [ServerRpc]
+    public void CreatureCollectedServerRpc(ulong PlayerID, CreatureType type)
+    {
+        PlayerCreatures aux = new PlayerCreatures();
+        aux.PlayerID = 0;
+
+        for (int i = 0; i < playerCreatures.Count; i++)
         {
-            case CreatureType.Fire:
-                isFireCretureCollected.Value = true;
-                break;
-            case CreatureType.Water:
-                isWaterCretureCollected.Value = true;
-                break;
-            case CreatureType.Earth:
-                isEarthCretureCollected.Value = true;
-                break;
+            if (playerCreatures[i].PlayerID == PlayerID)
+            {
+                aux.PlayerID = playerCreatures[i].PlayerID;
+                switch (type)
+                {
+                    case CreatureType.Fire:
+                        if (!aux.isFireCretureCollected)
+                        {
+                            aux.isFireCretureCollected = true;
+                            aux.creaturesCollected++;
+                        }
+                        break;
+                    case CreatureType.Water:
+                        if (!aux.isWaterCretureCollected)
+                        {
+                            aux.isWaterCretureCollected = true;
+                            aux.creaturesCollected++;
+                        }
+                        break;
+                    case CreatureType.Earth:
+                        if (!aux.isEarthCretureCollected)
+                        {
+                            aux.isEarthCretureCollected = true;
+                            aux.creaturesCollected++;
+                        }
+                        break;
+                }
+                playerCreatures[i].ChangeValues(aux);
+                return;
+            }
         }
-        creaturesColected.Value++;
-        //if(creaturesColected == 3)
-        //{
-        //    GetComponent<PlayerStateManager>().ChangeStateTo(PlayerStateManager.PlayerState.Part2);
-        //}
+
+        throw new Exception("Player is not registered in the list");
+    }
+
+    public bool CheckCollectedCreature(ulong PlayerID, CreatureType type)
+    {
+        bool isCreatureCollected = false;
+        for (int i = 0; i < playerCreatures.Count; i++)
+        {
+            if (playerCreatures[i].PlayerID == PlayerID)
+            {
+                switch (type)
+                {
+                    case CreatureType.Fire:
+                        if (playerCreatures[i].isFireCretureCollected)
+                        {
+                            isCreatureCollected = true;
+                        }
+                        break;
+                    case CreatureType.Water:
+                        if (playerCreatures[i].isWaterCretureCollected)
+                        {
+                            isCreatureCollected = true;
+                        }
+                        break;
+                    case CreatureType.Earth:
+                        if (playerCreatures[i].isEarthCretureCollected)
+                        {
+                            isCreatureCollected = true;
+                        }
+                        break;
+                }
+                break;
+            }
+        }
+
+        return isCreatureCollected;
+    }
+
+    [ServerRpc]
+    private void CheckPlayersCreaturesServerRpc()
+    {
+        for (int i = 0; i < playerCreatures.Count; i++)
+        {
+            if (playerCreatures[i].creaturesCollected < 3)
+            {
+                return;
+            }
+        }
+
+        //Start part 2
     }
 }
