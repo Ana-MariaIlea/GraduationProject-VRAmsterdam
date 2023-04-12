@@ -18,25 +18,25 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2.71
+    value: 14.14
   threshold:
     overrideState: 1
-    value: 0.86
+    value: 0.2
   softKnee:
     overrideState: 1
-    value: 0.41
+    value: 0.716
   clamp:
     overrideState: 0
     value: 65549.51
   diffusion:
-    overrideState: 0
-    value: 7
+    overrideState: 1
+    value: 1.56
   anamorphicRatio:
     overrideState: 1
     value: -0.533
   color:
     overrideState: 1
-    value: {r: 0.4212175, g: 0.8207547, b: 0.5460263, a: 1}
+    value: {r: 0.7467426, g: 0.9056604, b: 0.79659915, a: 1}
   fastMode:
     overrideState: 1
     value: 1
@@ -100,28 +100,28 @@ MonoBehaviour:
     value: 1
   temperature:
     overrideState: 1
-    value: 0
+    value: 25.6
   tint:
     overrideState: 1
-    value: 0
+    value: -34
   colorFilter:
     overrideState: 1
-    value: {r: 1, g: 1, b: 1, a: 1}
+    value: {r: 0.7464242, g: 1, b: 0.71132076, a: 1}
   hueShift:
     overrideState: 1
-    value: 0
+    value: -3
   saturation:
     overrideState: 1
-    value: 0
+    value: 1.7
   brightness:
     overrideState: 1
     value: 0
   postExposure:
     overrideState: 1
-    value: 0
+    value: -0.55
   contrast:
     overrideState: 1
-    value: 0
+    value: 5.9
   mixerRedOutRedIn:
     overrideState: 1
     value: 100
@@ -151,7 +151,7 @@ MonoBehaviour:
     value: 112
   lift:
     overrideState: 1
-    value: {x: 0.92408997, y: 1, z: 0.98021114, w: 0}
+    value: {x: 0.92408997, y: 1, z: 0.98021114, w: -0.05263158}
   gamma:
     overrideState: 1
     value: {x: 0.91755044, y: 0.88581395, z: 1, w: 0}
