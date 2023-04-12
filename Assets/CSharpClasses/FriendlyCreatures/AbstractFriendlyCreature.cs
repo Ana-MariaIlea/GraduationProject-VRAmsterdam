@@ -1,3 +1,5 @@
+using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -18,7 +20,7 @@ public enum CreatureType
 //     This class is the base class for all friendly creatures.
 // </summary>
 //------------------------------------------------------------------------------
-public abstract class AbstractFriendlyCreature : MonoBehaviour
+public abstract class AbstractFriendlyCreature : NetworkBehaviour
 {
     public enum CreatureState
     {
@@ -40,13 +42,22 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    protected virtual void Start()
+    public override void OnNetworkSpawn()
     {
-        meshAgent = GetComponent<NavMeshAgent>();
-        playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
-        InitializeCreatureVisuals();
-        FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+
+            meshAgent = GetComponent<NavMeshAgent>();
+            //playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
+            InitializeCreatureVisuals();
+            GetComponent<NetworkTransform>().enabled = true;
+            //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+        }
+        else
+        {
+            this.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -73,6 +84,7 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
 
     void InitializeCreatureVisuals()
     {
+        
         // Get the atlas
         CreatureAtlas atlas = GetComponent<CreatureAtlas>();
 
@@ -84,7 +96,10 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
                 int randomIndex = Random.Range(0, atlas.creatureVisualDatas[i].Mesh.Count - 1);
 
                 // Instantiate it with a random prfab from list
-                Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, Quaternion.identity, gameObject.transform);
+                GameObject visual = Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, transform.rotation);
+                
+                visual.GetComponent<NetworkObject>().Spawn(true);
+                visual.GetComponent<NetworkObject>().TrySetParent(transform);
                 break;
             }
         }
@@ -136,6 +151,7 @@ public abstract class AbstractFriendlyCreature : MonoBehaviour
 
     public void BefriendCreature()
     {
+        Debug.Log("Befriend creature");
         state = CreatureState.Befriended;
     }
 }

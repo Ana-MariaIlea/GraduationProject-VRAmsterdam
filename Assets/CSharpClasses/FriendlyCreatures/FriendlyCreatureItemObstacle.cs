@@ -13,7 +13,7 @@ public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
 {
     [SerializeField] private ItemID obstacleItemID;
 
-    private CreatureType creatureType;
+    [SerializeField] private CreatureType creatureType;
     public ItemID ObstacleItemID
     {
         get
@@ -34,11 +34,15 @@ public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        creatureType = GetComponentInParent<AbstractFriendlyCreature>().CCreatureType;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            creatureType = GetComponentInParent<AbstractFriendlyCreature>().CCreatureType;
+        }
     }
 
-    public virtual void ObstacleCleared()
+    [ServerRpc(RequireOwnership = false)]
+    public virtual void ObstacleClearedServerRpc(ServerRpcParams serverRpcParams = default)
     {
     }
 }

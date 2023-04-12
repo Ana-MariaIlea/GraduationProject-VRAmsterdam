@@ -6,11 +6,19 @@ public class Projectile : PlayerHitObject
 {
     [SerializeField] Rigidbody body;
     [SerializeField] float speed = 1;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
-        body = GetComponent<Rigidbody>();
-        body.velocity = speed * transform.forward;
+        base.OnNetworkSpawn();
+        if (IsServer)
+        {
+            body = GetComponent<Rigidbody>();
+            body.velocity = speed * transform.forward;
+        }
+        else
+        {
+            GetComponent<SphereCollider>().enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -1,6 +1,8 @@
+using Oculus.Platform.Samples.VrHoops;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -9,11 +11,17 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class EarthFriendlyCreature : AbstractFriendlyCreature
 {
-    // Start is called before the first frame update
-    protected override void Start()
+    public override void OnNetworkSpawn()
     {
-        base.Start();
-        type = CreatureType.Earth;
+        if (IsServer)
+        {
+            type = CreatureType.Earth;
+            base.OnNetworkSpawn();
+        }
+        else
+        {
+            this.enabled = false;
+        }
     }
     protected override void HelpingBehaviour()
     {
@@ -24,8 +32,14 @@ public class EarthFriendlyCreature : AbstractFriendlyCreature
     //     This function is called instead of BefriendCreature to have some delay for animations
     // </summary>
     //------------------------------------------------------------------------------
-    public void CreadureBefriendTransition()
+    public void CreadureBefriendTransition(ulong playerID)
     {
+        GameObject playerObj = NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.gameObject;
+        if (playerObj != null)
+        {
+            playerTarget = playerObj;
+        }
+
         StartCoroutine(CreadureBefriendTransitionCorutine());
     }
     //------------------------------------------------------------------------------

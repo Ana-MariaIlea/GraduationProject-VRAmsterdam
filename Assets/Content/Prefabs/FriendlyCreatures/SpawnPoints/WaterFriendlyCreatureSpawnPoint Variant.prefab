@@ -7,9 +7,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8675729787830025471, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 387690621694858137, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
       propertyPath: creatureType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 387690621694858137, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
       propertyPath: FrindlyCreaturePrefab

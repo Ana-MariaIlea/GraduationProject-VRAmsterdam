@@ -1,3 +1,4 @@
+using OculusSampleFramework;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -15,7 +16,6 @@ public class PlayerVRMovement : NetworkBehaviour
 {
     [SerializeField] private Transform CameraRig;
     [SerializeField] private Transform Head;
-
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -24,12 +24,30 @@ public class PlayerVRMovement : NetworkBehaviour
         {
             // Enable the camera so that the owning player has control
             CameraRig.gameObject.SetActive(true);
+            AddPlayerCreaturesServerRPC();
         }
         else
         {
             this.enabled = false;
         }
 
+    }
+
+    [ServerRpc]
+    private void AddPlayerCreaturesServerRPC(ServerRpcParams serverRpcParams = default)
+    {
+        PlayerCreatureHandler.Singleton.AddEmptyPlayerStructure(serverRpcParams);
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        RemovePlayerCreaturesServerRPC();
+    }
+    [ServerRpc]
+    private void RemovePlayerCreaturesServerRPC(ServerRpcParams serverRpcParams = default)
+    {
+        PlayerCreatureHandler.Singleton.RemovePlayerStructure(serverRpcParams);
     }
     private void Update()
     {

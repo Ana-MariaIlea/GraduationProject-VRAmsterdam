@@ -4,14 +4,14 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 
-public class ChargingStationSpawnPoint : MonoBehaviour
+public class ChargingStationSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private GameObject chargingStationPrefab;
 
     private void Start()
     {
-        GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
-
+        //GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
+        PlayerCreatureHandler.Singleton.part2StartServer.AddListener(Part2Start);
     }
 
     private void Part2Start()

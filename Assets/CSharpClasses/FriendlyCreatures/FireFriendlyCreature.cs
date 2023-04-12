@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
@@ -15,14 +17,21 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     //Spot the creature runs to when unfriended
     [SerializeField] private Transform unbefriendedSpace;
 
-    private GrabbableItem playerFood = null;
+    //private GrabbableItem playerFood = null;
 
-    // Start is called before the first frame update
-    protected override void Start()
+    PlayerVRGrabbing grabAux;
+    public override void OnNetworkSpawn()
     {
-        base.Start();
-        unbefriendedInitialSpace = transform.position;
-        type = CreatureType.Fire;
+        if (IsServer)
+        {
+            unbefriendedInitialSpace = transform.position;
+            type = CreatureType.Fire;
+            base.OnNetworkSpawn();
+        }
+        else
+        {
+            this.enabled = false;
+        }
     }
 
     //------------------------------------------------------------------------------
@@ -47,15 +56,23 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                 {
                     minDist = distance.magnitude;
                     playerTarget = hitCollidersSight[i].gameObject;
-                    if (playerTarget.GetComponent<PlayerVRGrabbing>().GrabedItemID == ItemID.Food)
+
+                    PlayerVRGrabbing[] grab = playerTarget.GetComponentsInChildren<PlayerVRGrabbing>();
+
+                    if (grab[0].GrabedItemID == ItemID.Food)
                     {
                         doesPlayerHaveFood = true;
-                        playerFood = playerTarget.GetComponent<PlayerVRGrabbing>().GrabedItem;
+                        grabAux = grab[0];
+                    }
+                    else if (grab[1].GrabedItemID == ItemID.Food)
+                    {
+                        doesPlayerHaveFood = true;
+                        grabAux = grab[1];
                     }
                     else
                     {
                         doesPlayerHaveFood = false;
-                        playerFood = null;
+                        grabAux = null;
                     }
                 }
             }
@@ -64,16 +81,14 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
             if (doesPlayerHaveFood)
             {
                 // If the player has food, go to the player
-                if (minDist < 2f)
+                if (minDist > 2f)
                 {
-                    playerFood.gameObject.transform.SetParent(null);
-                    playerTarget.GetComponent<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
-                    Destroy(playerFood.gameObject);
-                    BefriendCreature();
-                    //Send client RPC player does not have food 
-                }
-                else
-                {
+                //    //playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
+                //    playerTarget.GetComponentInChildren<PlayerVRGrabbing>().DestroyItemServerCall();
+                //    BefriendCreature();
+                //}
+                //else
+                //{
                     meshAgent.SetDestination(playerTarget.transform.position);
                 }
             }
@@ -108,6 +123,33 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     protected override void HelpingBehaviour()
     {
 
+    }
+
+    //------------------------------------------------------------------------------
+    // </summary>
+    //     This function is called instead of BefriendCreature to have some delay for animations
+    // </summary>
+    //------------------------------------------------------------------------------
+    public void CreadureBefriendTransition(ulong playerID)
+    {
+        GameObject playerObj = NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.gameObject;
+        if (playerObj != null)
+        {
+            playerTarget = playerObj;
+        }
+
+        StartCoroutine(CreadureBefriendTransitionCorutine());
+    }
+    //------------------------------------------------------------------------------
+    // </summary>
+    //     Corutine used for animations when befriending the creature
+    // </summary>
+    //------------------------------------------------------------------------------
+    IEnumerator CreadureBefriendTransitionCorutine()
+    {
+        yield return null;
+
+        BefriendCreature();
     }
     //------------------------------------------------------------------------------
     // </summary>
