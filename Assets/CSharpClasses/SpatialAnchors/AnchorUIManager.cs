@@ -67,9 +67,6 @@ public class AnchorUIManager : MonoBehaviour
 
     private bool _isFocused = true;
 
-    public delegate void OnLoadAnchorObjectsPressed();
-    public static event OnLoadAnchorObjectsPressed OnLoadAnchorObjects;
-
 
     #region Monobehaviour Methods
 
@@ -141,16 +138,6 @@ public class AnchorUIManager : MonoBehaviour
     public void OnLoadAnchorsButtonPressed()
     {
         GetComponent<SpatialAnchorLoader>().LoadAnchorsByUuid();
-        EnableLoadAnchorObjectsButton();
-    }
-
-    /// <summary>
-    /// Load anchor objects button pressed UI callback. Referenced by the Load Anchor Objects button in the menu.
-    /// </summary>
-    public void OnLoadAnchorObjectsButtonPressed()
-    {
-        //Should show spawn objects on all spatial anchors that have it
-        OnLoadAnchorObjects();
     }
 
     #endregion // Menu UI Callbacks
@@ -341,11 +328,6 @@ public class AnchorUIManager : MonoBehaviour
                 _isFocused = true;
             }
         }
-    }
-
-    private void EnableLoadAnchorObjectsButton()
-    {
-        _buttonList[_buttonList.Count - 1].gameObject.SetActive(true);
     }
 
     #endregion // Private Methods

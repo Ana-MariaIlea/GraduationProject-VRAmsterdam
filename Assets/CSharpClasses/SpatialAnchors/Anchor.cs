@@ -31,6 +31,8 @@ public class Anchor : MonoBehaviour
 
     [SerializeField, FormerlySerializedAs("saveIcon_")]
     private GameObject _saveIcon;
+    private bool _wasAnchorSaved = false;
+    
 
     [SerializeField, FormerlySerializedAs("labelImage_")]
     private Image _labelImage;
@@ -88,7 +90,7 @@ public class Anchor : MonoBehaviour
     [SerializeField, FormerlySerializedAs("objectMenuButtonList_")]
     private List<Button> _objectMenuButtonList;
 
-    private const int defaultAssignedObjectId = -1;
+    private const int _assignedObjectDefaultId = -1;
 
     #region Monobehaviour Methods
 
@@ -102,8 +104,6 @@ public class Anchor : MonoBehaviour
         _selectedButton.OnSelect(null);
         _spatialAnchor = GetComponent<OVRSpatialAnchor>();
         _icon = GetComponent<Transform>().FindChildRecursive("Sphere").gameObject;
-
-        AnchorUIManager.OnLoadAnchorObjects += SpawnAnchorObject;
     }
 
     private IEnumerator Start()
@@ -118,7 +118,7 @@ public class Anchor : MonoBehaviour
             _anchorName.text = _spatialAnchor.Uuid.ToString("D");
             UpdateLabelAssignedObjectId();
 
-            if (_spatialAnchor.AssignedObjectId > defaultAssignedObjectId)
+            if (_spatialAnchor.AssignedObjectId > _assignedObjectDefaultId)
                 InstantiateObjectOnAnchor(_spatialAnchor.AssignedObjectId);
         }
         else
@@ -154,28 +154,32 @@ public class Anchor : MonoBehaviour
     {
         if (!_spatialAnchor) return;
 
-        DisableAllUIMenus();
-
-        _spatialAnchor.Save((anchor, success) =>
+        if(_spatialAnchor.AssignedObjectId > _assignedObjectDefaultId)
         {
-            if (!success) return;
+            DisableAllUIMenus();
 
-            // Enables save icon on the anchor menu
-            ShowSaveIcon = true;
-
-            // Write uuid of saved anchor to file
-            if (!PlayerPrefs.HasKey(NumUuidsPlayerPref))
+            _spatialAnchor.Save((anchor, success) =>
             {
-                //Set generic value for this key
-                PlayerPrefs.SetInt(NumUuidsPlayerPref, 0);
-            }
+                if (!success) return;
 
-            int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);//returns 0
-            PlayerPrefs.SetString("uuid" + playerNumUuids, anchor.Uuid.ToString());//"anchor number", actual uuid of this anchor
-            PlayerPrefs.SetInt(NumUuidsPlayerPref, ++playerNumUuids);//increase the total number of Uuids that are saved in the Player Preferences
+                // Enables save icon on the anchor menu
+                ShowSaveIcon = true;
+                _wasAnchorSaved = true;
 
-            PlayerPrefs.SetInt(anchor.Uuid.ToString(), _spatialAnchor.AssignedObjectId);
-        });
+                // Write uuid of saved anchor to file
+                if (!PlayerPrefs.HasKey(NumUuidsPlayerPref))
+                {
+                    //Set generic value for this key
+                    PlayerPrefs.SetInt(NumUuidsPlayerPref, 0);
+                }
+
+                int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);//returns 0
+                PlayerPrefs.SetString("uuid" + playerNumUuids, anchor.Uuid.ToString());//"anchor number", actual uuid of this anchor
+                PlayerPrefs.SetInt(NumUuidsPlayerPref, ++playerNumUuids);//increase the total number of Uuids that are saved in the Player Preferences
+
+                PlayerPrefs.SetInt(anchor.Uuid.ToString(), _spatialAnchor.AssignedObjectId);
+            });
+        }
     }
 
     /// <summary>
@@ -194,15 +198,9 @@ public class Anchor : MonoBehaviour
         if (!_spatialAnchor) return;
 
         DisableAllUIMenus();
-
-        _spatialAnchor.Erase((anchor, success) =>
-        {
-            if (success)
-            {
-                _saveIcon.SetActive(false);
-            }
-        });
+        EraseSpatialAnchorFromMemory();
     }
+    
 
     /// <summary>
     /// UI callback for the anchor menu's Assign Button
@@ -229,50 +227,70 @@ public class Anchor : MonoBehaviour
     }
     public void OnPlayerSpawnPointButtonPressed()
     {
+        if (_wasAnchorSaved)
+            EraseSpatialAnchorFromMemory();
+
         InstantiateObjectOnAnchor(0);
     }
     public void OnCreatureSpawnPointButtonPressed()
     {
+        if (_wasAnchorSaved)
+            EraseSpatialAnchorFromMemory();
+
         InstantiateObjectOnAnchor(1);
     }
     public void OnCreatureStationButtonPressed()
     {
+        if (_wasAnchorSaved)
+            EraseSpatialAnchorFromMemory();
+
         InstantiateObjectOnAnchor(2);
     }
     public void OnCreatureActionPointButtonPressed()
     {
+        if (_wasAnchorSaved)
+            EraseSpatialAnchorFromMemory();
+
         InstantiateObjectOnAnchor(3);
     }
     public void OnBossSpawnPointButtonPressed()
     {
+        if (_wasAnchorSaved)
+            EraseSpatialAnchorFromMemory();
+
         InstantiateObjectOnAnchor(4);
     }
     public void OnEnvironmentObjectButtonPressed()
     {
+        if (_wasAnchorSaved)
+            EraseSpatialAnchorFromMemory();
+
         InstantiateObjectOnAnchor(5);
     }
     public void OnDeleteObjectButtonPressed()
     {
+        if (_wasAnchorSaved)
+            EraseSpatialAnchorFromMemory();
+
         DeleteAnchorObject();
     }
     #endregion // UI Event Listeners Assign Anchor Menu
-
-    #region Event Listeners
-    /// <summary>
-    /// This method is executed once a C# event from the UIManager is registered.
-    /// </summary>
-    private void SpawnAnchorObject()
-    {
-        if (_spatialAnchor.AssignedObjectId > defaultAssignedObjectId)
-            InstantiateObjectOnAnchor(_spatialAnchor.AssignedObjectId);
-    }
-    #endregion //Event Listeners
 
     #region Public Methods
 
     public bool ShowSaveIcon
     {
-        set => _saveIcon.SetActive(value);
+        set
+        {
+            _saveIcon.SetActive(value);
+            _wasAnchorSaved= true;
+        }
+            
+    }
+    public bool WasAnchorSaved
+    {
+        get { return _wasAnchorSaved; }
+        set { _wasAnchorSaved = value; }
     }
 
     /// <summary>
@@ -493,7 +511,6 @@ public class Anchor : MonoBehaviour
     {
         _assignedObjectIdLabel.text = "Assigned Object ID: " + _spatialAnchor.AssignedObjectId.ToString();
     }
-
     private void DeleteAnchorObject()
     {
         if (_assignedObject != null && _hasObject)
@@ -501,15 +518,28 @@ public class Anchor : MonoBehaviour
             Destroy(_assignedObject);
             _assignedObject = null;
             _hasObject = false;
-            _spatialAnchor.AssignedObjectId = defaultAssignedObjectId;
+            _spatialAnchor.AssignedObjectId = _assignedObjectDefaultId;
             UpdateLabelAssignedObjectId();
         }
     }
-
     private void DisableAllUIMenus()
     {
         _anchorMenu.SetActive(false);
         _objectMenu.SetActive(false);
+    }
+
+    private void EraseSpatialAnchorFromMemory()
+    {
+        if (!_spatialAnchor) return;
+
+        _spatialAnchor.Erase((anchor, success) =>
+        {
+            if (success)
+            {
+                _saveIcon.SetActive(false);
+                _wasAnchorSaved = false;
+            }
+        });
     }
 
     #endregion // Private Methods

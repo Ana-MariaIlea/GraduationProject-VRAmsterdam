@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Content/Scenes/FinalScenes/POCScene.unity
     guid: 62fdf010961330845a089f85b889a2f7
+  - enabled: 1
+    path: Assets/Content/Scenes/SpatialAnchors/SpatialAnchorsCreation.unity
+    guid: dae6718858ea5ae4e92a1817a42b73fc
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: df0f0ea6dcf0eff47880f6480d39859b, type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 9da960d494735bd4d831398f98c5db64, type: 2}
