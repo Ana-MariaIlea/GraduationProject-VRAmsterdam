@@ -151,6 +151,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
 
     public void BefriendCreature()
     {
+        Debug.Log("Befriend creature");
         state = CreatureState.Befriended;
     }
 }

@@ -65,6 +65,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls = new PlayerInputActions();
             controls.Enable();
             BindInputActions();
+            
             //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
             base.OnNetworkSpawn();
         }
@@ -94,28 +95,45 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         CreatureType otherType = other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType;
 
-        PlayerCreatureHandler.Singleton.CreatureCollectedServerRpc(OwnerClientId, otherType);
+        //PlayerCreatureHandler.Singleton.CreatureCollectedServerRpc(otherType);
 
         if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value &&
-            !PlayerCreatureHandler.Singleton.CheckCollectedCreature(OwnerClientId, otherType))
+            !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType))
         {
             Debug.Log("Clear obstacle");
+            CollectCreatureCallServerRPC(other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType);
             other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleClearedServerRpc();
             DestroyItemServerRPC();
         }
+        
     }
+
     [ServerRpc]
-    private void DestroyItemServerRPC()
+    public void CollectCreatureCallServerRPC(CreatureType creatureType, ServerRpcParams serverRpcParams = default)
     {
+        Debug.Log("Server call " + creatureType);
+        PlayerCreatureHandler.Singleton.CreatureCollected(creatureType, serverRpcParams);
+    }
+
+    [ServerRpc]
+    public void DestroyItemServerRPC()
+    {
+        Debug.Log("Destroy item");
+        StartCoroutine(DestroyItemCorutine());
+    }
+    public void DestroyItemServerCall()
+    {
+        //Debug.Log("Destroy item");
         StartCoroutine(DestroyItemCorutine());
     }
     private IEnumerator DestroyItemCorutine()
     {
+        GrabbableItem aux = grabedItem;
         ReleaseItemServerCall();
         yield return new WaitForSeconds(.2f);
-        GrabbableItemManager.Singleton.RemoveGivenObject(grabedItem);
-        grabedItem.GetComponent<NetworkObject>().Despawn();
-        Destroy(grabedItem.gameObject);
+        GrabbableItemManager.Singleton.RemoveGivenObject(aux);
+        aux.GetComponent<NetworkObject>().Despawn();
+        Destroy(aux.gameObject);
     }
 
     public void TriggerExit()
@@ -226,14 +244,23 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     public void ReleaseItemServerCall()
     {
-        ResleaseItemServerRPC();
+        //ResleaseItemServerRPC();
+        if (grabedItem != null)
+        {
+            //Debug.Log("Release item");
+            grabbing.Value = false;
+            grabedItemID.Value = ItemID.None;
+            grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
+            ReleaseItemClientRPC();
+        }
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     private void ResleaseItemServerRPC()
     {
         if (grabedItem != null)
         {
+            Debug.Log("Release item");
             grabbing.Value = false;
             grabedItemID.Value = ItemID.None;
             grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;

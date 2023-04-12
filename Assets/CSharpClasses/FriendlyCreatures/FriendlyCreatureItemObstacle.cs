@@ -13,7 +13,7 @@ public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
 {
     [SerializeField] private ItemID obstacleItemID;
 
-    private CreatureType creatureType;
+    [SerializeField] private CreatureType creatureType;
     public ItemID ObstacleItemID
     {
         get

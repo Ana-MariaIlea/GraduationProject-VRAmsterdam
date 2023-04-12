@@ -62,81 +62,117 @@ public class PlayerCreatureHandler : NetworkBehaviour
     {
         //if (IsServer)
         //{
-            if (Singleton == null) 
-            {
-                Singleton = this;
-                playerCreatures = new NetworkList<PlayerCreatures>(default);
-                Debug.Log("test");
-            }
-            else
-            {
-                Destroy(this);
-            }
+        if (Singleton == null)
+        {
+            Singleton = this;
+            playerCreatures = new NetworkList<PlayerCreatures>(default);
+        }
+        else
+        {
+            Destroy(this);
+        }
         //}
     }
 
-    [ServerRpc]
-    public void AddEmptyPlayerStructureServerRpc(ulong playerID)
+    //[ServerRpc(RequireOwnership = false)]
+    public void AddEmptyPlayerStructure(ServerRpcParams serverRpcParams = default)
     {
+        //if (IsServer)
+        //{
+        Debug.Log("Add player structure ");
         PlayerCreatures playerCreature = new PlayerCreatures();
-        playerCreature.PlayerID = playerID;
+        playerCreature.PlayerID = serverRpcParams.Receive.SenderClientId;
         playerCreature.creaturesCollected = 0;
         playerCreature.isFireCretureCollected = false;
         playerCreature.isWaterCretureCollected = false;
         playerCreature.isEarthCretureCollected = false;
 
         playerCreatures.Add(playerCreature);
+        //}
     }
 
-    [ServerRpc]
-    public void CreatureCollectedServerRpc(ulong PlayerID, CreatureType type)
+
+    //[ServerRpc(RequireOwnership = false)]
+    public void RemovePlayerStructure(ServerRpcParams serverRpcParams = default)
     {
+        //if (IsServer)
+        //{
+        for (int i = 0; i < playerCreatures.Count; i++)
+        {
+            if (playerCreatures[i].PlayerID == serverRpcParams.Receive.SenderClientId)
+            {
+                playerCreatures.RemoveAt(i);
+                return;
+            }
+        }
+
+        throw new Exception("Player is not registered in the list");
+        //}
+    }
+
+    //[ServerRpc(RequireOwnership = false)]
+    public void CreatureCollected(CreatureType type, ServerRpcParams serverRpcParams = default)
+    {
+        //if (IsServer)
+        //{
+        Debug.Log("Creature collected server rpc " + playerCreatures.Count);
+
         PlayerCreatures aux = new PlayerCreatures();
-        aux.PlayerID = 0;
 
         for (int i = 0; i < playerCreatures.Count; i++)
         {
-            if (playerCreatures[i].PlayerID == PlayerID)
+            if (playerCreatures[i].PlayerID == serverRpcParams.Receive.SenderClientId)
             {
                 aux.PlayerID = playerCreatures[i].PlayerID;
+                aux.creaturesCollected = playerCreatures[i].creaturesCollected;
+                aux.isFireCretureCollected = playerCreatures[i].isFireCretureCollected;
+                aux.isWaterCretureCollected = playerCreatures[i].isWaterCretureCollected;
+                aux.isEarthCretureCollected = playerCreatures[i].isEarthCretureCollected;
+                Debug.Log(" creature " + type);
                 switch (type)
                 {
                     case CreatureType.Fire:
-                        if (!aux.isFireCretureCollected)
+
+                        if (!playerCreatures[i].isFireCretureCollected)
                         {
+                            Debug.Log("Fire creature collected");
                             aux.isFireCretureCollected = true;
                             aux.creaturesCollected++;
                         }
                         break;
                     case CreatureType.Water:
-                        if (!aux.isWaterCretureCollected)
+                        if (!playerCreatures[i].isWaterCretureCollected)
                         {
                             aux.isWaterCretureCollected = true;
                             aux.creaturesCollected++;
                         }
                         break;
                     case CreatureType.Earth:
-                        if (!aux.isEarthCretureCollected)
+                        if (!playerCreatures[i].isEarthCretureCollected)
                         {
                             aux.isEarthCretureCollected = true;
                             aux.creaturesCollected++;
                         }
                         break;
                 }
-                playerCreatures[i].ChangeValues(aux);
+                playerCreatures[i] = aux;
+                Debug.Log("Aux creatures " + aux.creaturesCollected);
+                Invoke("CheckPlayersCreatures", 1f);
+                //CheckPlayersCreatures();
                 return;
             }
         }
 
         throw new Exception("Player is not registered in the list");
+        //}
     }
 
-    public bool CheckCollectedCreature(ulong PlayerID, CreatureType type)
+    public bool CheckCollectedCreature(CreatureType type, ServerRpcParams serverRpcParams = default)
     {
         bool isCreatureCollected = false;
         for (int i = 0; i < playerCreatures.Count; i++)
         {
-            if (playerCreatures[i].PlayerID == PlayerID)
+            if (playerCreatures[i].PlayerID == serverRpcParams.Receive.SenderClientId)
             {
                 switch (type)
                 {
@@ -166,18 +202,21 @@ public class PlayerCreatureHandler : NetworkBehaviour
         return isCreatureCollected;
     }
 
-    [ServerRpc]
-    private void CheckPlayersCreaturesServerRpc()
+
+    private void CheckPlayersCreatures()
     {
+
+
         for (int i = 0; i < playerCreatures.Count; i++)
         {
+            Debug.Log(playerCreatures[i].creaturesCollected);
             if (playerCreatures[i].creaturesCollected < 3)
             {
                 return;
             }
         }
-
         //Start part 2
+        Debug.Log("Start Part 2 server rpc " + playerCreatures.Count);
         StartPart2ClientRpc();
     }
 

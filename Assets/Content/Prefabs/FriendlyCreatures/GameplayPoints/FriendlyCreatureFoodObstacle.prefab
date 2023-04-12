@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstacleItemID: 3
+  creatureType: 3
 --- !u!54 &1307036942968934060
 Rigidbody:
   m_ObjectHideFlags: 0

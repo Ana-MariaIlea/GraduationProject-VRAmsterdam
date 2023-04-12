@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -80,14 +81,14 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
             if (doesPlayerHaveFood)
             {
                 // If the player has food, go to the player
-                if (minDist < 2f)
+                if (minDist > 2f)
                 {
-                    //playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
-                    playerTarget.GetComponentInChildren<PlayerVRGrabbing>().DestroyItemServerCall();
-                    BefriendCreature();
-                }
-                else
-                {
+                //    //playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
+                //    playerTarget.GetComponentInChildren<PlayerVRGrabbing>().DestroyItemServerCall();
+                //    BefriendCreature();
+                //}
+                //else
+                //{
                     meshAgent.SetDestination(playerTarget.transform.position);
                 }
             }
@@ -122,6 +123,33 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     protected override void HelpingBehaviour()
     {
 
+    }
+
+    //------------------------------------------------------------------------------
+    // </summary>
+    //     This function is called instead of BefriendCreature to have some delay for animations
+    // </summary>
+    //------------------------------------------------------------------------------
+    public void CreadureBefriendTransition(ulong playerID)
+    {
+        GameObject playerObj = NetworkManager.Singleton.ConnectedClients[playerID].PlayerObject.gameObject;
+        if (playerObj != null)
+        {
+            playerTarget = playerObj;
+        }
+
+        StartCoroutine(CreadureBefriendTransitionCorutine());
+    }
+    //------------------------------------------------------------------------------
+    // </summary>
+    //     Corutine used for animations when befriending the creature
+    // </summary>
+    //------------------------------------------------------------------------------
+    IEnumerator CreadureBefriendTransitionCorutine()
+    {
+        yield return null;
+
+        BefriendCreature();
     }
     //------------------------------------------------------------------------------
     // </summary>
