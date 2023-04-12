@@ -22,6 +22,9 @@ public class PlayerCreatureHandler : NetworkBehaviour
 
     private NetworkList<PlayerCreatures> playerCreatures;
 
+    public UnityEvent part2StartClient;
+    public UnityEvent part2StartServer;
+
     public struct PlayerCreatures : INetworkSerializable, IEquatable<PlayerCreatures>
     {
         public ulong PlayerID;
@@ -60,8 +63,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
 
     private void Awake()
     {
-        //if (IsServer)
-        //{
         if (Singleton == null)
         {
             Singleton = this;
@@ -71,14 +72,10 @@ public class PlayerCreatureHandler : NetworkBehaviour
         {
             Destroy(this);
         }
-        //}
     }
 
-    //[ServerRpc(RequireOwnership = false)]
     public void AddEmptyPlayerStructure(ServerRpcParams serverRpcParams = default)
     {
-        //if (IsServer)
-        //{
         Debug.Log("Add player structure ");
         PlayerCreatures playerCreature = new PlayerCreatures();
         playerCreature.PlayerID = serverRpcParams.Receive.SenderClientId;
@@ -88,15 +85,10 @@ public class PlayerCreatureHandler : NetworkBehaviour
         playerCreature.isEarthCretureCollected = false;
 
         playerCreatures.Add(playerCreature);
-        //}
     }
 
-
-    //[ServerRpc(RequireOwnership = false)]
     public void RemovePlayerStructure(ServerRpcParams serverRpcParams = default)
     {
-        //if (IsServer)
-        //{
         for (int i = 0; i < playerCreatures.Count; i++)
         {
             if (playerCreatures[i].PlayerID == serverRpcParams.Receive.SenderClientId)
@@ -107,14 +99,10 @@ public class PlayerCreatureHandler : NetworkBehaviour
         }
 
         throw new Exception("Player is not registered in the list");
-        //}
     }
 
-    //[ServerRpc(RequireOwnership = false)]
     public void CreatureCollected(CreatureType type, ServerRpcParams serverRpcParams = default)
     {
-        //if (IsServer)
-        //{
         Debug.Log("Creature collected server rpc " + playerCreatures.Count);
 
         PlayerCreatures aux = new PlayerCreatures();
@@ -164,7 +152,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
         }
 
         throw new Exception("Player is not registered in the list");
-        //}
     }
 
     public bool CheckCollectedCreature(CreatureType type, ulong PlayerID)
@@ -205,8 +192,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
 
     private void CheckPlayersCreatures()
     {
-
-
         for (int i = 0; i < playerCreatures.Count; i++)
         {
             Debug.Log(playerCreatures[i].creaturesCollected);
@@ -215,14 +200,16 @@ public class PlayerCreatureHandler : NetworkBehaviour
                 return;
             }
         }
-        //Start part 2
+
         Debug.Log("Start Part 2 server rpc " + playerCreatures.Count);
         StartPart2ClientRpc();
+        part2StartServer?.Invoke();
     }
 
     [ClientRpc]
     private void StartPart2ClientRpc()
     {
         Debug.Log("Start Part 2");
+        part2StartClient?.Invoke();
     }
 }

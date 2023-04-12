@@ -65,7 +65,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls = new PlayerInputActions();
             controls.Enable();
             BindInputActions();
-            
+            PlayerCreatureHandler.Singleton.part2StartClient.AddListener(Part2Start);
             //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
             base.OnNetworkSpawn();
         }
@@ -171,6 +171,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
     void Part2Start()
     {
+        Debug.Log("Part2start in vr grabbing");
         UnBindInputActions();
         controls.Disable();
         //GetComponent<SphereCollider>().enabled = false;
