@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 
-public class ChargingStationSpawnPoint : MonoBehaviour
+public class ChargingStationSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private GameObject chargingStationPrefab;
 
@@ -15,13 +15,6 @@ public class ChargingStationSpawnPoint : MonoBehaviour
     }
 
     private void Part2Start()
-    {
-        GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
-        station.GetComponent<NetworkObject>().Spawn(true);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    private void Part2StartServerRPC()
     {
         GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
         station.GetComponent<NetworkObject>().Spawn(true);

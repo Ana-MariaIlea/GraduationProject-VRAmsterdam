@@ -24,6 +24,12 @@ public class GrabbableItemManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("GetGrabbableItems", 2);
+        //GetGrabbableItems();
+    }
+
+    private void GetGrabbableItems()
+    {
         int indexID = 0;
         grabbableItems = FindObjectsOfType<GrabbableItem>().ToList();
         foreach (GrabbableItem grabbableItem in grabbableItems)
