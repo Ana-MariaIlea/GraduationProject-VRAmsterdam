@@ -98,7 +98,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         //PlayerCreatureHandler.Singleton.CreatureCollectedServerRpc(otherType);
 
         if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value &&
-            !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType))
+            !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType, OwnerClientId))
         {
             Debug.Log("Clear obstacle");
             CollectCreatureCallServerRPC(other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType);

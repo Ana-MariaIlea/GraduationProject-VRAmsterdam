@@ -167,12 +167,12 @@ public class PlayerCreatureHandler : NetworkBehaviour
         //}
     }
 
-    public bool CheckCollectedCreature(CreatureType type, ServerRpcParams serverRpcParams = default)
+    public bool CheckCollectedCreature(CreatureType type, ulong PlayerID)
     {
         bool isCreatureCollected = false;
         for (int i = 0; i < playerCreatures.Count; i++)
         {
-            if (playerCreatures[i].PlayerID == serverRpcParams.Receive.SenderClientId)
+            if (playerCreatures[i].PlayerID == PlayerID)
             {
                 switch (type)
                 {
