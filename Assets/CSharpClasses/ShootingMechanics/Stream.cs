@@ -15,7 +15,13 @@ public class Stream : PlayerHitObject
     private void OnParticleCollision(GameObject other)
     {
         //Also do damage
-        switch (other.tag)
+
+        AddScore(other.tag);
+    }
+
+    private void AddScore(string objectTag)
+    {
+        switch (objectTag)
         {
             case "Boss":
                 ScoreSystemManager.Instance.ScoreAddedToPlayer(shooterPlayerID);

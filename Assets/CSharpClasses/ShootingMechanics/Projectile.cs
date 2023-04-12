@@ -24,7 +24,13 @@ public class Projectile : PlayerHitObject
     private void OnTriggerEnter(Collider other)
     {
         //Also do damage
-        switch (other.tag)
+
+        AddScore(other.tag);
+    }
+
+    private void AddScore(string objectTag)
+    {
+        switch (objectTag)
         {
             case "Boss":
                 ScoreSystemManager.Instance.ScoreAddedToPlayer(shooterPlayerID);
