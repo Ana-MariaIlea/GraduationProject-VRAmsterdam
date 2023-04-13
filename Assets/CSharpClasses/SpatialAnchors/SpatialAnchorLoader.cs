@@ -1,6 +1,8 @@
 // (c) Meta Platforms, Inc. and affiliates. Confidential and proprietary.
 
 using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -16,6 +18,8 @@ using UnityEngine;
 /// </remarks>
 public class SpatialAnchorLoader : MonoBehaviour
 {
+    public TextMeshPro OutputTextPanel;
+
     [SerializeField]
     OVRSpatialAnchor _anchorPrefab;
 
@@ -35,20 +39,22 @@ public class SpatialAnchorLoader : MonoBehaviour
             return;
 
         var uuids = new Guid[playerUuidCount];
+        //Query found anchors in the Player preferences
         for (int i = 0; i < playerUuidCount; ++i)
         {
             var uuidKey = "uuid" + i;
-            var currentUuid = PlayerPrefs.GetString(uuidKey);
+            var currentUuid = PlayerPrefs.GetString(uuidKey);//get the "anchor.Uuid.ToString()" value
             Log("QueryAnchorByUuid: " + currentUuid);
 
-            uuids[i] = new Guid(currentUuid);
+            uuids[i] = new Guid(currentUuid);//put the anchor in "queue" so that all of them can be loaded later
         }
 
+        //Load all found anchors
         Load(new OVRSpatialAnchor.LoadOptions
         {
             Timeout = 0,
             StorageLocation = OVRSpace.StorageLocation.Local,
-            Uuids = uuids
+            Uuids = uuids /*list of uuids representing all anchors to load*/
         });
     }
 
@@ -87,7 +93,16 @@ public class SpatialAnchorLoader : MonoBehaviour
         }
 
         var pose = unboundAnchor.Pose;
-        var spatialAnchor = Instantiate(_anchorPrefab, pose.position, pose.rotation);
+
+        OVRSpatialAnchor anchorInstance = _anchorPrefab;
+        //Load index of assigned object index to spawn objects on the spatial anchor
+        anchorInstance.AssignedObjectId = PlayerPrefs.GetInt(unboundAnchor.Uuid.ToString());
+        if (OutputTextPanel != null) OutputTextPanel.text = "SA obj id: " + anchorInstance.AssignedObjectId.ToString();
+
+        var spatialAnchor = Instantiate(anchorInstance, pose.position, pose.rotation);
+        spatialAnchor.AssignedObjectId = PlayerPrefs.GetInt(unboundAnchor.Uuid.ToString());
+        if (OutputTextPanel != null) OutputTextPanel.text += " SA instance obj id: " + spatialAnchor.AssignedObjectId.ToString();
+
         unboundAnchor.BindTo(spatialAnchor);
 
         if (spatialAnchor.TryGetComponent<Anchor>(out var anchor))

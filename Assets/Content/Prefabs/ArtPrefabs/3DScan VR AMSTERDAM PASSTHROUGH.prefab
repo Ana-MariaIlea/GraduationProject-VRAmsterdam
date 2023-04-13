@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4806590627694826304
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8145071759005597098, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Column_3
+      objectReference: {fileID: 0}
+    - target: {fileID: -7631386183315928942, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Column_1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5968161060332640702, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: -5072689042886655450, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Game_zone
+      objectReference: {fileID: 0}
+    - target: {fileID: 895517152843532054, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Rest
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: 3DScan VR AMSTERDAM PASSTHROUGH
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636145316435174724, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Walls_play_area
+      objectReference: {fileID: 0}
+    - target: {fileID: 8636145316435174724, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8702197271813706756, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Column_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889715645808287754, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_Name
+      value: Ceiling
+      objectReference: {fileID: 0}
+    - target: {fileID: 8889715645808287754, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 540650609ed9f2f42beb06c5fa19f148, type: 3}

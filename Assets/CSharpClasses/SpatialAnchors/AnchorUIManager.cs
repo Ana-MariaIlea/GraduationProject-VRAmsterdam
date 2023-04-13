@@ -14,7 +14,7 @@ public class AnchorUIManager : MonoBehaviour
     /// <summary>
     /// Anchor UI manager singleton instance
     /// </summary>
-    public static AnchorUIManager Instance;
+    public static AnchorUIManager AnchorUIManagerInstance;
 
     /// <summary>
     /// Anchor Mode switches between create and select
@@ -67,13 +67,14 @@ public class AnchorUIManager : MonoBehaviour
 
     private bool _isFocused = true;
 
+
     #region Monobehaviour Methods
 
     private void Awake()
     {
-        if (Instance == null)
+        if (AnchorUIManagerInstance == null)
         {
-            Instance = this;
+            AnchorUIManagerInstance = this;
         }
         else
         {
@@ -122,7 +123,7 @@ public class AnchorUIManager : MonoBehaviour
     #region Menu UI Callbacks
 
     /// <summary>
-    /// Create mode button pressed UI callback. Referenced by the Create button in the menu.
+    /// 'Create mode' button pressed UI callback. Referenced by the Create button in the menu.
     /// </summary>
     public void OnCreateModeButtonPressed()
     {
