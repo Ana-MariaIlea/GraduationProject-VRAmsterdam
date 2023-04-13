@@ -39,7 +39,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Cutoff: 0.5
-    - _Depth: 0.08
+    - _Depth: 0.518
     - _DepthStrength: 0.805
     - _EdgeLength: 23.1
     - _Float1: 0.1
