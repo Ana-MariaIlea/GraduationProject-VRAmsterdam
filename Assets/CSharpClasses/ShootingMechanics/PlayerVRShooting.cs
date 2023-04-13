@@ -354,8 +354,6 @@ public class PlayerVRShooting : NetworkBehaviour
         }
     }
 
-
-
     private IEnumerator ShootSteamPartialCooldown(ControllerType controller)
     {
         if (controller == ControllerType.Left)

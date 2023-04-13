@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Content/Scenes/FinalScenes/POCScene.unity
     guid: 62fdf010961330845a089f85b889a2f7
   - enabled: 0
@@ -14,8 +14,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Content/Scenes/SpatialAnchors/SpatialAnchorsCreation.unity
     guid: dae6718858ea5ae4e92a1817a42b73fc
-  - enabled: 1
-    path: Assets/Content/Scenes/FinalScenes/POCScene 1.unity
+  - enabled: 0
+    path: Assets/Content/Scenes/SpatialAnchors/POCScene NetworkingPassthrough.unity
     guid: d5c430802f351bc49976cad3ba5ff0ce
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: df0f0ea6dcf0eff47880f6480d39859b, type: 2}
