@@ -58,6 +58,10 @@ public class PlayerVRShooting : NetworkBehaviour
             controls = new PlayerInputActions();
             controls.Enable();
         }
+        else
+        {
+            this.enabled = false;
+        }
     }
 
     public override void OnNetworkDespawn()
@@ -65,7 +69,7 @@ public class PlayerVRShooting : NetworkBehaviour
         if (IsOwner && IsClient)
         {
             base.OnNetworkDespawn();
-            PlayerDie();
+            //PlayerDieClientRpc();
             controls.Disable();
         }
     }
@@ -93,8 +97,7 @@ public class PlayerVRShooting : NetworkBehaviour
                 {
                     if (shootingVisuals[i].magicType == aux)
                     {
-                        currentDamage.Value = shootingVisuals[i].maxDamage;
-                        currentMaxDamage.Value = shootingVisuals[i].maxDamage;
+                        PlayerReviveServerRpc(shootingVisuals[i].maxDamage);
                         break;
                     }
                 }
@@ -400,6 +403,15 @@ public class PlayerVRShooting : NetworkBehaviour
         }
     }
 
+    [ServerRpc]
+    public void PlayerReviveServerRpc(float maxDamage)
+    {
+        currentDamage.Value = maxDamage;
+        currentMaxDamage.Value = maxDamage;
+        streamObjectLeft.GetComponent<Stream>().Damage = maxDamage;
+        streamObjectRight.GetComponent<Stream>().Damage = maxDamage;
+    }
+
     public void PlayerHit(int livesLeft)
     {
         currentDamage.Value = currentMaxDamage.Value - currentMaxDamage.Value / livesLeft;
@@ -407,7 +419,8 @@ public class PlayerVRShooting : NetworkBehaviour
         streamObjectRight.GetComponent<Stream>().Damage = currentDamage.Value;
     }
 
-    public void PlayerDie()
+    [ClientRpc]
+    public void PlayerDieClientRpc(ClientRpcParams clientRpcParams)
     {
         switch (shootingMode.Value)
         {
