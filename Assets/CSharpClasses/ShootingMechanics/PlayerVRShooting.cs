@@ -196,10 +196,11 @@ public class PlayerVRShooting : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void ShootProjectileServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float damage)
+    private void ShootProjectileServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float damage, ServerRpcParams serverRpcParams = default)
     {
         GameObject projectile = Instantiate(projectilePrefab, new Vector3(posX, posY, posZ), Quaternion.Euler(rotX, rotY, rotZ));
         projectile.GetComponent<Projectile>().Damage = damage;
+        projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
         projectile.GetComponent<NetworkObject>().Spawn();
     }
 
