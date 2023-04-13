@@ -32,7 +32,7 @@ public class Anchor : MonoBehaviour
     [SerializeField, FormerlySerializedAs("saveIcon_")]
     private GameObject _saveIcon;
     private bool _wasAnchorSaved = false;
-    
+
 
     [SerializeField, FormerlySerializedAs("labelImage_")]
     private Image _labelImage;
@@ -91,6 +91,7 @@ public class Anchor : MonoBehaviour
     private List<Button> _objectMenuButtonList;
 
     private const int _assignedObjectDefaultId = -1;
+
 
     #region Monobehaviour Methods
 
@@ -154,7 +155,7 @@ public class Anchor : MonoBehaviour
     {
         if (!_spatialAnchor) return;
 
-        if(_spatialAnchor.AssignedObjectId > _assignedObjectDefaultId)
+        if (_spatialAnchor.AssignedObjectId > _assignedObjectDefaultId)
         {
             DisableAllUIMenus();
 
@@ -200,7 +201,7 @@ public class Anchor : MonoBehaviour
         DisableAllUIMenus();
         EraseSpatialAnchorFromMemory();
     }
-    
+
 
     /// <summary>
     /// UI callback for the anchor menu's Assign Button
@@ -217,7 +218,6 @@ public class Anchor : MonoBehaviour
     #endregion // UI Event Listeners Anchor Menu
 
     #region UI Event Listeners Object Menu
-
     public void OnReturnBackButtonPressed()
     {
         if (!_spatialAnchor) return;
@@ -225,57 +225,12 @@ public class Anchor : MonoBehaviour
         _objectMenu.SetActive(false);
         _isAnchorMenuSelected = true;//navigate in the "Anchor" menu
     }
-
-    //public struct objectType
-    //{
-    //    public string BossSpawnPoint;
-    //}
-    //public objectType a = objectType.
-    //public void OnObjectButtonPressed()
-    //{
-    //
-    //}
-    public void OnPlayerSpawnPointButtonPressed()
+    public void OnObjectButtonPressed(int objectId)
     {
         if (_wasAnchorSaved)
             EraseSpatialAnchorFromMemory();
 
-        InstantiateObjectOnAnchor(0);
-    }
-    public void OnCreatureSpawnPointButtonPressed()
-    {
-        if (_wasAnchorSaved)
-            EraseSpatialAnchorFromMemory();
-
-        InstantiateObjectOnAnchor(1);
-    }
-    public void OnCreatureStationButtonPressed()
-    {
-        if (_wasAnchorSaved)
-            EraseSpatialAnchorFromMemory();
-
-        InstantiateObjectOnAnchor(2);
-    }
-    public void OnCreatureActionPointButtonPressed()
-    {
-        if (_wasAnchorSaved)
-            EraseSpatialAnchorFromMemory();
-
-        InstantiateObjectOnAnchor(3);
-    }
-    public void OnBossSpawnPointButtonPressed()
-    {
-        if (_wasAnchorSaved)
-            EraseSpatialAnchorFromMemory();
-
-        InstantiateObjectOnAnchor(4);
-    }
-    public void OnEnvironmentObjectButtonPressed()
-    {
-        if (_wasAnchorSaved)
-            EraseSpatialAnchorFromMemory();
-
-        InstantiateObjectOnAnchor(5);
+        InstantiateObjectOnAnchor(objectId);
     }
     public void OnDeleteObjectButtonPressed()
     {

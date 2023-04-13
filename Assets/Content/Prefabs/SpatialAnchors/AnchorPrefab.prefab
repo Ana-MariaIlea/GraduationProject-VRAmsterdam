@@ -1740,7 +1740,7 @@ GameObject:
   - component: {fileID: 2937337079370696732}
   - component: {fileID: 1522453332986773384}
   m_Layer: 5
-  m_Name: Single Pillar Vegetation Button
+  m_Name: Object Button (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1852,12 +1852,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnEnvironmentObjectButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 14
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2166,7 +2166,7 @@ GameObject:
   - component: {fileID: 3760784321752435775}
   - component: {fileID: 7685563042679173784}
   m_Layer: 5
-  m_Name: Earth Creature Button
+  m_Name: Object Button (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2278,12 +2278,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnCreatureActionPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 7
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2648,7 +2648,7 @@ GameObject:
   - component: {fileID: 1986007752127906316}
   - component: {fileID: 8690022118356710024}
   m_Layer: 5
-  m_Name: Fire item Button
+  m_Name: Object Button (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2760,12 +2760,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnBossSpawnPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 8
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2804,7 +2804,7 @@ GameObject:
   - component: {fileID: 6388477261627268760}
   - component: {fileID: 1862870047519373947}
   m_Layer: 5
-  m_Name: Single Tree Button
+  m_Name: Object Button (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2916,12 +2916,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnEnvironmentObjectButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 11
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3114,20 +3114,40 @@ MonoBehaviour:
   - {fileID: 3971821033611461386}
   _objectMenu: {fileID: 5026792392398827784}
   _availableObjects:
-  - {fileID: 5259938695968744478, guid: 3371e41008e26f8478426197d0fb1b11, type: 3}
-  - {fileID: 5259938695968744478, guid: 42fae682bc70cdc46b75228f2767a688, type: 3}
-  - {fileID: 5259938695968744478, guid: da518b6ebf85fdf40ad54152decaaa07, type: 3}
+  - {fileID: 7746822674788641769, guid: 2f9c8178bdd2a8441a11b0f60548c0f2, type: 3}
+  - {fileID: 649054386225508741, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
   - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
-  - {fileID: 5259938695968744478, guid: 9e1fb102df7087b4eb7c592cbdf814d5, type: 3}
-  - {fileID: 5259938695968744478, guid: c7de9cf1ac27d31479d9fb7e9f41dbdf, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
+  - {fileID: 5259938695968744478, guid: 8df8befbdda206443a2cc13d2e358793, type: 3}
   _objectMenuButtonList:
   - {fileID: 9034816777037653021}
   - {fileID: 8566918584156175903}
   - {fileID: 8380512917462493093}
   - {fileID: 6825233861505669892}
+  - {fileID: 5195267820008277791}
+  - {fileID: 7752373099280243417}
   - {fileID: 9019270868663020953}
+  - {fileID: 8504862072375641356}
+  - {fileID: 3760784321752435775}
   - {fileID: 1986007752127906316}
+  - {fileID: 5310871721519094043}
+  - {fileID: 7196287469715764072}
   - {fileID: 6388477261627268760}
+  - {fileID: 7413235637549384131}
+  - {fileID: 8896283678891775138}
+  - {fileID: 2937337079370696732}
+  - {fileID: 8281223435946287707}
   - {fileID: 8932962467706224340}
 --- !u!1 &3851626327692240584
 GameObject:
@@ -3378,7 +3398,7 @@ GameObject:
   - component: {fileID: 5310871721519094043}
   - component: {fileID: 9143452730074038800}
   m_Layer: 5
-  m_Name: Water item Button
+  m_Name: Object Button (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3490,12 +3510,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnBossSpawnPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 9
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3610,7 +3630,7 @@ GameObject:
   - component: {fileID: 7752373099280243417}
   - component: {fileID: 294242305139885026}
   m_Layer: 5
-  m_Name: Earth Creature Station Button
+  m_Name: Object Button (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3722,12 +3742,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnCreatureStationButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4408,7 +4428,7 @@ GameObject:
   - component: {fileID: 9019270868663020953}
   - component: {fileID: 4693593509010085811}
   m_Layer: 5
-  m_Name: Fire Creature Button
+  m_Name: Object Button (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4520,12 +4540,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnCreatureActionPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 5
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -4896,7 +4916,7 @@ GameObject:
   - component: {fileID: 5195267820008277791}
   - component: {fileID: 6928803476135617182}
   m_Layer: 5
-  m_Name: Water Creature Station Button
+  m_Name: Object Button (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5008,12 +5028,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnCreatureStationButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5322,7 +5342,7 @@ GameObject:
   - component: {fileID: 7413235637549384131}
   - component: {fileID: 4877535037829008873}
   m_Layer: 5
-  m_Name: Single Bush Button
+  m_Name: Object Button (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5434,12 +5454,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnEnvironmentObjectButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 12
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -5984,7 +6004,7 @@ GameObject:
   - component: {fileID: 8896283678891775138}
   - component: {fileID: 4819483365837155215}
   m_Layer: 5
-  m_Name: Single Ground Grass Button
+  m_Name: Object Button (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6096,12 +6116,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnEnvironmentObjectButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 13
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6140,7 +6160,7 @@ GameObject:
   - component: {fileID: 8281223435946287707}
   - component: {fileID: 3991591518954901196}
   m_Layer: 5
-  m_Name: Vegetation Group Button
+  m_Name: Object Button (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6252,12 +6272,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnEnvironmentObjectButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 15
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6431,7 +6451,7 @@ GameObject:
   - component: {fileID: 6825233861505669892}
   - component: {fileID: 5563492024831909991}
   m_Layer: 5
-  m_Name: Fire Creature Station Button
+  m_Name: Object Button (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6543,12 +6563,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnCreatureStationButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -6722,7 +6742,7 @@ GameObject:
   - component: {fileID: 8380512917462493093}
   - component: {fileID: 2160620249912874286}
   m_Layer: 5
-  m_Name: Minion object Button
+  m_Name: Object Button (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6834,12 +6854,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnCreatureSpawnPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -7667,7 +7687,7 @@ GameObject:
   - component: {fileID: 8504862072375641356}
   - component: {fileID: 2501791910544673968}
   m_Layer: 5
-  m_Name: Water Creature Button
+  m_Name: Object Button (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7779,12 +7799,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnCreatureActionPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 6
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8378,7 +8398,7 @@ GameObject:
   - component: {fileID: 7196287469715764072}
   - component: {fileID: 1615134482157618302}
   m_Layer: 5
-  m_Name: Earth item Button
+  m_Name: Object Button (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8490,12 +8510,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnBossSpawnPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 10
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8745,7 +8765,7 @@ GameObject:
   - component: {fileID: 8566918584156175903}
   - component: {fileID: 7519238223342711468}
   m_Layer: 5
-  m_Name: Boss Spawn Point Button
+  m_Name: Object Button (0)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8857,8 +8877,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5917582496750555857}
         m_TargetAssemblyTypeName: Anchor, Assembly-CSharp
-        m_MethodName: OnPlayerSpawnPointButtonPressed
-        m_Mode: 1
+        m_MethodName: OnObjectButtonPressed
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
