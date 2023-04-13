@@ -174,9 +174,13 @@ public class Anchor : MonoBehaviour
                     PlayerPrefs.SetInt(NumUuidsPlayerPref, 0);
                 }
 
-                int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);//returns 0
+                int playerNumUuids = PlayerPrefs.GetInt(NumUuidsPlayerPref);
                 PlayerPrefs.SetString("uuid" + playerNumUuids, anchor.Uuid.ToString());//"anchor number", actual uuid of this anchor
                 PlayerPrefs.SetInt(NumUuidsPlayerPref, ++playerNumUuids);//increase the total number of Uuids that are saved in the Player Preferences
+                //Iteration example:
+                //1. There are no anchors saved. Saving anchor as "uuid0". NumUuidsPlayerPref = 1.
+                //2. There is 1 anchor saved. Saving anchor as "uuid1". NumUuidsPlayerPref = 2.
+                //3. There is 2 anchor saved. Saving anchor as "uuid2". NumUuidsPlayerPref = 3.
 
                 PlayerPrefs.SetInt(anchor.Uuid.ToString(), _spatialAnchor.AssignedObjectId);
             });
@@ -245,12 +249,12 @@ public class Anchor : MonoBehaviour
 
     public bool ShowSaveIcon
     {
+        //Is set from SpatialAnchorLoader
         set
         {
             _saveIcon.SetActive(value);
-            _wasAnchorSaved= true;
+            _wasAnchorSaved = true;
         }
-            
     }
     public bool WasAnchorSaved
     {

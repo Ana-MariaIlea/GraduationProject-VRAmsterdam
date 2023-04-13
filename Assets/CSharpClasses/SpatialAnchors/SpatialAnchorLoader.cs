@@ -23,20 +23,19 @@ public class SpatialAnchorLoader : MonoBehaviour
     [SerializeField]
     OVRSpatialAnchor _anchorPrefab;
 
-    Action<OVRSpatialAnchor.UnboundAnchor, bool> _onLoadAnchor;
+    Action<OVRSpatialAnchor.UnboundAnchor, bool> _onLoadAnchor;//delegate for a function with parameters
 
     public void LoadAnchorsByUuid()
     {
         // Get number of saved anchor uuids
         if (!PlayerPrefs.HasKey(Anchor.NumUuidsPlayerPref))
-        {
             PlayerPrefs.SetInt(Anchor.NumUuidsPlayerPref, 0);
-        }
 
         var playerUuidCount = PlayerPrefs.GetInt("numUuids");
-        Log($"Attempting to load {playerUuidCount} saved anchors.");
+            Log($"Attempting to load {playerUuidCount} saved anchors.");
         if (playerUuidCount == 0)
             return;
+
 
         var uuids = new Guid[playerUuidCount];
         //Query found anchors in the Player preferences
@@ -61,6 +60,7 @@ public class SpatialAnchorLoader : MonoBehaviour
     private void Awake()
     {
         _onLoadAnchor = OnLocalized;
+        Debug.Assert( _anchorPrefab = null, $"{this.name}: _anchorPrefab reference to an OVRSpatialAnchor is not defined!");
     }
 
     private void Load(OVRSpatialAnchor.LoadOptions options) => OVRSpatialAnchor.LoadUnboundAnchors(options, anchors =>
@@ -79,7 +79,7 @@ public class SpatialAnchorLoader : MonoBehaviour
             }
             else if (!anchor.Localizing)
             {
-                anchor.Localize(_onLoadAnchor);
+                anchor.Localize(_onLoadAnchor);//delegate, OnLocalized function gets called
             }
         }
     });
@@ -93,23 +93,15 @@ public class SpatialAnchorLoader : MonoBehaviour
         }
 
         var pose = unboundAnchor.Pose;
-
-        OVRSpatialAnchor anchorInstance = _anchorPrefab;
-        //Load index of assigned object index to spawn objects on the spatial anchor
-        anchorInstance.AssignedObjectId = PlayerPrefs.GetInt(unboundAnchor.Uuid.ToString());
-        if (OutputTextPanel != null) OutputTextPanel.text = "SA obj id: " + anchorInstance.AssignedObjectId.ToString();
-
-        var spatialAnchor = Instantiate(anchorInstance, pose.position, pose.rotation);
+        
+        var spatialAnchor = Instantiate(_anchorPrefab, pose.position, pose.rotation);
         spatialAnchor.AssignedObjectId = PlayerPrefs.GetInt(unboundAnchor.Uuid.ToString());
-        if (OutputTextPanel != null) OutputTextPanel.text += " SA instance obj id: " + spatialAnchor.AssignedObjectId.ToString();
-
         unboundAnchor.BindTo(spatialAnchor);
 
+        //Check if anchor was loaded & exists in persistent storage.
         if (spatialAnchor.TryGetComponent<Anchor>(out var anchor))
-        {
-            // We just loaded it, so we know it exists in persistent storage.
             anchor.ShowSaveIcon = true;
-        }
+        
     }
 
     private static void Log(string message) => Debug.Log($"[SpatialAnchorsUnity]: {message}");
