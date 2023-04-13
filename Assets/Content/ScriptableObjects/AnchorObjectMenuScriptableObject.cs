@@ -39,28 +39,4 @@ public class AnchorObjectMenuScriptableObject : ScriptableObject
     public int pillarVegetationMaxNum = -1;
 
     #endregion
-
-    //public enum AnchorObjectTypes
-    //{
-    //    BossSpawnPoint = 0,
-    //    MinionObject = 1,
-    //
-    //    FireCreatureStation = 2,
-    //    WaterCreatureStation = 3,
-    //    EarthCreatureStation = 4,
-    //
-    //    FireCreature = 5,
-    //    WaterCreature = 6,
-    //    EarthCreature = 7,
-    //
-    //    FireItem = 8,
-    //    WaterItem = 9,
-    //    EarthItem = 10,
-    //
-    //    SingleTree = 11,
-    //    SingleBush = 12,
-    //    SingleGroundGrass = 13,
-    //    SinglePillarVegetation = 14,
-    //    VegetationGroup = 15
-    //};
 }
