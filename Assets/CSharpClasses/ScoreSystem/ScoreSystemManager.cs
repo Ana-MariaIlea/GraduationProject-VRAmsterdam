@@ -1,6 +1,8 @@
 using Oculus.Platform.Samples.VrHoops;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
@@ -10,46 +12,53 @@ using UnityEngine;
 //     collisdes with an enemy.
 // </summary>
 //------------------------------------------------------------------------------
-public class ScoreSystemManager : MonoBehaviour
+public class ScoreSystemManager : NetworkBehaviour
 {
-    public static ScoreSystemManager Instance;
-    private List<PlayerIndividualScore> scoreList = new List<PlayerIndividualScore>();
-    public class PlayerIndividualScore
+    public static ScoreSystemManager Singleton;
+    private NetworkList<PlayerIndividualScore> scoreList;
+    public struct PlayerIndividualScore : INetworkSerializable, IEquatable<PlayerIndividualScore>
     {
-        public int playerID; //change to network connection
+        public ulong playerID; 
         public float score;
+
+        public bool Equals(PlayerIndividualScore other)
+        {
+            return playerID == other.playerID && score == other.score;
+        }
+
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref playerID);
+            serializer.SerializeValue(ref score);
+        }
     }
 
     private void Awake()
     {
-        if (Instance == null)
+        if (Singleton == null)
         {
-            Instance = this;
+            Singleton = this;
+            scoreList = new NetworkList<PlayerIndividualScore>();
         }
         else
         {
             Destroy(this);
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        NewPlayerConnected(0);
-    }
 
-    public void NewPlayerConnected(int playerID)
+    public void NewPlayerConnected(ServerRpcParams serverRpcParams = default)
     {
         PlayerIndividualScore playerIndividualScore = new PlayerIndividualScore();
-        playerIndividualScore.playerID = playerID;
+        playerIndividualScore.playerID = serverRpcParams.Receive.SenderClientId;
         playerIndividualScore.score = 0;
         scoreList.Add(playerIndividualScore);
     }
 
-    public void PlayerDisonnected(int playerID)
+    public void PlayerDisonnected(ServerRpcParams serverRpcParams = default)
     {
         for (int i = 0; i < scoreList.Count; i++)
         {
-            if (scoreList[i].playerID == playerID)
+            if (scoreList[i].playerID == serverRpcParams.Receive.SenderClientId)
             {
                 scoreList.RemoveAt(i);
                 return;
@@ -57,17 +66,15 @@ public class ScoreSystemManager : MonoBehaviour
         }
     }
 
-    public void ScoreAddedToPlayer(int playerID, int scoreIncrease = 10)
+    public void ScoreAddedToPlayer(ulong playerID, int scoreIncrease = 10)
     {
         for (int i = 0; i < scoreList.Count; i++)
         {
             if (scoreList[i].playerID == playerID)
             {
-                scoreList[i].score += scoreIncrease;
+                //scoreList[i].score += scoreIncrease;
                 return;
             }
         }
     }
-
-
 }

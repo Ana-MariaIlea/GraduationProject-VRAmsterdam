@@ -33,16 +33,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
         public bool isWaterCretureCollected;
         public bool isEarthCretureCollected;
 
-        public void ChangeValues(PlayerCreatures other)
-        {
-            if (other.PlayerID == PlayerID)
-            {
-                creaturesCollected = other.creaturesCollected;
-                isFireCretureCollected = other.isFireCretureCollected;
-                isWaterCretureCollected = other.isWaterCretureCollected;
-                isEarthCretureCollected = other.isEarthCretureCollected;
-            }
-        }
         public bool Equals(PlayerCreatures other)
         {
             return PlayerID == other.PlayerID && creaturesCollected == other.creaturesCollected &&

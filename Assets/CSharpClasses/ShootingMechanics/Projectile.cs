@@ -33,10 +33,10 @@ public class Projectile : PlayerHitObject
         switch (objectTag)
         {
             case "Boss":
-                ScoreSystemManager.Instance.ScoreAddedToPlayer(shooterPlayerID);
+                ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
                 break;
             case "Miniboss":
-                ScoreSystemManager.Instance.ScoreAddedToPlayer(shooterPlayerID);
+                ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
                 break;
         }
     }
