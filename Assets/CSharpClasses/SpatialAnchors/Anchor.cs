@@ -216,7 +216,7 @@ public class Anchor : MonoBehaviour
 
     #endregion // UI Event Listeners Anchor Menu
 
-    #region UI Event Listeners Assign Anchor Menu
+    #region UI Event Listeners Object Menu
 
     public void OnReturnBackButtonPressed()
     {
@@ -225,6 +225,16 @@ public class Anchor : MonoBehaviour
         _objectMenu.SetActive(false);
         _isAnchorMenuSelected = true;//navigate in the "Anchor" menu
     }
+
+    //public struct objectType
+    //{
+    //    public string BossSpawnPoint;
+    //}
+    //public objectType a = objectType.
+    //public void OnObjectButtonPressed()
+    //{
+    //
+    //}
     public void OnPlayerSpawnPointButtonPressed()
     {
         if (_wasAnchorSaved)
@@ -439,7 +449,7 @@ public class Anchor : MonoBehaviour
         _selectedButton.OnSelect(null);
     }
 
-    // Assign Anchor Menu
+    // Object Menu
     private void HandleAssignMenuNavigation()
     {
         if (!_isAnchorSelected || _isAnchorMenuSelected)
