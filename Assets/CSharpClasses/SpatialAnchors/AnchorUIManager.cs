@@ -140,6 +140,12 @@ public class AnchorUIManager : MonoBehaviour
         GetComponent<SpatialAnchorLoader>().LoadAnchorsByUuid();
     }
 
+    public void OnExportFileButtonPressed()
+    {
+        AnchorIMEXManager anchorIMEX = this.GetComponent<AnchorIMEXManager>();
+        anchorIMEX.ExportFile();
+    }
+
     #endregion // Menu UI Callbacks
 
     #region Mode Handling

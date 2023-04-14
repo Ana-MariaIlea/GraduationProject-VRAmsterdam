@@ -18,7 +18,6 @@ using UnityEngine;
 /// </remarks>
 public class SpatialAnchorLoader : MonoBehaviour
 {
-    public TextMeshPro OutputTextPanel;
 
     [SerializeField]
     OVRSpatialAnchor _anchorPrefab;
