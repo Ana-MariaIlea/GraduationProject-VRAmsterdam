@@ -100,8 +100,12 @@ public class SpatialAnchorLoader : MonoBehaviour
 
         //Check if anchor was loaded & exists in persistent storage.
         if (spatialAnchor.TryGetComponent<Anchor>(out var anchor))
+        {
             anchor.ShowSaveIcon = true;
-        
+            // TO DO:
+            // make the anchor save itself when loading anchors from external file.
+        }
+                
     }
 
     private static void Log(string message) => Debug.Log($"[SpatialAnchorsUnity]: {message}");

@@ -249,6 +249,7 @@ GameObject:
   - component: {fileID: 1009390772}
   - component: {fileID: 1009390774}
   - component: {fileID: 1009390773}
+  - component: {fileID: 1009390775}
   m_Layer: 0
   m_Name: SpatialAnchorsManager
   m_TagString: Untagged
@@ -290,7 +291,7 @@ MonoBehaviour:
   _buttonList:
   - {fileID: 1733517867}
   - {fileID: 928000184}
-  - {fileID: 1028384980}
+  - {fileID: 0}
   _anchorPrefab: {fileID: 5917582496750555857, guid: 62a5980b334f9f74db8f96acfc273085, type: 3}
   _placementPreview: {fileID: 6927829253101326504}
   _anchorPlacementTransform: {fileID: 6927829253101326503}
@@ -308,15 +309,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OutputTextPanel: {fileID: 1570299719}
   _anchorPrefab: {fileID: 1164505398256867733, guid: 62a5980b334f9f74db8f96acfc273085, type: 3}
---- !u!114 &1028384980 stripped
+--- !u!114 &1009390775
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6927829253155321970, guid: c1c8f92d3374f764d91c943d0fb740bf, type: 3}
-  m_PrefabInstance: {fileID: 6927829253101326502}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1009390771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: c075b45c9c052674fbdb21e19aeaab3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1032073387 stripped
