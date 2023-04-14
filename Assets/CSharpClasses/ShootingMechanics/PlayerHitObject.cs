@@ -6,7 +6,7 @@ using Unity.Netcode;
 public abstract class PlayerHitObject : NetworkBehaviour
 {
     protected float damage;
-    protected ulong shooterPlayerID;
+    [SerializeField]protected ulong shooterPlayerID;
 
     public float Damage
     {
