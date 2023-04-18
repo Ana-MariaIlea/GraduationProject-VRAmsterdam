@@ -1,11 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.LowLevel;
-using static TMPro.TMP_Compatibility;
 
 public enum ControllerType
 {
@@ -21,9 +17,9 @@ public enum ControllerType
 public class PlayerVRGrabbing : NetworkBehaviour
 {
     [SerializeField] ControllerType controllerType;
-    [SerializeField] private Vector3 grabbingGlobalOffset = new Vector3(0, -0.5f, 0);
+
     [SerializeField] private Transform anchor;
-    private Vector3 anchorPosition = new Vector3(0, -0.5f, 0);
+    private NetworkVariable<Vector3> anchorPositionNetworked = new NetworkVariable<Vector3>(Vector3.zero, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     private PlayerInputActions controls;
 
@@ -31,9 +27,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     private NetworkVariable<ItemID> grabedItemID = new NetworkVariable<ItemID>(ItemID.None);
     private Vector3 grabedItemOffset = Vector3.zero;
     private NetworkVariable<bool> grabbing = new NetworkVariable<bool>(false);
-
-    private Coroutine updateAnchorPositionCorutine = null;
-    //private bool grabbing = false;
 
     public GrabbableItem GrabedItem
     {
@@ -66,12 +59,10 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls.Enable();
             BindInputActions();
             PlayerCreatureHandler.Singleton.part2StartClient.AddListener(Part2Start);
-            //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
             base.OnNetworkSpawn();
         }
         else
         {
-            //GetComponent<SphereCollider>().enabled = false;
             this.enabled = false;
         }
 
@@ -95,8 +86,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         CreatureType otherType = other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType;
 
-        //PlayerCreatureHandler.Singleton.CreatureCollectedServerRpc(otherType);
-
         if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value &&
             !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType, OwnerClientId))
         {
@@ -105,7 +94,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleClearedServerRpc();
             DestroyItemServerRPC();
         }
-        
+
     }
 
     [ServerRpc]
@@ -123,14 +112,13 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
     public void DestroyItemServerCall()
     {
-        //Debug.Log("Destroy item");
         StartCoroutine(DestroyItemCorutine());
     }
     private IEnumerator DestroyItemCorutine()
     {
         GrabbableItem aux = grabedItem;
         ReleaseItemServerCall();
-        yield return new WaitForSeconds(.2f);
+        yield return new WaitForFixedUpdate();
         GrabbableItemManager.Singleton.RemoveGivenObject(aux);
         aux.GetComponent<NetworkObject>().Despawn();
         Destroy(aux.gameObject);
@@ -169,12 +157,17 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls.PlayerPart1.GrabbingRight.canceled -= ResealseItem;
         }
     }
+
+    private void Update()
+    {
+        if (!IsServer)
+            anchorPositionNetworked.Value = anchor.position;
+    }
     void Part2Start()
     {
         Debug.Log("Part2start in vr grabbing");
         UnBindInputActions();
         controls.Disable();
-        //GetComponent<SphereCollider>().enabled = false;
         this.enabled = false;
     }
 
@@ -182,100 +175,70 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         if (grabedItem != null)
         {
-            GrabItemServerRPC(grabedItem.IItemID, grabedItem.ObjectID);
+            GrabItemServerRPC(grabedItem.ObjectID);
         }
     }
 
     [ServerRpc]
-    private void GrabItemServerRPC(ItemID id, int ObjectID)
+    private void GrabItemServerRPC(int ObjectID, ServerRpcParams serverRpcParams = default)
     {
         grabedItem = GrabbableItemManager.Singleton.FindGivenObject(ObjectID);
         if (grabedItem != null)
         {
-            grabedItemID.Value = id;
+            grabedItemID.Value = grabedItem.IItemID;
             grabbing.Value = true;
-            //if (GetComponentInParent<PlayerCreatureHandler>().IsFireCretureCollected)
-            //grabedItemID.Value = ItemID.None;
 
-            grabedItem.gameObject.GetComponent<SphereCollider>().enabled = false;
-            GrabItemClientRPC();
-
-            StartCoroutine(GrabbingObjectCorutineServer());
+            grabedItem.GetComponent<NetworkObject>().ChangeOwnership(serverRpcParams.Receive.SenderClientId);
+            GrabClientRpc();
         }
+    }
+
+    [ClientRpc]
+    private void GrabClientRpc()
+    {
+        StartCoroutine(GrabbingObjectCorutineServer());
     }
 
     private IEnumerator GrabbingObjectCorutineServer()
     {
-        yield return new WaitForSeconds(.2f);
-        grabedItemOffset = anchorPosition - grabedItem.transform.position;
-
+        
+        yield return new WaitForFixedUpdate();
+        grabedItemOffset = grabedItem.transform.position - anchor.position;
+        
         while (grabbing.Value)
         {
-            grabedItem.transform.position = anchorPosition + grabedItemOffset;
+            grabedItem.transform.position = anchor.position + grabedItemOffset;
             yield return null;
         }
-    }
-
-    [ClientRpc]
-    private void GrabItemClientRPC()
-    {
-        if (updateAnchorPositionCorutine == null)
-            updateAnchorPositionCorutine = StartCoroutine(GrabbingObjectCorutineClient());
-    }
-    private IEnumerator GrabbingObjectCorutineClient()
-    {
-        yield return new WaitForSeconds(.1f);
-        while (grabbing.Value)
-        {
-            SetAnchorServerRPC(anchor.position.x, anchor.position.y - 0.5f, anchor.position.z);
-            yield return null;
-        }
-    }
-
-    [ServerRpc]
-    private void SetAnchorServerRPC(float x, float y, float z)
-    {
-        anchorPosition = new Vector3(x, y, z);
     }
 
     void ResealseItem(InputAction.CallbackContext ctx)
     {
-        ResleaseItemServerRPC();
+        if (grabedItem != null)
+        {
+            ResleaseItemServerRPC();
+        }
+        
     }
 
     public void ReleaseItemServerCall()
     {
-        //ResleaseItemServerRPC();
         if (grabedItem != null)
         {
-            //Debug.Log("Release item");
+            grabedItem.GetComponent<NetworkObject>().RemoveOwnership();
             grabbing.Value = false;
             grabedItemID.Value = ItemID.None;
-            grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
-            ReleaseItemClientRPC();
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc]
     private void ResleaseItemServerRPC()
     {
         if (grabedItem != null)
         {
-            Debug.Log("Release item");
+            grabedItem.GetComponent<NetworkObject>().RemoveOwnership();
             grabbing.Value = false;
             grabedItemID.Value = ItemID.None;
-            grabedItem.gameObject.GetComponent<SphereCollider>().enabled = true;
-            ReleaseItemClientRPC();
-        }
-    }
-
-    [ClientRpc]
-    private void ReleaseItemClientRPC()
-    {
-        if (updateAnchorPositionCorutine != null)
-        {
-            StopCoroutine(updateAnchorPositionCorutine);
-            updateAnchorPositionCorutine = null;
         }
     }
 }

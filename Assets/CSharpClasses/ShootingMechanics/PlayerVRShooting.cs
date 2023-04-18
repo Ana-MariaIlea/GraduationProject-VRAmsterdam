@@ -57,6 +57,7 @@ public class PlayerVRShooting : NetworkBehaviour
             base.OnNetworkSpawn();
             controls = new PlayerInputActions();
             controls.Enable();
+            PlayerCreatureHandler.Singleton.part2StartServer.AddListener(Part2Start);
         }
         else
         {
@@ -156,6 +157,12 @@ public class PlayerVRShooting : NetworkBehaviour
             }
         }
     }
+
+    private void Part2Start()
+    {
+        GetComponent<CapsuleCollider>().enabled = true;
+    }
+
     private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)
     {
         StartCoroutine(ShootProjectile(ControllerType.Left));
