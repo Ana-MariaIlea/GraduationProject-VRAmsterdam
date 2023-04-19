@@ -1,8 +1,4 @@
-using OculusSampleFramework;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
@@ -16,6 +12,7 @@ public class PlayerVRMovement : NetworkBehaviour
 {
     [SerializeField] private Transform CameraRig;
     [SerializeField] private Transform Head;
+    
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
