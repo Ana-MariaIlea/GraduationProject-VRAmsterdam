@@ -36,11 +36,12 @@ public class PlayerVRShield : NetworkBehaviour
     {
         if (VisualIndication.activeSelf)
         {
+            SetShieldVisibilityServerRpc(false);
             VisualIndication.SetActive(false);
-            //StopCoroutine(MoveShiledCorutine());
         }
         else
         {
+            SetShieldVisibilityServerRpc(true);
             VisualIndication.SetActive(true);
             StartCoroutine(MoveShiledCorutine());
         }
@@ -50,7 +51,34 @@ public class PlayerVRShield : NetworkBehaviour
         while (VisualIndication.activeSelf)
         {
             VisualIndication.transform.position = anchor.position;
+            MoveShieldServerRpc(VisualIndication.transform.position);
             yield return null;
         }
+    }
+
+    [ServerRpc]
+    private void SetShieldVisibilityServerRpc(bool isActive)
+    {
+        VisualIndication.SetActive(isActive);
+        SetShieldVisibilityClientRpc(isActive);
+    }
+
+    [ClientRpc]
+    private void SetShieldVisibilityClientRpc(bool isActive)
+    {
+        VisualIndication.SetActive(isActive);
+    }
+
+    [ServerRpc]
+    private void MoveShieldServerRpc(Vector3 position)
+    {
+        VisualIndication.transform.position = position;
+        MoveShieldClientRpc(position);
+    }
+
+    [ClientRpc]
+    private void MoveShieldClientRpc(Vector3 position)
+    {
+        VisualIndication.transform.position = position;
     }
 }
