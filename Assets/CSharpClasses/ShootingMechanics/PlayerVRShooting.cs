@@ -124,16 +124,16 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         if (controls != null && shootingMode.Value != ShootingMode.Stream)
         {
-            controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
+            //controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
             controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
 
-            controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
+            //controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
             controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
 
             if (shootingMode.Value == ShootingMode.Projectile)
             {
                 Debug.Log("disable projectile");
-                controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
+                //controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
             }
         }
@@ -143,16 +143,16 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         if (controls != null && shootingMode.Value != ShootingMode.Projectile)
         {
-            controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
+            //controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
             controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
             if (shootingMode.Value == ShootingMode.Stream)
             {
                 Debug.Log("disable stream");
 
-                controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
+                //controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
                 controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
 
-                controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
+                //controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
                 controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
             }
         }

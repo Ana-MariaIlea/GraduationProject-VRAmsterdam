@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Content/Scenes/TestScenes/MapDesign_Marc.unity
     guid: 8f4246f0f63e60d4381f4f92046c8043
-  - enabled: 1
+  - enabled: 0
     path: Assets/Content/Scenes/SpatialAnchors/SpatialAnchorsCreation.unity
     guid: dae6718858ea5ae4e92a1817a42b73fc
   - enabled: 0
