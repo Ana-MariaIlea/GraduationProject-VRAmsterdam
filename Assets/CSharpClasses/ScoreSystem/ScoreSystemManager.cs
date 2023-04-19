@@ -72,7 +72,10 @@ public class ScoreSystemManager : NetworkBehaviour
         {
             if (scoreList[i].playerID == playerID)
             {
-                //scoreList[i].score += scoreIncrease;
+                PlayerIndividualScore newScore;
+                newScore.playerID = scoreList[i].playerID;
+                newScore.score = scoreList[i].score + scoreIncrease;
+                scoreList[i] = newScore;
                 return;
             }
         }
