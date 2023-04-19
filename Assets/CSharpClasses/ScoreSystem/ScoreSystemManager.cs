@@ -80,4 +80,18 @@ public class ScoreSystemManager : NetworkBehaviour
             }
         }
     }
+
+    private void CalcLeaderboard()
+    {
+        List<float> sortedScores = new List<float>();
+        for (int i = 0; i < scoreList.Count; i++)
+        {
+            sortedScores.Add(scoreList[i].score);
+        }
+
+        //sortedScores.Sort();
+        sortedScores.Sort((p1, p2) => p1.CompareTo(p2));
+
+        //ClientRpc Update UI with leaderboard
+    }
 }
