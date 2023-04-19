@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 8792037398906525575}
   - component: {fileID: 6168832689911919894}
   - component: {fileID: 1822232012088383732}
+  - component: {fileID: 3422227897943739575}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -279,11 +280,11 @@ CapsuleCollider:
   m_GameObject: {fileID: 2795337031691148671}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 2
+  m_Enabled: 1
+  m_Radius: 0.2
+  m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &4652526802611769945
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -368,16 +369,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraRig: {fileID: 1844976261673411005}
   Head: {fileID: 1844976261673411003}
-  LeftHand:
-    vrTarget: {fileID: 1844976261673459819}
-    rigTarget: {fileID: 6383353066500939654}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 90, z: 45}
-  RightHand:
-    vrTarget: {fileID: 1844976261673456751}
-    rigTarget: {fileID: 3335810382831831318}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: -90, z: -45}
 --- !u!114 &1822232012088383732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +381,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71d89f818bd43d4bb9870551e5a5836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3422227897943739575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795337031691148671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4eb3f4fc25845545972faec385980aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftHand:
+    vrTarget: {fileID: 1844976261673459819}
+    rigTarget: {fileID: 6383353066500939654}
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 90, z: 45}
+  RightHand:
+    vrTarget: {fileID: 1844976261673456751}
+    rigTarget: {fileID: 3335810382831831318}
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: -45}
+  HeadRigTarget: {fileID: 8375235398103602861}
+  HeadVRTarget: {fileID: 1844976261673411003}
+  HeadOffset: {x: 0, y: -0.8, z: 0}
 --- !u!1 &3671013407241365419
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,7 +895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.61
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2119,7 +2135,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a267198278036f74aa9244da1c280e85, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.055
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a267198278036f74aa9244da1c280e85, type: 3}
       propertyPath: m_LocalPosition.z

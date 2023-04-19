@@ -1,8 +1,4 @@
-using OculusSampleFramework;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
@@ -16,23 +12,7 @@ public class PlayerVRMovement : NetworkBehaviour
 {
     [SerializeField] private Transform CameraRig;
     [SerializeField] private Transform Head;
-    [SerializeField] private VRMap LeftHand;
-    [SerializeField] private VRMap RightHand;
-
-    [System.Serializable]
-    public class VRMap
-    {
-        public Transform vrTarget;
-        public Transform rigTarget;
-        public Vector3 positionOffset;
-        public Vector3 rotationOffset;
-
-        public void Map()
-        {
-            rigTarget.position = vrTarget.TransformPoint(positionOffset);
-            rigTarget.rotation = vrTarget.rotation * Quaternion.Euler(rotationOffset);
-        }
-    }
+    
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -51,8 +31,6 @@ public class PlayerVRMovement : NetworkBehaviour
     private void Update()
     {
         HandleRotation();
-        LeftHand.Map();
-        RightHand.Map();
     }
 
     private void HandleRotation()

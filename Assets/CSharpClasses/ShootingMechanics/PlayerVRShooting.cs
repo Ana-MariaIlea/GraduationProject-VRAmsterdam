@@ -160,7 +160,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2Start()
     {
-        GetComponent<CapsuleCollider>().enabled = true;
+        //GetComponent<CapsuleCollider>().enabled = true;
     }
 
     private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)
