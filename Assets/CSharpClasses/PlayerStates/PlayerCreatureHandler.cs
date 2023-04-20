@@ -66,7 +66,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
 
     public void AddEmptyPlayerStructure(ServerRpcParams serverRpcParams = default)
     {
-        Debug.Log("Add player structure ");
         PlayerCreatures playerCreature = new PlayerCreatures();
         playerCreature.PlayerID = serverRpcParams.Receive.SenderClientId;
         playerCreature.creaturesCollected = 0;
@@ -93,8 +92,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
 
     public void CreatureCollected(CreatureType type, ServerRpcParams serverRpcParams = default)
     {
-        Debug.Log("Creature collected server rpc " + playerCreatures.Count);
-
         PlayerCreatures aux = new PlayerCreatures();
 
         for (int i = 0; i < playerCreatures.Count; i++)
@@ -106,14 +103,12 @@ public class PlayerCreatureHandler : NetworkBehaviour
                 aux.isFireCretureCollected = playerCreatures[i].isFireCretureCollected;
                 aux.isWaterCretureCollected = playerCreatures[i].isWaterCretureCollected;
                 aux.isEarthCretureCollected = playerCreatures[i].isEarthCretureCollected;
-                Debug.Log(" creature " + type);
                 switch (type)
                 {
                     case CreatureType.Fire:
 
                         if (!playerCreatures[i].isFireCretureCollected)
                         {
-                            Debug.Log("Fire creature collected");
                             aux.isFireCretureCollected = true;
                             aux.creaturesCollected++;
                         }
@@ -134,9 +129,7 @@ public class PlayerCreatureHandler : NetworkBehaviour
                         break;
                 }
                 playerCreatures[i] = aux;
-                Debug.Log("Aux creatures " + aux.creaturesCollected);
                 Invoke("CheckPlayersCreatures", 1f);
-                //CheckPlayersCreatures();
                 return;
             }
         }
@@ -191,7 +184,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
             }
         }
 
-        Debug.Log("Start Part 2 server rpc " + playerCreatures.Count);
         StartPart2ClientRpc();
         part2StartServer?.Invoke();
     }
@@ -199,7 +191,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
     [ClientRpc]
     private void StartPart2ClientRpc()
     {
-        Debug.Log("Start Part 2");
         part2StartClient?.Invoke();
     }
 }

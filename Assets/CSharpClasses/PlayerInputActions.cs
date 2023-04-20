@@ -44,6 +44,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenCloseInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""14cc2eb3-528d-4c51-af94-5a17059b0629"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -66,6 +75,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""GrabbingRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ee15e0b-c358-43c4-a33e-90cf03ae9a4a"",
+                    ""path"": ""<XRController>{LeftHand}/gripPressed"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCloseInventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -126,6 +146,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_PlayerPart1 = asset.FindActionMap("PlayerPart1", throwIfNotFound: true);
         m_PlayerPart1_GrabbingLeft = m_PlayerPart1.FindAction("GrabbingLeft", throwIfNotFound: true);
         m_PlayerPart1_GrabbingRight = m_PlayerPart1.FindAction("GrabbingRight", throwIfNotFound: true);
+        m_PlayerPart1_OpenCloseInventory = m_PlayerPart1.FindAction("OpenCloseInventory", throwIfNotFound: true);
         // PlayerPart2
         m_PlayerPart2 = asset.FindActionMap("PlayerPart2", throwIfNotFound: true);
         m_PlayerPart2_ShootingLeft = m_PlayerPart2.FindAction("ShootingLeft", throwIfNotFound: true);
@@ -193,12 +214,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private List<IPlayerPart1Actions> m_PlayerPart1ActionsCallbackInterfaces = new List<IPlayerPart1Actions>();
     private readonly InputAction m_PlayerPart1_GrabbingLeft;
     private readonly InputAction m_PlayerPart1_GrabbingRight;
+    private readonly InputAction m_PlayerPart1_OpenCloseInventory;
     public struct PlayerPart1Actions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerPart1Actions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @GrabbingLeft => m_Wrapper.m_PlayerPart1_GrabbingLeft;
         public InputAction @GrabbingRight => m_Wrapper.m_PlayerPart1_GrabbingRight;
+        public InputAction @OpenCloseInventory => m_Wrapper.m_PlayerPart1_OpenCloseInventory;
         public InputActionMap Get() { return m_Wrapper.m_PlayerPart1; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -214,6 +237,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @GrabbingRight.started += instance.OnGrabbingRight;
             @GrabbingRight.performed += instance.OnGrabbingRight;
             @GrabbingRight.canceled += instance.OnGrabbingRight;
+            @OpenCloseInventory.started += instance.OnOpenCloseInventory;
+            @OpenCloseInventory.performed += instance.OnOpenCloseInventory;
+            @OpenCloseInventory.canceled += instance.OnOpenCloseInventory;
         }
 
         private void UnregisterCallbacks(IPlayerPart1Actions instance)
@@ -224,6 +250,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @GrabbingRight.started -= instance.OnGrabbingRight;
             @GrabbingRight.performed -= instance.OnGrabbingRight;
             @GrabbingRight.canceled -= instance.OnGrabbingRight;
+            @OpenCloseInventory.started -= instance.OnOpenCloseInventory;
+            @OpenCloseInventory.performed -= instance.OnOpenCloseInventory;
+            @OpenCloseInventory.canceled -= instance.OnOpenCloseInventory;
         }
 
         public void RemoveCallbacks(IPlayerPart1Actions instance)
@@ -299,6 +328,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     {
         void OnGrabbingLeft(InputAction.CallbackContext context);
         void OnGrabbingRight(InputAction.CallbackContext context);
+        void OnOpenCloseInventory(InputAction.CallbackContext context);
     }
     public interface IPlayerPart2Actions
     {

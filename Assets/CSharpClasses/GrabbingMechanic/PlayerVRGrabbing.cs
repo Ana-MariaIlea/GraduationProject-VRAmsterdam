@@ -21,6 +21,8 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [SerializeField] private Transform anchor;
     private NetworkVariable<Vector3> anchorPositionNetworked = new NetworkVariable<Vector3>(Vector3.zero, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+    [SerializeField] PlayerCreatureUIPanel creatureUIPanel;
+
     private PlayerInputActions controls;
 
     private GrabbableItem grabedItem = null;
@@ -102,6 +104,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         Debug.Log("Server call " + creatureType);
         PlayerCreatureHandler.Singleton.CreatureCollected(creatureType, serverRpcParams);
+        creatureUIPanel.ColectCreatureClientRpc(creatureType);
     }
 
     [ServerRpc]
