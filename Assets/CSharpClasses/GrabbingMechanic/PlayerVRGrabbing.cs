@@ -104,7 +104,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         Debug.Log("Server call " + creatureType);
         PlayerCreatureHandler.Singleton.CreatureCollected(creatureType, serverRpcParams);
-        creatureUIPanel.ColectCreatureClientRpc(creatureType);
+        creatureUIPanel.ColectCreaturServerCall(creatureType);
     }
 
     [ServerRpc]

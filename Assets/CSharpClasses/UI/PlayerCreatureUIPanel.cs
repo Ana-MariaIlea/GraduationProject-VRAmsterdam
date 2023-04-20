@@ -69,6 +69,20 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
     [ServerRpc]
     private void TurnOffOnPanelServerRpc(bool isGameModeChanging = false)
     {
+        if (isGameModeChanging)
+        {
+            panel.SetActive(false);
+            return;
+        }
+
+        if (panel.activeSelf)
+        {
+            panel.SetActive(false);
+        }
+        else
+        {
+            panel.SetActive(true);
+        }
         TurnOffOnPanelClientRpc(isGameModeChanging);
     }
 
@@ -89,6 +103,23 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
         {
             panel.SetActive(true);
         }
+    }
+
+    public void ColectCreaturServerCall(CreatureType type)
+    {
+        switch (type)
+        {
+            case CreatureType.Fire:
+                fireCreatureImage.sprite = fireCreatureSprite;
+                break;
+            case CreatureType.Water:
+                waterCreatureImage.sprite = waterCreatureSprite;
+                break;
+            case CreatureType.Earth:
+                earthCreatureImage.sprite = earthCreatureSprite;
+                break;
+        }
+        ColectCreatureClientRpc(type);
     }
 
     [ClientRpc]
