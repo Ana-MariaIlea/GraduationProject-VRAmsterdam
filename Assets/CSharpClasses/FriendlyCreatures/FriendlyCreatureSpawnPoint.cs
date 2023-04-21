@@ -13,7 +13,6 @@ public class FriendlyCreatureSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private CreatureType creatureType;
     [SerializeField] private GameObject frindlyCreaturePrefab;
-    [SerializeField] private LayerMask whatIsPlayer;
     private List<FriendlyCreatureUnfriendedSpot> unfriendedSpots;
 
     public override void OnNetworkSpawn()
@@ -35,7 +34,7 @@ public class FriendlyCreatureSpawnPoint : NetworkBehaviour
         {
             case CreatureType.Fire:
                 FireFriendlyCreature fire = creature.GetComponent<FireFriendlyCreature>();
-                fire.InitializeCreatureData(unfriendedSpots, whatIsPlayer);
+                fire.InitializeCreatureData(unfriendedSpots);
                 break;
             case CreatureType.Water:
                 WaterFriendlyCreature water = creature.GetComponent<WaterFriendlyCreature>();

@@ -11,13 +11,10 @@ using UnityEngine;
 public class FireFriendlyCreature : AbstractFriendlyCreature
 {
     private bool doesPlayerHaveFood = false;
-    private LayerMask whatIsPlayer;
     [SerializeField] private Vector3 unbefriendedInitialSpace;
 
     //Spot the creature runs to when unfriended
     [SerializeField] private Transform unbefriendedSpace;
-
-    //private GrabbableItem playerFood = null;
 
     PlayerVRGrabbing grabAux;
     public override void OnNetworkSpawn()
@@ -41,7 +38,7 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     //------------------------------------------------------------------------------
     protected override void UnfriendedBehaviour()
     {
-        Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 20, whatIsPlayer);
+        Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 20, LayerMask.GetMask("Player"));
 
         // If there is a player in sight
         if (hitCollidersSight.Length >= 1)
@@ -77,18 +74,11 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                 }
             }
 
-
             if (doesPlayerHaveFood)
             {
                 // If the player has food, go to the player
                 if (minDist > 2f)
                 {
-                //    //playerTarget.GetComponentInChildren<PlayerVRGrabbing>().GrabedItemID = ItemID.None;
-                //    playerTarget.GetComponentInChildren<PlayerVRGrabbing>().DestroyItemServerCall();
-                //    BefriendCreature();
-                //}
-                //else
-                //{
                     meshAgent.SetDestination(playerTarget.transform.position);
                 }
             }
@@ -156,9 +146,8 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     //     Funtion to get the closest unfriended spot
     // </summary>
     //------------------------------------------------------------------------------
-    public void InitializeCreatureData(List<FriendlyCreatureUnfriendedSpot> unfriendedSpots, LayerMask playerLayer)
+    public void InitializeCreatureData(List<FriendlyCreatureUnfriendedSpot> unfriendedSpots)
     {
-        whatIsPlayer = playerLayer;
         float minDist = 20;
         for (int i = 0; i < unfriendedSpots.Count; i++)
         {
