@@ -24,24 +24,15 @@ public class Projectile : PlayerHitObject
 
     private void OnTriggerEnter(Collider other)
     {
-        //Also do damage
         switch (other.tag)
         {
             case "ShieldCollider":
                 GetComponent<NetworkObject>().Despawn();
                 Destroy(this);
                 break;
-        }
-
-        AddScore(other.tag);
-    }
-
-    private void AddScore(string objectTag)
-    {
-        switch (objectTag)
-        {
             case "Boss":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
+                other.GetComponent<BossCreature>().DamangeBoss(damage);
                 break;
             case "Miniboss":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);

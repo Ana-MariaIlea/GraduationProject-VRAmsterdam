@@ -144,7 +144,7 @@ public class BossCreature : MonoBehaviour
         teleportCorutine = null;
     }
 
-    private void DamangeBoss(float damage)
+    public void DamangeBoss(float damage)
     {
         health -= damage;
         if (health < 0)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Stream : PlayerHitObject
@@ -14,17 +15,15 @@ public class Stream : PlayerHitObject
     }
     private void OnParticleCollision(GameObject other)
     {
-        //Also do damage
-
-        AddScore(other.tag);
-    }
-
-    private void AddScore(string objectTag)
-    {
-        switch (objectTag)
+        switch (other.tag)
         {
+            case "ShieldCollider":
+                GetComponent<NetworkObject>().Despawn();
+                Destroy(this);
+                break;
             case "Boss":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
+                other.GetComponent<BossCreature>().DamangeBoss(damage);
                 break;
             case "Miniboss":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
