@@ -2,27 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.GraphicsBuffer;
 
 public class BossCreature : MonoBehaviour
 {
     [SerializeField] private float MaxHealth = 100;
     [SerializeField] private List<BossStageElements> thresholds;
     [SerializeField] private GameObject shieldObject;
+    [SerializeField] private Transform ProjectileShootPoint;
+    [SerializeField] private float attackRange = 10;
     float health;
 
     int thresholdIndex = 0;
 
     protected NavMeshAgent meshAgent;
 
-    private BossStage stage = BossStage.Shield;
+    private BossStage stage = BossStage.Fight;
 
     private List<MinionSpawnPoint> minionSpawnPoints;
     private List<BossSpawnPoint> bossSpawnPoints;
 
     private int teleportSpawnPointIndex = -1;
 
+    private Transform playerTarget;
+
+    private Coroutine attackCorutine = null;
     private Coroutine teleportCorutine = null;
 
+    [System.Serializable]
     public struct BossStageElements
     {
         public string stageName;
@@ -60,7 +67,48 @@ public class BossCreature : MonoBehaviour
 
     private void FightBehaviour()
     {
+        Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 200, LayerMask.GetMask("Player"));
 
+        // If there is a player in sight
+        if (hitCollidersSight.Length >= 1)
+        {
+            float minDist = 20;
+
+            //Get the closest player
+            for (int i = 0; i < hitCollidersSight.Length; i++)
+            {
+                Vector3 distance = transform.position - hitCollidersSight[i].transform.position;
+                if (distance.magnitude < minDist)
+                {
+                    minDist = distance.magnitude;
+                    playerTarget = hitCollidersSight[i].transform;
+                }
+            }
+
+            // If the player has food, go to the player
+            if (minDist > attackRange)
+            {
+                meshAgent.SetDestination(playerTarget.position);
+            }
+            else
+            {
+                meshAgent.SetDestination(transform.position);
+                if (attackCorutine == null)
+                {
+                    attackCorutine = StartCoroutine(AttackCorutine());
+                }
+            }
+        }
+    }
+
+    private IEnumerator AttackCorutine()
+    {
+        Vector3 relativePos = playerTarget.position - transform.position;
+        Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.down);
+        ProjectileShootPoint.LookAt(playerTarget);
+        Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
+        yield return new WaitForSeconds(2f);
+        attackCorutine = null;
     }
 
     private void ShieldBehaviour()
@@ -115,7 +163,6 @@ public class BossCreature : MonoBehaviour
             shieldObject.SetActive(true);
             //Client RPC for visuals
         }
-
     }
 
     private void BossDie()
