@@ -36,6 +36,7 @@ public class Projectile : PlayerHitObject
                 break;
             case "Miniboss":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
+                other.GetComponent<MinionCreature>().DamangeMinion(damage);
                 break;
         }
     }

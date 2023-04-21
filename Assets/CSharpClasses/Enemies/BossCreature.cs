@@ -11,6 +11,7 @@ public class BossCreature : MonoBehaviour
     [SerializeField] private GameObject shieldObject;
     [SerializeField] private Transform ProjectileShootPoint;
     [SerializeField] private float attackRange = 10;
+
     float health;
 
     int thresholdIndex = 0;
