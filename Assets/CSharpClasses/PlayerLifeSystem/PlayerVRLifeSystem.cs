@@ -27,7 +27,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         {
             RevivePlayerServerRpc();
         }
-        else if (other.tag == "PlayerHitObject")
+        else if (other.tag == "EnemyHitObject")
         {
             PlayerHitServerRpc();
         }

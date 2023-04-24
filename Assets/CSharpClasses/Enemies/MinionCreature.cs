@@ -1,15 +1,24 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using static BossCreature;
+using UnityEngine.AI;
 
 public class MinionCreature : MonoBehaviour
 {
     [SerializeField] private float MaxHealth = 100;
+    [SerializeField] private Transform ProjectileShootPoint;
+    [SerializeField] private float attackRange = 10;
+    [SerializeField] private GameObject projectilePrefab;
+
     float health;
 
     private CreatureType creatureType;
+
+    protected NavMeshAgent meshAgent;
+
+    private Transform playerTarget;
+
+    private Coroutine attackCorutine = null;
+
     public CreatureType CCreatureType
     {
         get { return creatureType; }
@@ -32,6 +41,49 @@ public class MinionCreature : MonoBehaviour
 
     }
 
+    private void MinionAttack()
+    {
+        Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 200, LayerMask.GetMask("Player"));
+
+        // If there is a player in sight
+        if (hitCollidersSight.Length >= 1)
+        {
+            float minDist = 20;
+
+            //Get the closest player
+            for (int i = 0; i < hitCollidersSight.Length; i++)
+            {
+                Vector3 distance = transform.position - hitCollidersSight[i].transform.position;
+                if (distance.magnitude < minDist)
+                {
+                    minDist = distance.magnitude;
+                    playerTarget = hitCollidersSight[i].transform;
+                }
+            }
+
+            // If the player has food, go to the player
+            if (minDist > attackRange)
+            {
+                meshAgent.SetDestination(playerTarget.position);
+            }
+            else
+            {
+                meshAgent.SetDestination(transform.position);
+                if (attackCorutine == null)
+                {
+                    attackCorutine = StartCoroutine(AttackCorutine());
+                }
+            }
+        }
+    }
+
+    private IEnumerator AttackCorutine()
+    {
+        ProjectileShootPoint.LookAt(playerTarget);
+        Instantiate(projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
+        yield return new WaitForSeconds(2f);
+        attackCorutine = null;
+    }
     public void DamangeMinion(float damage)
     {
         health -= damage;

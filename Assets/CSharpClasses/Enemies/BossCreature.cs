@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GraphicsBuffer;
 
 public class BossCreature : MonoBehaviour
 {
@@ -12,9 +11,10 @@ public class BossCreature : MonoBehaviour
     [SerializeField] private Transform ProjectileShootPoint;
     [SerializeField] private float attackRange = 10;
 
-    float health;
+    private float health;
 
-    int thresholdIndex = 0;
+    private int thresholdIndex = 0;
+    private int minionNumber = 0;
 
     protected NavMeshAgent meshAgent;
 
@@ -104,8 +104,6 @@ public class BossCreature : MonoBehaviour
 
     private IEnumerator AttackCorutine()
     {
-        Vector3 relativePos = playerTarget.position - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.down);
         ProjectileShootPoint.LookAt(playerTarget);
         Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
         yield return new WaitForSeconds(2f);
@@ -163,6 +161,15 @@ public class BossCreature : MonoBehaviour
             thresholdIndex++;
             shieldObject.SetActive(true);
             //Client RPC for visuals
+        }
+    }
+
+    public void MinionDied()
+    {
+        minionNumber--;
+        if (minionNumber == 0)
+        {
+            stage = BossStage.Fight;
         }
     }
 
