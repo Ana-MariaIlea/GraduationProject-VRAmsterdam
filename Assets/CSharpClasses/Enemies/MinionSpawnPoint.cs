@@ -9,11 +9,13 @@ public class MinionSpawnPoint : MonoBehaviour
 
 
 
-    public void SpawnMinion(CreatureType creatureType)
+    public MinionCreature SpawnMinion(CreatureType creatureType)
     {
         GameObject creature;
         creature = Instantiate(minionPrefab, transform.position, Quaternion.identity);
-        creature.GetComponent<MinionCreature>().CCreatureType = creatureType;
+        MinionCreature minion = creature.GetComponent<MinionCreature>();
+        minion.CCreatureType = creatureType;
         //creature.GetComponent<NetworkObject>().Spawn(true);
+        return minion;
     }
 }

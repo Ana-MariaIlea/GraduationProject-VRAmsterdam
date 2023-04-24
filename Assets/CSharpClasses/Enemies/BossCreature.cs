@@ -156,8 +156,10 @@ public class BossCreature : MonoBehaviour
             stage = BossStage.Shield;
             foreach (var point in minionSpawnPoints)
             {
-                point.SpawnMinion(thresholds[thresholdIndex].minionTypeToSpawn);
+                MinionCreature minion = point.SpawnMinion(thresholds[thresholdIndex].minionTypeToSpawn);
+                minion.minionDie.AddListener(MinionDied);
             }
+            minionNumber = minionSpawnPoints.Count;
             thresholdIndex++;
             shieldObject.SetActive(true);
             //Client RPC for visuals
@@ -170,6 +172,7 @@ public class BossCreature : MonoBehaviour
         if (minionNumber == 0)
         {
             stage = BossStage.Fight;
+            shieldObject.SetActive(false);
         }
     }
 

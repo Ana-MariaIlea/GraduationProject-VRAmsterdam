@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Events;
 
 public class MinionCreature : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class MinionCreature : MonoBehaviour
     [SerializeField] private Transform ProjectileShootPoint;
     [SerializeField] private float attackRange = 10;
     [SerializeField] private GameObject projectilePrefab;
+
+    [HideInInspector] public UnityEvent minionDie;
 
     float health;
 
@@ -96,6 +99,8 @@ public class MinionCreature : MonoBehaviour
 
     private void MinionDie()
     {
+        minionDie?.Invoke();
 
+        minionDie.RemoveAllListeners();
     }
 }
