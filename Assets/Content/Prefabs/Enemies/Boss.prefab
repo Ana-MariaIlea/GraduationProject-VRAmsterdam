@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7002222137553052600}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
     minionTypeToSpawn: 2
   - stageName: Earth
     healthThreshhold: 0
-    projectilePrefab: {fileID: 8782673446078193449, guid: bed2031d84f518345a0a883baa6a58ff, type: 3}
+    projectilePrefab: {fileID: 6672442421368627584, guid: 9e84746ce87ed5149b1b5eecff7c602c, type: 3}
     minionTypeToSpawn: 3
   shieldObject: {fileID: 3454386082449994740}
   ProjectileShootPoint: {fileID: 4732879594280981817}

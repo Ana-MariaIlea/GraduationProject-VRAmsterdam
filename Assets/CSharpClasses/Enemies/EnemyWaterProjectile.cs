@@ -15,7 +15,10 @@ public class EnemyWaterProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        DestroyProjectile();
+        if (other.tag != "Enemy")
+        {
+            DestroyProjectile();
+        }
     }
 
     private void DestroyProjectile()

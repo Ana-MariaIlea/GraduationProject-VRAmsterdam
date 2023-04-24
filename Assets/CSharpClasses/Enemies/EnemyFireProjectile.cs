@@ -17,7 +17,10 @@ public class EnemyFireProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Explode();
+        if (other.tag != "Enemy")
+        {
+            Explode();
+        }
     }
 
     private void Explode()
