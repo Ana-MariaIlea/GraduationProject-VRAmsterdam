@@ -7,6 +7,7 @@ public class EnemyFireProjectile : MonoBehaviour
 {
     [SerializeField] Rigidbody body;
     [SerializeField] float speed = 1;
+    [SerializeField] float explosionRadius = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,10 +17,18 @@ public class EnemyFireProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
-        {
-            //GetComponent<NetworkObject>().Despawn();
-            Destroy(this);
-        }
+        Explode();
+    }
+
+    private void Explode()
+    {
+        GetComponent<SphereCollider>().radius = explosionRadius;
+        Invoke("DestrouProjectile", 1f);
+    }
+
+    private void DestrouProjectile()
+    {
+        //GetComponent<NetworkObject>().Despawn();
+        Destroy(gameObject);
     }
 }

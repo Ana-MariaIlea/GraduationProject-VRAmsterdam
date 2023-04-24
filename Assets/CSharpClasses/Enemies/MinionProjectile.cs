@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class MinionProjectile : EnemyHitObject
+public class MinionProjectile : MonoBehaviour
 {
     [SerializeField] Rigidbody body;
     [SerializeField] float speed = 1;
