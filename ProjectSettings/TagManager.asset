@@ -9,6 +9,8 @@ TagManager:
   - ChargingStation
   - PlayerHitObject
   - Obstacle
+  - EnemyHitObject
+  - Enemy
   layers:
   - Default
   - TransparentFX
