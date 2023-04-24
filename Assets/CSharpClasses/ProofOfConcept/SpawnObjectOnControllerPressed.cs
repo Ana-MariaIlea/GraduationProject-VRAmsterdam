@@ -17,6 +17,7 @@ public class SpawnObjectOnControllerPressed : MonoBehaviour
 
     private void SpawnObjectAtControllerPosition()
     {
+        // TODO: TELL SERVER TO SPAWN OBJECT AT LOCATION
         Instantiate(testObjectPrefab, this.transform.position, this.transform.rotation);
     }
 }
