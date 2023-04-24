@@ -31,11 +31,4 @@ public class BossSpawnPoint : MonoBehaviour
         creature.GetComponent<BossCreature>().InitMinionSpawnpoints(minionSpawnPoints);
         creature.GetComponent<BossCreature>().InitBossSpawnpoints(bossSpawnPoints);
     }
-
-    private void TeleportBoss()
-    {
-        GameObject creature;
-        creature = Instantiate(bossPrefab, transform.position, Quaternion.identity);
-        //creature.GetComponent<NetworkObject>().Spawn(true);
-    }
 }

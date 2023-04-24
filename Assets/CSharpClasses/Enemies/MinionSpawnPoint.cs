@@ -7,8 +7,6 @@ public class MinionSpawnPoint : MonoBehaviour
 {
     [SerializeField] private GameObject minionPrefab;
 
-
-
     public MinionCreature SpawnMinion(CreatureType creatureType)
     {
         GameObject creature;
