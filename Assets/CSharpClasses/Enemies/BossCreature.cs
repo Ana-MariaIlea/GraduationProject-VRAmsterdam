@@ -50,6 +50,7 @@ public class BossCreature : MonoBehaviour
     {
         meshAgent = GetComponent<NavMeshAgent>();
         health = MaxHealth;
+        
     }
 
     // Update is called once per frame
@@ -178,7 +179,7 @@ public class BossCreature : MonoBehaviour
 
     private void BossDie()
     {
-
+        //PlayerCreatureHandler.Singleton.GameEnd();
     }
 
     public void InitMinionSpawnpoints(List<MinionSpawnPoint> minionSpawnPoints)

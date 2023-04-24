@@ -25,6 +25,9 @@ public class PlayerCreatureHandler : NetworkBehaviour
     public UnityEvent part2StartClient;
     public UnityEvent part2StartServer;
 
+    public UnityEvent endingStartServer;
+    public UnityEvent endingStartClient;
+
     public struct PlayerCreatures : INetworkSerializable, IEquatable<PlayerCreatures>
     {
         public ulong PlayerID;
@@ -192,5 +195,10 @@ public class PlayerCreatureHandler : NetworkBehaviour
     private void StartPart2ClientRpc()
     {
         part2StartClient?.Invoke();
+    }
+
+    public void GameEnd()
+    {
+        endingStartClient?.Invoke();
     }
 }
