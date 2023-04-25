@@ -21,7 +21,7 @@ public class EnemyEarthProjectile : NetworkBehaviour
         }
         else
         {
-            this.enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
         }
     }
 

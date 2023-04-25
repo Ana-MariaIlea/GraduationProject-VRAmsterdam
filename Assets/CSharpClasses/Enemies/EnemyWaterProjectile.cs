@@ -19,7 +19,7 @@ public class EnemyWaterProjectile : NetworkBehaviour
         }
         else
         {
-            this.enabled = false;
+            GetComponent<SphereCollider>().enabled = false;
         }
     }
 
