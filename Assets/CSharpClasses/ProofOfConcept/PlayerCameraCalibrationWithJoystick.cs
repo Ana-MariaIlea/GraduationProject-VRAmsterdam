@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerCameraCalibrationWithJoystick : MonoBehaviour
+public class PlayerCameraCalibrationWithJoystick : NetworkBehaviour
 {
     public Transform oculusCameraRigTransform;
 
@@ -15,12 +16,15 @@ public class PlayerCameraCalibrationWithJoystick : MonoBehaviour
 
     void Update()
     {
-        float joystickLeftHoriz = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
-        float joystickRightHoriz = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).x;
+        if (IsClient && IsOwner)
+        {
+            float joystickLeftHoriz = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
+            float joystickRightHoriz = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).x;
 
-        RotateCamera(joystickLeftHoriz);
-        MoveCameraLeftRight(joystickRightHoriz);
-        MoveCameraForwardBack();
+            RotateCamera(joystickLeftHoriz);
+            MoveCameraLeftRight(joystickRightHoriz);
+            MoveCameraForwardBack();
+        }
     }
 
     private void RotateCamera(float axisValue)

@@ -30,7 +30,7 @@ public class PlayerVRMovement : NetworkBehaviour
     }
     private void Update()
     {
-        //HandleRotation();
+        HandleRotation();
     }
 
     private void HandleRotation()
