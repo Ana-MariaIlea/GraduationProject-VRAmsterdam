@@ -86,11 +86,11 @@ MonoBehaviour:
   MaxHealth: 100
   thresholds:
   - stageName: Fire
-    healthThreshhold: 0
+    healthThreshhold: 60
     projectilePrefab: {fileID: 8782673446078193449, guid: bed2031d84f518345a0a883baa6a58ff, type: 3}
     minionTypeToSpawn: 1
   - stageName: Water
-    healthThreshhold: 0
+    healthThreshhold: 30
     projectilePrefab: {fileID: 8761505859257855639, guid: 328776a848d562e41b7d216ed0908852, type: 3}
     minionTypeToSpawn: 2
   - stageName: Earth
