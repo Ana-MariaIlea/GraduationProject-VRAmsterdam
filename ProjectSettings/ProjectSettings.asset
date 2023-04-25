@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: VRAmsterdam
-  productName: CalibrationNetworkedClient
+  productName: SaveCalibrationNetworked
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -155,8 +155,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.VRAmsterdam.CalibrationNetworkedClient
-    Standalone: com.VRAmsterdam.CalibrationNetworkedServer
+    Android: com.VRAmsterdam.SaveCalibrationNetworked
+    Standalone: com.VRAmsterdam.SaveCalibrationNetworked
   buildNumber:
     Standalone: 0
     iPhone: 0
