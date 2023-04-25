@@ -27,7 +27,7 @@ public class BossSpawnPoint : NetworkBehaviour
         bossSpawnPoints = FindObjectsOfType<BossSpawnPoint>().ToList();
         GameObject creature;
         creature = Instantiate(bossPrefab, transform.position, Quaternion.identity);
-        //creature.GetComponent<NetworkObject>().Spawn(true);
+        creature.GetComponent<NetworkObject>().Spawn(true);
         creature.GetComponent<BossCreature>().InitMinionSpawnpoints(minionSpawnPoints);
         creature.GetComponent<BossCreature>().InitBossSpawnpoints(bossSpawnPoints);
     }

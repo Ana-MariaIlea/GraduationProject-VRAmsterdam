@@ -13,7 +13,7 @@ public class MinionSpawnPoint : NetworkBehaviour
         creature = Instantiate(minionPrefab, transform.position, Quaternion.identity);
         MinionCreature minion = creature.GetComponent<MinionCreature>();
         minion.CCreatureType = creatureType;
-        //creature.GetComponent<NetworkObject>().Spawn(true);
+        creature.GetComponent<NetworkObject>().Spawn(true);
         return minion;
     }
 }
