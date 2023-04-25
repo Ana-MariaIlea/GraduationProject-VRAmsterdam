@@ -1,18 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class EnemyEarthProjectile : MonoBehaviour
+public class EnemyEarthProjectile : NetworkBehaviour
 {
     [SerializeField] Rigidbody body;
     [SerializeField] float speed = 1;
     [SerializeField] float explosionRadius = 5;
     [SerializeField] GameObject earthColumns;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
-        body = GetComponent<Rigidbody>();
-        body.velocity = speed * transform.forward;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            body = GetComponent<Rigidbody>();
+            body.velocity = speed * transform.forward;
+        }
+        else
+        {
+            GetComponent<SphereCollider>().enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,7 +36,7 @@ public class EnemyEarthProjectile : MonoBehaviour
     private void Explode()
     {
         GameObject creature = Instantiate(earthColumns, transform.position, Quaternion.identity, transform);
-        //creature.GetComponent<NetworkObject>().Spawn(true);
+        creature.GetComponent<NetworkObject>().Spawn(true);
 
         GetComponent<SphereCollider>().enabled = false;
         body.velocity = Vector3.zero;
@@ -35,7 +45,7 @@ public class EnemyEarthProjectile : MonoBehaviour
 
     private void DestrouProjectile()
     {
-        //GetComponent<NetworkObject>().Despawn();
+        GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }
 }

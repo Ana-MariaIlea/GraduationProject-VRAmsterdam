@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BossCreature : MonoBehaviour
+public class BossCreature : NetworkBehaviour
 {
     [SerializeField] private float MaxHealth = 100;
     [SerializeField] private List<BossStageElements> thresholds;
@@ -45,12 +46,18 @@ public class BossCreature : MonoBehaviour
         Shield
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public override void OnNetworkSpawn()
     {
-        meshAgent = GetComponent<NavMeshAgent>();
-        health = MaxHealth;
-        
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            meshAgent = GetComponent<NavMeshAgent>();
+            health = MaxHealth;
+        }
+        else
+        {
+            this.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -106,7 +113,8 @@ public class BossCreature : MonoBehaviour
     private IEnumerator AttackCorutine()
     {
         ProjectileShootPoint.LookAt(playerTarget);
-        Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
+        GameObject projectile = Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
+        projectile.GetComponent<NetworkObject>().Spawn(true);
         yield return new WaitForSeconds(2f);
         attackCorutine = null;
     }
@@ -163,8 +171,14 @@ public class BossCreature : MonoBehaviour
             minionNumber = minionSpawnPoints.Count;
             thresholdIndex++;
             shieldObject.SetActive(true);
-            //Client RPC for visuals
+            ActivateShieldClientRpc();
         }
+    }
+
+    [ClientRpc]
+    private void ActivateShieldClientRpc()
+    {
+        shieldObject.SetActive(true);
     }
 
     public void MinionDied()
@@ -174,12 +188,19 @@ public class BossCreature : MonoBehaviour
         {
             stage = BossStage.Fight;
             shieldObject.SetActive(false);
+            DeactivateShieldClientRpc();
         }
+    }
+
+    [ClientRpc]
+    private void DeactivateShieldClientRpc()
+    {
+        shieldObject.SetActive(false);
     }
 
     private void BossDie()
     {
-        //PlayerCreatureHandler.Singleton.GameEnd();
+        PlayerCreatureHandler.Singleton.GameEnd();
     }
 
     public void InitMinionSpawnpoints(List<MinionSpawnPoint> minionSpawnPoints)

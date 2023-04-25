@@ -1,9 +1,10 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class MinionCreature : MonoBehaviour
+public class MinionCreature : NetworkBehaviour
 {
     [SerializeField] private float MaxHealth = 100;
     [SerializeField] private Transform ProjectileShootPoint;
@@ -27,10 +28,19 @@ public class MinionCreature : MonoBehaviour
         get { return creatureType; }
         set { creatureType = value; }
     }
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
-        health = MaxHealth;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            meshAgent = GetComponent<NavMeshAgent>();
+            health = MaxHealth;
+        }
+        else
+        {
+            this.enabled = false;
+        }
     }
 
     private void InitiallizeMinion()
@@ -41,7 +51,7 @@ public class MinionCreature : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        MinionAttack();
     }
 
     private void MinionAttack()
@@ -83,7 +93,8 @@ public class MinionCreature : MonoBehaviour
     private IEnumerator AttackCorutine()
     {
         ProjectileShootPoint.LookAt(playerTarget);
-        Instantiate(projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
+        GameObject projectile = Instantiate(projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
+        projectile.GetComponent<NetworkObject>().Spawn(true);
         yield return new WaitForSeconds(2f);
         attackCorutine = null;
     }

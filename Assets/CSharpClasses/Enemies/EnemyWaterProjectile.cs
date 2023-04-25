@@ -1,16 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class EnemyWaterProjectile : MonoBehaviour
+public class EnemyWaterProjectile : NetworkBehaviour
 {
     [SerializeField] Rigidbody body;
     [SerializeField] float speed = 1;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
-        body = GetComponent<Rigidbody>();
-        body.velocity = speed * transform.forward;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            body = GetComponent<Rigidbody>();
+            body.velocity = speed * transform.forward;
+        }
+        else
+        {
+            GetComponent<SphereCollider>().enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -23,7 +33,7 @@ public class EnemyWaterProjectile : MonoBehaviour
 
     private void DestroyProjectile()
     {
-        //GetComponent<NetworkObject>().Despawn();
+        GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -7,15 +8,18 @@ public class PlayerIKRigAnimator : NetworkBehaviour
 {
     [SerializeField] private VRMap LeftHand;
     [SerializeField] private VRMap RightHand;
-    [SerializeField] private Transform HeadRigTarget;
-    [SerializeField] private Transform HeadVRTarget;
+    [SerializeField] private VRMap Head;
+    [SerializeField] private Transform HeadConstraint;
+    [SerializeField] private Vector3 HeadBodyOffset;
+    [SerializeField] private Transform BodyObject;
 
     [SerializeField] private Vector3 HeadOffset = new Vector3(0, -0.8f, 0);
 
     public enum HandType
     {
         Left,
-        Right
+        Right,
+        Head
     }
 
     [System.Serializable]
@@ -39,13 +43,57 @@ public class PlayerIKRigAnimator : NetworkBehaviour
         }
     }
 
-    private void Update()
+    public override void OnNetworkSpawn()
+    {
+        if (IsClient && IsOwner)
+        {
+            base.OnNetworkSpawn();
+            HeadBodyOffset = BodyObject.position - HeadConstraint.position;
+        }
+    }
+
+    private void LateUpdate()
     {
         if (IsOwner && IsClient)
         {
+            MapBodyPosition();
             MapPosition(HandType.Left);
             MapPosition(HandType.Right);
+            Head.Map();
         }
+    }
+
+    private void MapBodyPosition()
+    {
+        BodyObject.position = HeadConstraint.position + HeadBodyOffset;
+        Vector3 newBodyPosition = BodyObject.position;
+        MapBodyPositionServerRpc(newBodyPosition);
+    }
+
+    [ServerRpc]
+    private void MapBodyPositionServerRpc(Vector3 NewPosition, ServerRpcParams serverRpcParams = default)
+    {
+        BodyObject.position = NewPosition;
+
+        //List<ulong> clientIDs = new List<ulong>();
+        List<ulong> clientIDs = NetworkManager.Singleton.ConnectedClients.Keys.ToList();
+        clientIDs.Remove(serverRpcParams.Receive.SenderClientId);
+
+        ClientRpcParams clientRpcParams = new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = clientIDs
+            }
+        };
+
+        MapBodyPositionClientRpc(NewPosition, clientRpcParams);
+    }
+
+    [ClientRpc]
+    private void MapBodyPositionClientRpc(Vector3 NewPosition, ClientRpcParams clientRpcParams = default)
+    {
+        BodyObject.position = NewPosition;
     }
 
     private void MapPosition(HandType type)
@@ -59,6 +107,10 @@ public class PlayerIKRigAnimator : NetworkBehaviour
             case HandType.Right:
                 RightHand.Map();
                 MapPositionServerRpc(type, RightHand.rigTarget.position, RightHand.rigTarget.rotation.eulerAngles);
+                break;
+            case HandType.Head:
+                Head.Map();
+                MapPositionServerRpc(type, Head.rigTarget.position, Head.rigTarget.rotation.eulerAngles);
                 break;
         }
 
@@ -75,6 +127,10 @@ public class PlayerIKRigAnimator : NetworkBehaviour
             case HandType.Right:
                 RightHand.SetPosition(position, rotation);
                 break;
+            case HandType.Head:
+                Head.Map();
+                MapPositionServerRpc(type, Head.rigTarget.position, Head.rigTarget.rotation.eulerAngles);
+                break;
         }
         MapPositionClientRpc(type, position, rotation);
     }
@@ -89,6 +145,10 @@ public class PlayerIKRigAnimator : NetworkBehaviour
                 break;
             case HandType.Right:
                 RightHand.SetPosition(position, rotation);
+                break;
+            case HandType.Head:
+                Head.Map();
+                MapPositionServerRpc(type, Head.rigTarget.position, Head.rigTarget.rotation.eulerAngles);
                 break;
         }
     }
