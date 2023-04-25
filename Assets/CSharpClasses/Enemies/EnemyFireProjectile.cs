@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class EnemyFireProjectile : MonoBehaviour
+public class EnemyFireProjectile : NetworkBehaviour
 {
     [SerializeField] Rigidbody body;
     [SerializeField] float speed = 1;
     [SerializeField] float explosionRadius = 5;
-    // Start is called before the first frame update
-    void Start()
+
+    public override void OnNetworkSpawn()
     {
-        body = GetComponent<Rigidbody>();
-        body.velocity = speed * transform.forward;
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            body = GetComponent<Rigidbody>();
+            body.velocity = speed * transform.forward;
+        }
+        else
+        {
+            this.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -31,7 +40,7 @@ public class EnemyFireProjectile : MonoBehaviour
 
     private void DestrouProjectile()
     {
-        //GetComponent<NetworkObject>().Despawn();
+        GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }
 }
