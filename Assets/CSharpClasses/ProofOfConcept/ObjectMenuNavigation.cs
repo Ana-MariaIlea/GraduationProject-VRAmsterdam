@@ -7,6 +7,9 @@ public class ObjectMenuNavigation : MonoBehaviour
 {
     public List<Button> objectButtons;
 
+    //go to index
+    //select next button
+
     void Start()
     {
         
