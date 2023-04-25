@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class MinionSpawnPoint : MonoBehaviour
+public class MinionSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private GameObject minionPrefab;
 
