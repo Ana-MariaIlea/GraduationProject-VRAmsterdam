@@ -26,11 +26,14 @@ public class PlayerCameraCalibrationWithJoystick : NetworkBehaviour
             MoveCameraLeftRight(joystickRightHoriz);
             MoveCameraForwardBack();
 
-            SaveCalibrationToPlayerPrefs();
-            LoadCalibrationFromPlayerPrefs();
+            //X on Left controller
+            if (OVRInput.GetDown(OVRInput.Button.Three))
+                SaveCurrentCameraCalibration();
+            //Y on Left controller
+            if (OVRInput.GetDown(OVRInput.Button.Four))
+                LoadExistingCameraCalibration();
         }
     }
-
 
     private void RotateCamera(float axisValue)
     {
@@ -55,7 +58,7 @@ public class PlayerCameraCalibrationWithJoystick : NetworkBehaviour
                     oculusCameraRigTransform.position.y,
                     oculusCameraRigTransform.position.z - posVerticalSpeed);
         }
-        
+
         //A - back
         if (OVRInput.GetDown(OVRInput.Button.One))
         {
@@ -86,41 +89,39 @@ public class PlayerCameraCalibrationWithJoystick : NetworkBehaviour
     }
 
 
-    private void SaveCalibrationToPlayerPrefs()
+    /// <summary>
+    /// Saves current position and rotation of the CameraRig into PlayerPreferences (local memory available only to this application).
+    /// </summary>
+    private void SaveCurrentCameraCalibration()
     {
-        //X on Left controller
-        if (OVRInput.GetDown(OVRInput.Button.Three))
-        {
-            PlayerPrefs.SetFloat(posKey + "x", oculusCameraRigTransform.position.x);
-            PlayerPrefs.SetFloat(posKey + "y", oculusCameraRigTransform.position.y);
-            PlayerPrefs.SetFloat(posKey + "z", oculusCameraRigTransform.position.z);
+        PlayerPrefs.SetFloat(posKey + "x", oculusCameraRigTransform.position.x);
+        PlayerPrefs.SetFloat(posKey + "y", oculusCameraRigTransform.position.y);
+        PlayerPrefs.SetFloat(posKey + "z", oculusCameraRigTransform.position.z);
 
-            PlayerPrefs.SetFloat(rotKey + "x", oculusCameraRigTransform.rotation.x);
-            PlayerPrefs.SetFloat(rotKey + "y", oculusCameraRigTransform.rotation.y);
-            PlayerPrefs.SetFloat(rotKey + "z", oculusCameraRigTransform.rotation.z);
-            PlayerPrefs.SetFloat(rotKey + "w", oculusCameraRigTransform.rotation.w);
-        }
+        PlayerPrefs.SetFloat(rotKey + "x", oculusCameraRigTransform.rotation.x);
+        PlayerPrefs.SetFloat(rotKey + "y", oculusCameraRigTransform.rotation.y);
+        PlayerPrefs.SetFloat(rotKey + "z", oculusCameraRigTransform.rotation.z);
+        PlayerPrefs.SetFloat(rotKey + "w", oculusCameraRigTransform.rotation.w);
     }
-    private void LoadCalibrationFromPlayerPrefs()
+    /// <summary>
+    /// Loads any existing camera calibration data from the PlayerPreferences.
+    /// </summary>
+    public void LoadExistingCameraCalibration()
     {
-        //Y on Left controller
-        if (OVRInput.GetDown(OVRInput.Button.Four))
-        {
-            Vector3 loadedPos = Vector3.zero;
-            loadedPos.x = PlayerPrefs.GetFloat(posKey + "x");
-            loadedPos.y = PlayerPrefs.GetFloat(posKey + "y");
-            loadedPos.z = PlayerPrefs.GetFloat(posKey + "z");
+        Vector3 loadedPos = Vector3.zero;
+        loadedPos.x = PlayerPrefs.GetFloat(posKey + "x");
+        loadedPos.y = PlayerPrefs.GetFloat(posKey + "y");
+        loadedPos.z = PlayerPrefs.GetFloat(posKey + "z");
 
-            Quaternion loadedRot = Quaternion.identity;
-            loadedRot.x = PlayerPrefs.GetFloat(rotKey + "x");
-            loadedRot.y = PlayerPrefs.GetFloat(rotKey + "y");
-            loadedRot.z = PlayerPrefs.GetFloat(rotKey + "z");
-            loadedRot.w = PlayerPrefs.GetFloat(rotKey + "w");
+        Quaternion loadedRot = Quaternion.identity;
+        loadedRot.x = PlayerPrefs.GetFloat(rotKey + "x");
+        loadedRot.y = PlayerPrefs.GetFloat(rotKey + "y");
+        loadedRot.z = PlayerPrefs.GetFloat(rotKey + "z");
+        loadedRot.w = PlayerPrefs.GetFloat(rotKey + "w");
 
-            if (loadedPos != Vector3.zero)
-                oculusCameraRigTransform.position = loadedPos;
-            if (loadedRot != Quaternion.identity)
-                oculusCameraRigTransform.rotation = loadedRot;
-        }
+        if (loadedPos != Vector3.zero)
+            oculusCameraRigTransform.position = loadedPos;
+        if (loadedRot != Quaternion.identity)
+            oculusCameraRigTransform.rotation = loadedRot;
     }
 }

@@ -29,4 +29,19 @@ public class GameSessionStart : MonoBehaviour
             //NetworkManager.Singleton.StartHost();
         }
     }
+    private void Awake()
+    {
+        switch (Application.platform)
+        {
+            case RuntimePlatform.Android:
+                isServer = false;
+                break;
+            case RuntimePlatform.WindowsEditor:
+                isServer = true;
+                break;
+            case RuntimePlatform.WindowsPlayer:
+                isServer = true;
+                break;
+        }
+    }
 }

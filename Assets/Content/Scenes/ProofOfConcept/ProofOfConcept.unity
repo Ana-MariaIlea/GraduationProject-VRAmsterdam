@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1658601277}
-  isServer: 1
+  isServer: 0
 --- !u!114 &146561776
 MonoBehaviour:
   m_ObjectHideFlags: 0
