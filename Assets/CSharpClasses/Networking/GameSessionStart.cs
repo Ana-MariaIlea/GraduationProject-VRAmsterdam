@@ -36,9 +36,6 @@ public class GameSessionStart : MonoBehaviour
             case RuntimePlatform.Android:
                 isServer = false;
                 break;
-            case RuntimePlatform.WindowsEditor:
-                isServer = true;
-                break;
             case RuntimePlatform.WindowsPlayer:
                 isServer = true;
                 break;
