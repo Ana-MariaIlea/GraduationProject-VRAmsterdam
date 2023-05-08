@@ -21,7 +21,8 @@ public class FriendlyCreatureSpawnPoint : NetworkBehaviour
         {
             base.OnNetworkSpawn();
             unfriendedSpots = FindObjectsOfType<FriendlyCreatureUnfriendedSpot>().ToList();
-            SpawnCreature();
+            PlayerStateManager.Singleton.part1StartServer.AddListener(SpawnCreature);
+            //SpawnCreature();
         }
     }
 
