@@ -9,7 +9,7 @@ public class PlayerVREnding : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerCreatureHandler.Singleton.endingStartClient.AddListener(GameEnd);
+        PlayerStateManager.Singleton.endingStartClient.AddListener(GameEnd);
     }
 
     private void GameEnd()

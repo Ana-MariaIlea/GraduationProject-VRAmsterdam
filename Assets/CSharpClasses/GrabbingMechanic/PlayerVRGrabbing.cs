@@ -59,8 +59,8 @@ public class PlayerVRGrabbing : NetworkBehaviour
         {
             controls = new PlayerInputActions();
             controls.Enable();
-            BindInputActions();
-            PlayerCreatureHandler.Singleton.part2StartClient.AddListener(Part2Start);
+            PlayerStateManager.Singleton.part1StartClient.AddListener(BindInputActions);
+            PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
             base.OnNetworkSpawn();
         }
         else
@@ -145,6 +145,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls.PlayerPart1.GrabbingRight.canceled += ResealseItem;
         }
 
+        PlayerStateManager.Singleton.part1StartClient.RemoveListener(BindInputActions);
     }
 
     void UnBindInputActions()
@@ -170,6 +171,9 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         Debug.Log("Part2start in vr grabbing");
         UnBindInputActions();
+
+        PlayerStateManager.Singleton.part2StartClient.RemoveListener(Part2Start);
+
         controls.Disable();
         this.enabled = false;
     }

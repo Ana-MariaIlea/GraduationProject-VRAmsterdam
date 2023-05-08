@@ -18,7 +18,7 @@ public class PlayerVRShield : NetworkBehaviour
             base.OnNetworkSpawn();
             controls = new PlayerInputActions();
             controls.Enable();
-            PlayerCreatureHandler.Singleton.part2StartClient.AddListener(BindActions);
+            PlayerStateManager.Singleton.part2StartClient.AddListener(BindActions);
         }
 
         VisualIndication.SetActive(false);

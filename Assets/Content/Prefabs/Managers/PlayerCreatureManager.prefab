@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8631307569803082196}
   - component: {fileID: 7714329502431660045}
   m_Layer: 0
-  m_Name: PlayerGameState
+  m_Name: PlayerCreatureManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

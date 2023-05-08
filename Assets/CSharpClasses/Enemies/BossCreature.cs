@@ -200,7 +200,7 @@ public class BossCreature : NetworkBehaviour
 
     private void BossDie()
     {
-        PlayerCreatureHandler.Singleton.GameEnd();
+        PlayerStateManager.Singleton.GameEnd();
     }
 
     public void InitMinionSpawnpoints(List<MinionSpawnPoint> minionSpawnPoints)

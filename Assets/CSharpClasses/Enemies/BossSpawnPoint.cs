@@ -17,7 +17,7 @@ public class BossSpawnPoint : NetworkBehaviour
         base.OnNetworkSpawn();
         if (isInitalSpawnPoint && IsServer)
         {
-            PlayerCreatureHandler.Singleton.part2StartServer.AddListener(SpawnBoss);
+            PlayerStateManager.Singleton.part2StartServer.AddListener(SpawnBoss);
         }
     }
 

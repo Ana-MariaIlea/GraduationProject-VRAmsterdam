@@ -23,7 +23,7 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
             controls = new PlayerInputActions();
             controls.Enable();
             BindInputActions();
-            PlayerCreatureHandler.Singleton.part2StartClient.AddListener(Part2Start);
+            PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
             base.OnNetworkSpawn();
         }
         else

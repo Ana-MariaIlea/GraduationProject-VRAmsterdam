@@ -57,7 +57,7 @@ public class PlayerVRShooting : NetworkBehaviour
             base.OnNetworkSpawn();
             controls = new PlayerInputActions();
             controls.Enable();
-            PlayerCreatureHandler.Singleton.part2StartServer.AddListener(Part2Start);
+            PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
         }
         else
         {

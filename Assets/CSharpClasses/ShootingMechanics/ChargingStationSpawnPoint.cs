@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.XR.ARSubsystems;
 
 public class ChargingStationSpawnPoint : NetworkBehaviour
 {
@@ -11,7 +8,7 @@ public class ChargingStationSpawnPoint : NetworkBehaviour
     private void Start()
     {
         //GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
-        PlayerCreatureHandler.Singleton.part2StartServer.AddListener(Part2Start);
+        PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
     }
 
     private void Part2Start()
