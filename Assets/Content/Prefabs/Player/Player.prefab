@@ -269,14 +269,14 @@ GameObject:
   - component: {fileID: 2109180853545549293}
   - component: {fileID: 8848504849359813536}
   - component: {fileID: 3137894526206576955}
+  - component: {fileID: 1822232012088383732}
+  - component: {fileID: 6168832689911919894}
+  - component: {fileID: 3422227897943739575}
   - component: {fileID: 900358185848464175}
   - component: {fileID: 4652526802611769945}
   - component: {fileID: 6939525966106815619}
   - component: {fileID: 4896153904840637150}
   - component: {fileID: 8792037398906525575}
-  - component: {fileID: 6168832689911919894}
-  - component: {fileID: 1822232012088383732}
-  - component: {fileID: 3422227897943739575}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -354,6 +354,63 @@ MonoBehaviour:
     visualsPrefab: {fileID: 0}
   shootingMode:
     m_InternalValue: 0
+--- !u!114 &1822232012088383732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795337031691148671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71d89f818bd43d4bb9870551e5a5836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6168832689911919894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795337031691148671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fdde59baf30044c8464936caae2ff4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraRig: {fileID: 1844976261673411005}
+  Head: {fileID: 1844976261673411003}
+--- !u!114 &3422227897943739575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2795337031691148671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4eb3f4fc25845545972faec385980aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LeftHand:
+    vrTarget: {fileID: 1844976261673459819}
+    rigTarget: {fileID: 6383353066500939654}
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 90, z: 45}
+  RightHand:
+    vrTarget: {fileID: 1844976261673456751}
+    rigTarget: {fileID: 3335810382831831318}
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -90, z: -45}
+  Head:
+    vrTarget: {fileID: 1844976261673411003}
+    rigTarget: {fileID: 5106669340130018427}
+    positionOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: 0, z: 0}
+  HeadConstraint: {fileID: 5106669340130018427}
+  HeadBodyOffset: {x: 0, y: 0, z: 0}
+  BodyObject: {fileID: 8375235398103602861}
+  HeadOffset: {x: 0, y: -0.8, z: 0}
 --- !u!136 &900358185848464175
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -438,63 +495,6 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
---- !u!114 &6168832689911919894
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2795337031691148671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5fdde59baf30044c8464936caae2ff4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraRig: {fileID: 1844976261673411005}
-  Head: {fileID: 1844976261673411003}
---- !u!114 &1822232012088383732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2795337031691148671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c71d89f818bd43d4bb9870551e5a5836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3422227897943739575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2795337031691148671}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4eb3f4fc25845545972faec385980aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LeftHand:
-    vrTarget: {fileID: 1844976261673459819}
-    rigTarget: {fileID: 6383353066500939654}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 90, z: 45}
-  RightHand:
-    vrTarget: {fileID: 1844976261673456751}
-    rigTarget: {fileID: 3335810382831831318}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: -90, z: -45}
-  Head:
-    vrTarget: {fileID: 1844976261673411003}
-    rigTarget: {fileID: 5106669340130018427}
-    positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
-  HeadConstraint: {fileID: 5106669340130018427}
-  HeadBodyOffset: {x: 0, y: 0, z: 0}
-  BodyObject: {fileID: 8375235398103602861}
-  HeadOffset: {x: 0, y: -0.8, z: 0}
 --- !u!1 &3671013407241365419
 GameObject:
   m_ObjectHideFlags: 0
