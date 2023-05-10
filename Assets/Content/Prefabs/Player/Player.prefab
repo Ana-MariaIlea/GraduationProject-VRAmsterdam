@@ -937,9 +937,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4335152715442551126}
     m_Modifications:
+    - target: {fileID: 3358374768677574184, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358374768677574184, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358374769143396426, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358374769143396426, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 492b9988436bd45049a9a6bc52ac8fb0, type: 3}
+    - target: {fileID: 3358374769143396429, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358374769143396429, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358374769605200962, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3358374769605200962, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 3358374769912242968, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3358374770431593298, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
       propertyPath: m_Name
@@ -1033,9 +1065,9 @@ MonoBehaviour:
   fireCreatureImage: {fileID: 3446854562850426328}
   waterCreatureImage: {fileID: 3446854562393498555}
   earthCreatureImage: {fileID: 3446854562776660433}
-  fireCreatureSprite: {fileID: 21300000, guid: 749615b78f067c442b8275980b7ed7c8, type: 3}
-  waterCreatureSprite: {fileID: 21300000, guid: 749615b78f067c442b8275980b7ed7c8, type: 3}
-  earthCreatureSprite: {fileID: 21300000, guid: 749615b78f067c442b8275980b7ed7c8, type: 3}
+  fireCreatureSprite: {fileID: 21300000, guid: 8ccc1d5e316d82e44929b58fa1a6bc64, type: 3}
+  waterCreatureSprite: {fileID: 21300000, guid: 0f08abafbbe329d4aa336f444b03f4b2, type: 3}
+  earthCreatureSprite: {fileID: 21300000, guid: e4888e6884daa5f42a072b650cc30d11, type: 3}
 --- !u!114 &3446854562393498555 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3358374768677574185, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
