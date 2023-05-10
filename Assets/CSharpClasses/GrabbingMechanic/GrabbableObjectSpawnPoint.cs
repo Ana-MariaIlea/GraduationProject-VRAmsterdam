@@ -13,13 +13,22 @@ public class GrabbableObjectSpawnPoint : NetworkBehaviour
         if (IsServer)
         {
             base.OnNetworkSpawn();
-            SpawnGrabbableObject();
+            
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part1StartServer.AddListener(SpawnGrabbableObject);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
     }
 
     private void SpawnGrabbableObject()
     {
-        GameObject station = Instantiate(grabbableObject, transform.position, Quaternion.identity);
-        station.GetComponent<NetworkObject>().Spawn(true);
+        GameObject grabbableItem = Instantiate(grabbableObject, transform.position, Quaternion.identity);
+        grabbableItem.GetComponent<NetworkObject>().Spawn(true);
+        GrabbableItemManager.Singleton.AddGrabbableItem(grabbableItem.GetComponent<GrabbableItem>());
     }
 }

@@ -1,14 +1,6 @@
-using Newtonsoft.Json.Linq;
-using Oculus.Platform.Samples.VrHoops;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Networking.Types;
-using static Unity.Burst.Intrinsics.X86;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -21,12 +13,6 @@ public class PlayerCreatureHandler : NetworkBehaviour
     public static PlayerCreatureHandler Singleton;
 
     private NetworkList<PlayerCreatures> playerCreatures;
-
-    public UnityEvent part2StartClient;
-    public UnityEvent part2StartServer;
-
-    public UnityEvent endingStartServer;
-    public UnityEvent endingStartClient;
 
     public struct PlayerCreatures : INetworkSerializable, IEquatable<PlayerCreatures>
     {
@@ -187,18 +173,14 @@ public class PlayerCreatureHandler : NetworkBehaviour
             }
         }
 
-        StartPart2ClientRpc();
-        part2StartServer?.Invoke();
-    }
-
-    [ClientRpc]
-    private void StartPart2ClientRpc()
-    {
-        part2StartClient?.Invoke();
-    }
-
-    public void GameEnd()
-    {
-        endingStartClient?.Invoke();
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.StartPart2Server();
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
+        
     }
 }

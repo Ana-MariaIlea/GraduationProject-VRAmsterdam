@@ -87,7 +87,7 @@ MonoBehaviour:
   thresholds:
   - stageName: Fire
     healthThreshhold: 60
-    projectilePrefab: {fileID: 8782673446078193449, guid: bed2031d84f518345a0a883baa6a58ff, type: 3}
+    projectilePrefab: {fileID: 7299303036709308142, guid: bed2031d84f518345a0a883baa6a58ff, type: 3}
     minionTypeToSpawn: 1
   - stageName: Water
     healthThreshhold: 30

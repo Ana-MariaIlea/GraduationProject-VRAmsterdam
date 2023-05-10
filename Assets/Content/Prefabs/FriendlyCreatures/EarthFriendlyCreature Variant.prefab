@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2850072838558495377, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2850072838558495377, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,6 +65,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2880005025857814922, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
+      propertyPath: creatureVisualDatas.Array.data[0].Mesh.Array.data[0]
+      value: 
+      objectReference: {fileID: 788993021232169032, guid: 5ad4ca3b8a035bf4881f765f3aab831e, type: 3}
     - target: {fileID: 2889481019014880517, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
       propertyPath: m_RootOrder
       value: 0

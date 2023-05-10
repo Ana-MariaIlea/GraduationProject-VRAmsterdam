@@ -50,7 +50,7 @@ MonoBehaviour:
   creatureVisualDatas:
   - creatureType: 3
     Mesh:
-    - {fileID: 115577415132743365, guid: 35599405e0a30ce4395c81a2341eb511, type: 3}
+    - {fileID: 788993021232169032, guid: 5ad4ca3b8a035bf4881f765f3aab831e, type: 3}
   - creatureType: 1
     Mesh:
     - {fileID: 115577415132743365, guid: 35599405e0a30ce4395c81a2341eb511, type: 3}

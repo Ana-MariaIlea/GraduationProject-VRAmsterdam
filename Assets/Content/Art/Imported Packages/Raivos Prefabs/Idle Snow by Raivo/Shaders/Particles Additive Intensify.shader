@@ -1,7 +1,11 @@
-﻿Shader "Particles/Additive Intensify" {
+﻿// Upgrade NOTE: replaced '_Projector' with 'unity_Projector'
+
+Shader "Particles/Additive Intensify" {
     Properties {
         _MainTex ("Texture", 2D) = "white" {}
         _Glow ("Intensity", Range(0, 127)) = 1
+        _ColorTint("Tint", Color) = (1.0, 0.6, 0.6, 1.0)
+
     }
     SubShader {
         Tags { "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
@@ -14,11 +18,16 @@
             CGPROGRAM
                 #pragma vertex vert
                 #pragma fragment frag
+
                 #include "UnityCG.cginc"
 
                 sampler2D _MainTex;
                 half4 _MainTex_ST;
+
                 half _Glow;
+
+                fixed4 _ColorTint;
+
 
                 struct vertIn {
                     float4 pos : POSITION;
@@ -36,7 +45,7 @@
                     v2f o;
                     o.pos = UnityObjectToClipPos(v.pos);
                     o.tex = v.tex * _MainTex_ST.xy + _MainTex_ST.zw;
-                    o.color = v.color;
+                    o.color = v.color * _ColorTint;
                     return o;
                 }
 

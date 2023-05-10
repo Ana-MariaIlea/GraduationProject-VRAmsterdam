@@ -1,12 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerStateManager : MonoBehaviour
+public class PlayerStateManager : NetworkBehaviour
 {
-    public UnityEvent part2Start;
-    public UnityEvent part3Start;
+    public static PlayerStateManager Singleton;
+
+    [HideInInspector] public UnityEvent part1StartClient;
+    [HideInInspector] public UnityEvent part1StartServer;
+
+    [HideInInspector] public UnityEvent part2StartClient;
+    [HideInInspector] public UnityEvent part2StartServer;
+
+    [HideInInspector] public UnityEvent endingStartServer;
+    [HideInInspector] public UnityEvent endingStartClient;
 
     public enum PlayerState
     {
@@ -14,19 +21,53 @@ public class PlayerStateManager : MonoBehaviour
         Part2,
         Part3
     }
-  
-    public void ChangeStateTo(PlayerState state)
+
+    private void Awake()
     {
-        switch (state)
+        if (Singleton == null)
         {
-            case PlayerState.Part1:
-                break;
-            case PlayerState.Part2:
-                part2Start?.Invoke();
-                break;
-            case PlayerState.Part3:
-                part3Start?.Invoke();
-                break;
+            Singleton = this;
         }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+
+    public void StartPart1Server()
+    {
+        StartPart1ClientRpc();
+        part1StartServer?.Invoke();
+    }
+
+    [ClientRpc]
+    private void StartPart1ClientRpc()
+    {
+        part1StartClient?.Invoke();
+    }
+
+    public void StartPart2Server()
+    {
+        StartPart2ClientRpc();
+        part2StartServer?.Invoke();
+    }
+
+    [ClientRpc]
+    private void StartPart2ClientRpc()
+    {
+        part2StartClient?.Invoke();
+    }
+
+    public void GameEndServer()
+    {
+        endingStartServer?.Invoke();
+        GameEndClientRpc();
+    }
+
+    [ClientRpc]
+    private void GameEndClientRpc()
+    {
+        endingStartClient?.Invoke();
     }
 }

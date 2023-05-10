@@ -200,7 +200,14 @@ public class BossCreature : NetworkBehaviour
 
     private void BossDie()
     {
-        PlayerCreatureHandler.Singleton.GameEnd();
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.GameEndServer();
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }   
     }
 
     public void InitMinionSpawnpoints(List<MinionSpawnPoint> minionSpawnPoints)
