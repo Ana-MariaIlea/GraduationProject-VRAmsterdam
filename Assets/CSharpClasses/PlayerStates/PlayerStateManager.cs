@@ -59,7 +59,14 @@ public class PlayerStateManager : NetworkBehaviour
         part2StartClient?.Invoke();
     }
 
-    public void GameEnd()
+    public void GameEndServer()
+    {
+        endingStartServer?.Invoke();
+        GameEndClientRpc();
+    }
+
+    [ClientRpc]
+    private void GameEndClientRpc()
     {
         endingStartClient?.Invoke();
     }
