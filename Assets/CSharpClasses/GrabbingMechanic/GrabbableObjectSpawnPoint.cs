@@ -13,7 +13,15 @@ public class GrabbableObjectSpawnPoint : NetworkBehaviour
         if (IsServer)
         {
             base.OnNetworkSpawn();
-            PlayerStateManager.Singleton.part1StartServer.AddListener(SpawnGrabbableObject);
+            
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part1StartServer.AddListener(SpawnGrabbableObject);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
     }
 

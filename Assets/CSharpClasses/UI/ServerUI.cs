@@ -20,7 +20,14 @@ public class ServerUI : NetworkBehaviour
 
     public void StartGame()
     {
-        PlayerStateManager.Singleton.StartPart1Server();
-        UIElementsPanel.SetActive(false);
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.StartPart1Server();
+            UIElementsPanel.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
     }
 }

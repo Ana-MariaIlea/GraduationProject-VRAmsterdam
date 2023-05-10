@@ -173,6 +173,14 @@ public class PlayerCreatureHandler : NetworkBehaviour
             }
         }
 
-        PlayerStateManager.Singleton.StartPart2Server();
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.StartPart2Server();
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
+        
     }
 }

@@ -9,7 +9,15 @@ public class PlayerVREnding : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerStateManager.Singleton.endingStartClient.AddListener(GameEnd);
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.endingStartClient.AddListener(GameEnd);
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
+        
     }
 
     private void GameEnd()

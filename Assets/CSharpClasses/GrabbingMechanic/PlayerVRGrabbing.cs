@@ -59,8 +59,16 @@ public class PlayerVRGrabbing : NetworkBehaviour
         {
             controls = new PlayerInputActions();
             controls.Enable();
-            PlayerStateManager.Singleton.part1StartClient.AddListener(BindInputActions);
-            PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part1StartClient.AddListener(BindInputActions);
+                PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+            
             base.OnNetworkSpawn();
         }
         else
@@ -145,7 +153,15 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls.PlayerPart1.GrabbingRight.canceled += ResealseItem;
         }
 
-        PlayerStateManager.Singleton.part1StartClient.RemoveListener(BindInputActions);
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.part1StartClient.RemoveListener(BindInputActions);
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
+        
     }
 
     void UnBindInputActions()

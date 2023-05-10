@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ChargingStationSpawnPoint : NetworkBehaviour
 {
@@ -8,7 +9,15 @@ public class ChargingStationSpawnPoint : NetworkBehaviour
     private void Start()
     {
         //GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
-        PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
+        
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
     }
 
     private void Part2Start()

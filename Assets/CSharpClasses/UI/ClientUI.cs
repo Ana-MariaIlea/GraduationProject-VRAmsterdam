@@ -10,7 +10,14 @@ public class ClientUI : NetworkBehaviour
         if (IsClient)
         {
             base.OnNetworkSpawn();
-            PlayerStateManager.Singleton.endingStartClient.AddListener(EndGame);
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartClient.AddListener(EndGame);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
     }
 
