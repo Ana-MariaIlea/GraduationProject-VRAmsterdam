@@ -11,6 +11,7 @@ TagManager:
   - Obstacle
   - EnemyHitObject
   - Enemy
+  - VRButton3D
   layers:
   - Default
   - TransparentFX

@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnvironmentObjectPrefab (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5259938695968744478, guid: c7de9cf1ac27d31479d9fb7e9f41dbdf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6274216667309833163, guid: c7de9cf1ac27d31479d9fb7e9f41dbdf, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -655,6 +659,10 @@ PrefabInstance:
     - target: {fileID: 5259938695968744478, guid: c7de9cf1ac27d31479d9fb7e9f41dbdf, type: 3}
       propertyPath: m_Name
       value: EnvironmentObjectPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5259938695968744478, guid: c7de9cf1ac27d31479d9fb7e9f41dbdf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6274216667309833163, guid: c7de9cf1ac27d31479d9fb7e9f41dbdf, type: 3}
       propertyPath: m_RootOrder
