@@ -10,11 +10,8 @@ public class PlayerVRShooting : NetworkBehaviour
     [SerializeField] private Transform controllerLeft;
     [SerializeField] private Transform controllerRight;
 
-    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Vector3 projectileOffset;
     [SerializeField] private float projectileShootCooldown = 1;
-
-    [SerializeField] private GameObject StreamPrefab;
 
     [SerializeField] private ParticleSystem streamObjectLeft;
     [SerializeField] private ParticleSystem streamObjectRight;
@@ -22,6 +19,8 @@ public class PlayerVRShooting : NetworkBehaviour
     [SerializeField] private float streamShootCooldown = 3;
 
     [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
+
+    private GameObject projectilePrefab;
 
     private NetworkVariable<float> currentDamage = new NetworkVariable<float>(0);
     private NetworkVariable<float> currentMaxDamage = new NetworkVariable<float>(0);
@@ -107,6 +106,7 @@ public class PlayerVRShooting : NetworkBehaviour
                     if (shootingVisuals[i].magicType == aux)
                     {
                         PlayerReviveServerRpc(shootingVisuals[i].maxDamage);
+                        projectilePrefab = shootingVisuals[i].visualsPrefab;
                         break;
                     }
                 }
