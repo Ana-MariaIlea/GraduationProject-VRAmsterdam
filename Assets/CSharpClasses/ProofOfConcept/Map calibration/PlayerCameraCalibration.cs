@@ -19,6 +19,8 @@ public class PlayerCameraCalibration : NetworkBehaviour
     [Tooltip("Left hand controller anchor.")]
     public Transform LeftHandController;
 
+    public GameObject canvas;
+
     private float rotSpeed = 0.1f;
     private float posVerticalSpeed = 0.01f;
     private float posHorizontalSpeed = 0.001f;
@@ -38,13 +40,21 @@ public class PlayerCameraCalibration : NetworkBehaviour
     [Tooltip("Calibration controlls setting applied at the Start of the application until changed later.")]
     public CalibrationControlls calibrationControlls = CalibrationControlls.NONE;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        if (OVRCameraRig == null)
+        if (IsClient && IsOwner)
         {
-            Debug.LogError($"Camera calibration is not possible. CameraRig reference is not defined!");
-            if (!LeftHandController)
-                Debug.LogError($"Floor calibration is not possible. LeftHandController reference is not defined!");
+            if (OVRCameraRig == null)
+            {
+                Debug.LogError($"Camera calibration is not possible. CameraRig reference is not defined!");
+                if (!LeftHandController)
+                    Debug.LogError($"Floor calibration is not possible. LeftHandController reference is not defined!");
+            }
+            else
+            {
+                canvas.SetActive(true);
+            }
+            base.OnNetworkSpawn();
         }
     }
 

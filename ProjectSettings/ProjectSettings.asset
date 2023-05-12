@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: VRAmsterdam
-  productName: MapCalibrationTutorial
+  productName: MapCalibrationTutorial2
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -137,7 +137,7 @@ PlayerSettings:
   bundleVersion: 0.1
   preloadedAssets:
   - {fileID: 11400000, guid: df0f0ea6dcf0eff47880f6480d39859b, type: 2}
-  - {fileID: 3671634941363438237, guid: 85c6c61a5563b0c40b15cd095f623d1d, type: 2}
+  - {fileID: -2679941059476893341, guid: 85c6c61a5563b0c40b15cd095f623d1d, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -157,8 +157,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.VRAmsterdam.MapCalibrationTutorial
-    Standalone: com.VRAmsterdam.MapCalibration
+    Android: com.VRAmsterdam.MapCalibrationTutorial2
+    Standalone: com.VRAmsterdam.MapCalibrationTutorial2
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -736,7 +736,7 @@ PlayerSettings:
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
   enableRoslynAnalyzers: 1
-  selectedPlatform: 2
+  selectedPlatform: 0
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1
