@@ -71,6 +71,8 @@ public class PlayerCameraCalibration : NetworkBehaviour
                     SaveCurrentCalibration();
                     LoadExistingCalibration();
                     break;
+                default:
+                    break;
             }
         }
     }
@@ -93,7 +95,7 @@ public class PlayerCameraCalibration : NetworkBehaviour
     private void MoveCameraForwardBackward()
     {
         //B - front
-        if (OVRInput.GetDown(OVRInput.Button.Two))
+        if (OVRInput.GetDown(OVRInput.Button.Four))
         {
             OVRCameraRig.position = new Vector3(
                     OVRCameraRig.position.x,
@@ -102,7 +104,7 @@ public class PlayerCameraCalibration : NetworkBehaviour
         }
 
         //A - back
-        if (OVRInput.GetDown(OVRInput.Button.One))
+        if (OVRInput.GetDown(OVRInput.Button.Three))
         {
             OVRCameraRig.position = new Vector3(
                     OVRCameraRig.position.x,
@@ -161,27 +163,22 @@ public class PlayerCameraCalibration : NetworkBehaviour
     /// </summary>
     public void SaveCurrentCalibration()
     {
-        //X on Left controller
-        if (OVRInput.GetDown(OVRInput.Button.Three))
-        {
-            PlayerPrefs.SetFloat(posKey + "x", OVRCameraRig.position.x);
-            PlayerPrefs.SetFloat(posKey + "y", OVRCameraRig.position.y);
-            PlayerPrefs.SetFloat(posKey + "z", OVRCameraRig.position.z);
+        PlayerPrefs.SetFloat(posKey + "x", OVRCameraRig.position.x);
+        PlayerPrefs.SetFloat(posKey + "y", OVRCameraRig.position.y);
+        PlayerPrefs.SetFloat(posKey + "z", OVRCameraRig.position.z);
 
-            PlayerPrefs.SetFloat(rotKey + "x", OVRCameraRig.rotation.x);
-            PlayerPrefs.SetFloat(rotKey + "y", OVRCameraRig.rotation.y);
-            PlayerPrefs.SetFloat(rotKey + "z", OVRCameraRig.rotation.z);
-            PlayerPrefs.SetFloat(rotKey + "w", OVRCameraRig.rotation.w);
-        }
+        PlayerPrefs.SetFloat(rotKey + "x", OVRCameraRig.rotation.x);
+        PlayerPrefs.SetFloat(rotKey + "y", OVRCameraRig.rotation.y);
+        PlayerPrefs.SetFloat(rotKey + "z", OVRCameraRig.rotation.z);
+        PlayerPrefs.SetFloat(rotKey + "w", OVRCameraRig.rotation.w);
     }
     /// <summary>
     /// Loads any existing camera calibration data from the PlayerPreferences.
     /// </summary>
     public void LoadExistingCalibration()
     {
-        //Y on Left controller
-        if (OVRInput.GetDown(OVRInput.Button.Four))
-        {
+        //if (OVRCameraRig.gameObject.activeSelf)
+        //{
             Vector3 loadedPos = Vector3.zero;
             loadedPos.x = PlayerPrefs.GetFloat(posKey + "x");
             loadedPos.y = PlayerPrefs.GetFloat(posKey + "y");
@@ -197,6 +194,6 @@ public class PlayerCameraCalibration : NetworkBehaviour
                 OVRCameraRig.position = loadedPos;
             if (loadedRot != Quaternion.identity)
                 OVRCameraRig.rotation = loadedRot;
-        }
+        //}
     }
 }

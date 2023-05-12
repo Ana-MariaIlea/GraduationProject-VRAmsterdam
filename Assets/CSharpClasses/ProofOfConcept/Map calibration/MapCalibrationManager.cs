@@ -27,8 +27,32 @@ public class MapCalibrationManager : MonoBehaviour
         hideAllCalibrationUIs();
         if (showOnStart)
             ShowNextUI();
-    }
 
+
+        PlayerStateManager.Singleton.part1StartClient.AddListener(proceedToPart1);
+    }
+    public void ShowNextUI()
+    {
+        if (CalibrationUis.Count == 0)
+        {
+            Debug.LogError($"There are no Calibration UIs assigned to start the map calibration tutorial!");
+            return;
+        }
+
+        if (_currentUI >= -1)
+        {
+            if(_currentUI >= 0)
+                CalibrationUis[_currentUI].SetActive(false);//hide existing previous
+
+            if(_currentUI < (CalibrationUis.Count - 1))
+            {
+                _currentUI += 1;
+                CalibrationUis[_currentUI].SetActive(true);
+                switchCameraCalibrationControlls(_currentUI);
+            }
+            else calibrationFinished();
+        }
+    }
     private void hideAllCalibrationUIs()
     {
         foreach(GameObject ui in CalibrationUis)
@@ -56,43 +80,10 @@ public class MapCalibrationManager : MonoBehaviour
                 break;
         }
     }
-    private void calibrationFinished()
-    {
-        _playerCamCalib.SaveCurrentCalibration();
-        hideAllCalibrationUIs();
-
-        //Start the actual gameplay
-        PlayerStateManager.Singleton.part1StartClient.Invoke();
-    }
     
-    public void ShowNextUI()
-    {
-        if (CalibrationUis.Count == 0)
-        {
-            Debug.LogError($"There are no Calibration UIs assigned to start the map calibration tutorial!");
-            return;
-        }
-
-        if (_currentUI >= -1)
-        {
-            if(_currentUI >= 0)
-                CalibrationUis[_currentUI].SetActive(false);//hide existing previous
-
-            if(_currentUI < (CalibrationUis.Count - 1))
-            {
-                _currentUI += 1;
-                CalibrationUis[_currentUI].SetActive(true);
-                switchCameraCalibrationControlls(_currentUI);
-            }
-            else calibrationFinished();
-        }
-    }
     public void SkipCalibration()
     {
-        hideAllCalibrationUIs();
-
-        //Start the actual gameplay
-        PlayerStateManager.Singleton.part1StartClient.Invoke();
+        calibrationFinished();
     }
     public void RestartCalibration()
     {
@@ -101,4 +92,17 @@ public class MapCalibrationManager : MonoBehaviour
         _currentUI = 0;
         ShowNextUI();
     }
+    private void calibrationFinished()
+    {
+        //Starts the actual gameplay (Start)
+        
+        _playerCamCalib.SaveCurrentCalibration();
+        hideAllCalibrationUIs();
+        _playerCamCalib.enabled = false;
+        
+        proceedToPart1();
+        this.enabled = false;
+    }
+
+    private void proceedToPart1() { }
 }
