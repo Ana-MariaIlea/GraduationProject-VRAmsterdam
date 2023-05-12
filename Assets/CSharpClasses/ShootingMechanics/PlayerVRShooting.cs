@@ -10,11 +10,8 @@ public class PlayerVRShooting : NetworkBehaviour
     [SerializeField] private Transform controllerLeft;
     [SerializeField] private Transform controllerRight;
 
-    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Vector3 projectileOffset;
     [SerializeField] private float projectileShootCooldown = 1;
-
-    [SerializeField] private GameObject StreamPrefab;
 
     [SerializeField] private ParticleSystem streamObjectLeft;
     [SerializeField] private ParticleSystem streamObjectRight;
@@ -22,6 +19,8 @@ public class PlayerVRShooting : NetworkBehaviour
     [SerializeField] private float streamShootCooldown = 3;
 
     [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
+
+    private GameObject projectilePrefab;
 
     private NetworkVariable<float> currentDamage = new NetworkVariable<float>(0);
     private NetworkVariable<float> currentMaxDamage = new NetworkVariable<float>(0);
@@ -107,6 +106,7 @@ public class PlayerVRShooting : NetworkBehaviour
                     if (shootingVisuals[i].magicType == aux)
                     {
                         PlayerReviveServerRpc(shootingVisuals[i].maxDamage);
+                        projectilePrefab = shootingVisuals[i].visualsPrefab;
                         break;
                     }
                 }
@@ -216,10 +216,17 @@ public class PlayerVRShooting : NetworkBehaviour
     [ServerRpc]
     private void ShootProjectileServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float damage, ServerRpcParams serverRpcParams = default)
     {
-        GameObject projectile = Instantiate(projectilePrefab, new Vector3(posX, posY, posZ), Quaternion.Euler(rotX, rotY, rotZ));
-        projectile.GetComponent<Projectile>().Damage = damage;
-        projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
-        projectile.GetComponent<NetworkObject>().Spawn();
+        if (projectilePrefab != null)
+        {
+            GameObject projectile = Instantiate(projectilePrefab, new Vector3(posX, posY, posZ), Quaternion.Euler(rotX, rotY, rotZ));
+            projectile.GetComponent<Projectile>().Damage = damage;
+            projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
+            projectile.GetComponent<NetworkObject>().Spawn();
+        }
+        else
+        {
+            Debug.LogError("ProjectilePrefab is null");
+        }
     }
 
     private void ShootStreamLeftProxi(InputAction.CallbackContext ctx)

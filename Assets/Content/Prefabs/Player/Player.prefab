@@ -334,10 +334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerLeft: {fileID: 1844976261673459819}
   controllerRight: {fileID: 1844976261673456751}
-  projectilePrefab: {fileID: 1401383218499347365, guid: f3f0611c57f5f5e4682c357c1b9ebc2e, type: 3}
   projectileOffset: {x: 0, y: -0.5, z: 0}
   projectileShootCooldown: 1
-  StreamPrefab: {fileID: 5502289048429909140, guid: 663fd613331927d4e8f3bcbd69dd3531, type: 3}
   streamObjectLeft: {fileID: 3914211718301682462}
   streamObjectRight: {fileID: 8912361870662913256}
   streamShootTime: 5
@@ -345,13 +343,10 @@ MonoBehaviour:
   shootingVisuals:
   - magicType: 1
     maxDamage: 15
-    visualsPrefab: {fileID: 0}
-  - magicType: 2
-    maxDamage: 5
-    visualsPrefab: {fileID: 0}
+    visualsPrefab: {fileID: 703492873811771268, guid: 06eff50fb4b042541bbbf767c1408d6e, type: 3}
   - magicType: 3
     maxDamage: 10
-    visualsPrefab: {fileID: 0}
+    visualsPrefab: {fileID: 8648485984495970599, guid: 25fda82ce4e9de84c9e2c41d6cd0dee7, type: 3}
   shootingMode:
     m_InternalValue: 0
 --- !u!114 &1822232012088383732
