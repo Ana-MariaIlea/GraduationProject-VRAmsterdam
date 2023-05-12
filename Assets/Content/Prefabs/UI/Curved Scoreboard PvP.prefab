@@ -3081,6 +3081,7 @@ GameObject:
   - component: {fileID: 7436672598489236233}
   - component: {fileID: 6638644833935318966}
   - component: {fileID: 6473432899230282415}
+  - component: {fileID: 5113825237701710623}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -3146,6 +3147,14 @@ MonoBehaviour:
   _cylinderSurface: {fileID: 6638644833935318966}
   _clippers:
   - {fileID: 3279283936066147733}
+--- !u!33 &5113825237701710623
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506595331233382217}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4990626611631488295
 GameObject:
   m_ObjectHideFlags: 0
@@ -4380,7 +4389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasRenderTexture: {fileID: 7927084013444422439}
-  _meshFilter: {fileID: 0}
+  _meshFilter: {fileID: 5113825237701710623}
   _meshCollider: {fileID: 0}
   _cylinder: {fileID: 7436672598489236233}
   _orientation: 1
