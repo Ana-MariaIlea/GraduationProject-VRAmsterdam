@@ -248,12 +248,12 @@ GameObject:
   - component: {fileID: 146561776}
   - component: {fileID: 146561775}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: NetworkManager OLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &146561775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,7 +643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568165, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568167, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: NetworkConfig.NetworkTransport
