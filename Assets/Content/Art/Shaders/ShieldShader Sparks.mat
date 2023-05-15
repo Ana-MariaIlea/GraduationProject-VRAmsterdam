@@ -28,14 +28,14 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _SphereHard: 1.05
-    - _SphereRadius: 4.72
-    - _VertexOffsetFreq: 1
+    - _SphereHard: 3.66
+    - _SphereRadius: 10.04
+    - _VertexOffsetFreq: 0.5
     m_Colors:
     - _Color: {r: 766.9961, g: 0, b: 345.6451, a: 1}
     - _FrameColor: {r: 0.49056602, g: 0.14069061, b: 0.14069061, a: 1}
-    - _SphereCenter: {r: 1.28, g: 0.99, b: 0.28, a: 0}
-    - _VectorOffsetDir: {r: 0.1, g: 0.1, b: 0.1, a: 0}
+    - _SphereCenter: {r: 0, g: 0, b: 0, a: 0}
+    - _VectorOffsetDir: {r: 0.05, g: 0.05, b: 0.05, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3552625341298999286
 MonoBehaviour:
