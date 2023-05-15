@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -43,7 +44,8 @@ public class BossCreature : NetworkBehaviour
     public enum BossStage
     {
         Fight,
-        Shield
+        Shield,
+        Die
     }
 
     public override void OnNetworkSpawn()
@@ -207,7 +209,9 @@ public class BossCreature : NetworkBehaviour
         else
         {
             Debug.LogError("No PlayerStateManager in the scene");
-        }   
+        }
+        stage = BossStage.Die;
+        meshAgent.SetDestination(transform.position);
     }
 
     public void InitMinionSpawnpoints(List<MinionSpawnPoint> minionSpawnPoints)
