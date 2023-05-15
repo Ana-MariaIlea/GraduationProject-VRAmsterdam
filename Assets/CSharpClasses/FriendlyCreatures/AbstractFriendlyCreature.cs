@@ -50,10 +50,16 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
             base.OnNetworkSpawn();
 
             meshAgent = GetComponent<NavMeshAgent>();
-            //playerTarget = FindFirstObjectByType<PlayerCreatureHandler>().gameObject;
             InitializeCreatureVisuals();
             GetComponent<NetworkTransform>().enabled = true;
-            //FindObjectOfType<PlayerStateManager>().part2Start.AddListener(Part2Start);
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
         else
         {
