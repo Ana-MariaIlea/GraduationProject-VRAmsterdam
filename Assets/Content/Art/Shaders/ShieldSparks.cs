@@ -16,6 +16,7 @@ public class ShieldSparks : MonoBehaviour
             mat = psr.material;
             mat.SetVector("_SphereCenter", collision.contacts[0].point);
             
+            Debug.Log("Sparks");
             Destroy(sparks, 2);
         }
     }
