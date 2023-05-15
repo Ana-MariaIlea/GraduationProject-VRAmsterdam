@@ -147,7 +147,18 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
     //------------------------------------------------------------------------------
     protected virtual void HelpingBehaviour()
     {
-        meshAgent.SetDestination(helpingSpace.position);
+        Vector3 distance = transform.position - helpingSpace.position;
+        float minDist = distance.magnitude;
+
+        if (minDist < 20f)
+        {
+            meshAgent.SetDestination(helpingSpace.position);
+        }
+        else
+        {
+            meshAgent.SetDestination(transform.position);
+
+        }
     }
 
     public void BefriendCreature()
