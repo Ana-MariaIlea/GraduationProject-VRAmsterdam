@@ -59,7 +59,7 @@ public class PlayerVRShooting : NetworkBehaviour
             
             if (PlayerStateManager.Singleton)
             {
-                PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
             }
             else
             {
@@ -168,7 +168,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2Start()
     {
-        //GetComponent<CapsuleCollider>().enabled = true;
+        
     }
 
     private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)

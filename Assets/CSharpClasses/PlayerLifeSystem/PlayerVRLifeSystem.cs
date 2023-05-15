@@ -20,6 +20,15 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         currentHP = maxHP;
+        if (PlayerStateManager.Singleton)
+        {
+            //PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
+            PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -33,17 +42,22 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         }
     }
 
+    private void Part2Start()
+    {
+        GetComponent<MeshCollider>().enabled = true;
+    }
+
     [ServerRpc]
     private void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
     {
         currentHP--;
         if (currentHP <= 0)
         {
-            PlayerDie(serverRpcParams);
+            GetComponent<PlayerVRShooting>().PlayerDieClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
         }
         else
         {
-            GetComponent<PlayerVRShooting>().PlayerHit(currentHP);
+            GetComponentInParent<PlayerVRShooting>().PlayerHit(currentHP);
         }
     }
 
@@ -51,9 +65,5 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     private void RevivePlayerServerRpc(ServerRpcParams serverRpcParams = default)
     {
         currentHP = maxHP;
-    }
-    private void PlayerDie(ServerRpcParams serverRpcParams = default)
-    {
-        GetComponent<PlayerVRShooting>().PlayerDieClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
     }
 }
