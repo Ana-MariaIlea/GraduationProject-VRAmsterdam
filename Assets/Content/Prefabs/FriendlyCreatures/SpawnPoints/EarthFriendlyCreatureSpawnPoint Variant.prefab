@@ -116,7 +116,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.58
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1596,7 +1596,7 @@ ParticleSystem:
     z:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.04
+      scalar: 0.08
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1755,7 +1755,7 @@ ParticleSystem:
     orbitalZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.18
+      scalar: 0.12
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1914,7 +1914,7 @@ ParticleSystem:
     orbitalOffsetZ:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -0.13
       minScalar: 0
       maxCurve:
         serializedVersion: 2
