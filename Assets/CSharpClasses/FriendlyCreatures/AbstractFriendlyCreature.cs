@@ -33,6 +33,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
     protected CreatureState state = CreatureState.Unfriended;
     protected CreatureType type;
     protected GameObject playerTarget;
+    protected Transform helpingSpace;
 
     public CreatureType CCreatureType
     {
@@ -146,7 +147,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
     //------------------------------------------------------------------------------
     protected virtual void HelpingBehaviour()
     {
-
+        meshAgent.SetDestination(helpingSpace.position);
     }
 
     public void BefriendCreature()

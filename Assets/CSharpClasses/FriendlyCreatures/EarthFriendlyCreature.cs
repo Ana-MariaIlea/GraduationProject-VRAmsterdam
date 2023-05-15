@@ -23,10 +23,7 @@ public class EarthFriendlyCreature : AbstractFriendlyCreature
             this.enabled = false;
         }
     }
-    protected override void HelpingBehaviour()
-    {
 
-    }
     //------------------------------------------------------------------------------
     // </summary>
     //     This function is called instead of BefriendCreature to have some delay for animations
@@ -52,5 +49,10 @@ public class EarthFriendlyCreature : AbstractFriendlyCreature
         yield return null;
 
         BefriendCreature();
+    }
+
+    public void InitializeCreatureData(Transform helpingSpot)
+    {
+        helpingSpace = helpingSpot;
     }
 }

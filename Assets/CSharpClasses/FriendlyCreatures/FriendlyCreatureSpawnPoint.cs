@@ -13,14 +13,14 @@ public class FriendlyCreatureSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private CreatureType creatureType;
     [SerializeField] private GameObject frindlyCreaturePrefab;
-    private List<FriendlyCreatureUnfriendedSpot> unfriendedSpots;
+    [SerializeField] private Transform helpingSpot;
+    [SerializeField] private Transform unfriendedSpot;
 
     public override void OnNetworkSpawn()
     {
         if (IsServer)
         {
             base.OnNetworkSpawn();
-            unfriendedSpots = FindObjectsOfType<FriendlyCreatureUnfriendedSpot>().ToList();
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part1StartServer.AddListener(SpawnCreature);
@@ -29,8 +29,6 @@ public class FriendlyCreatureSpawnPoint : NetworkBehaviour
             {
                 Debug.LogError("No PlayerStateManager in the scene");
             }
-            
-            //SpawnCreature();
         }
     }
 
@@ -43,13 +41,15 @@ public class FriendlyCreatureSpawnPoint : NetworkBehaviour
         {
             case CreatureType.Fire:
                 FireFriendlyCreature fire = creature.GetComponent<FireFriendlyCreature>();
-                fire.InitializeCreatureData(unfriendedSpots);
+                fire.InitializeCreatureData(unfriendedSpot, helpingSpot);
                 break;
             case CreatureType.Water:
                 WaterFriendlyCreature water = creature.GetComponent<WaterFriendlyCreature>();
+                water.InitializeCreatureData(helpingSpot);
                 break;
             case CreatureType.Earth:
                 EarthFriendlyCreature earth = creature.GetComponent<EarthFriendlyCreature>();
+                earth.InitializeCreatureData(helpingSpot);
                 break;
         }
     }

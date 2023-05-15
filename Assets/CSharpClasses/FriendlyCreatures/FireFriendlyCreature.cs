@@ -112,7 +112,7 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     }
     protected override void HelpingBehaviour()
     {
-
+        
     }
 
     //------------------------------------------------------------------------------
@@ -146,17 +146,9 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
     //     Funtion to get the closest unfriended spot
     // </summary>
     //------------------------------------------------------------------------------
-    public void InitializeCreatureData(List<FriendlyCreatureUnfriendedSpot> unfriendedSpots)
+    public void InitializeCreatureData(Transform unfriendedSpot, Transform helpingSpot)
     {
-        float minDist = 20;
-        for (int i = 0; i < unfriendedSpots.Count; i++)
-        {
-            Vector3 distance = transform.position - unfriendedSpots[i].transform.position;
-            if (distance.magnitude < minDist)
-            {
-                minDist = distance.magnitude;
-                unbefriendedSpace = unfriendedSpots[i].transform;
-            }
-        }
+        unbefriendedSpace = unfriendedSpot;
+        helpingSpace = helpingSpot;
     }
 }

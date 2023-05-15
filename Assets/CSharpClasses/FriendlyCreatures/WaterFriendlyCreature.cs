@@ -23,15 +23,6 @@ public class WaterFriendlyCreature : AbstractFriendlyCreature
         }
     }
 
-    protected override void UnfriendedBehaviour()
-    {
-
-    }
-    protected override void HelpingBehaviour()
-    {
-
-    }
-
     //------------------------------------------------------------------------------
     // </summary>
     //     This function is called instead of BefriendCreature to have some delay for animations
@@ -60,9 +51,9 @@ public class WaterFriendlyCreature : AbstractFriendlyCreature
         BefriendCreature();
     }
 
-    private void GetPlayerTransform()
+    public void InitializeCreatureData(Transform helpingSpot)
     {
-
+        helpingSpace = helpingSpot;
     }
 
 }
