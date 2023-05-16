@@ -28,7 +28,9 @@ public class EnemyFireProjectile : NetworkBehaviour
     {
         if (other.tag != "Enemy")
         {
-            Explode();
+            GetComponent<NetworkObject>().Despawn();
+            Destroy(gameObject);
+            //Explode();
         }
     }
 

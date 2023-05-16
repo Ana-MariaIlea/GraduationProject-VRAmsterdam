@@ -9,7 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1401383218499347365, guid: f3f0611c57f5f5e4682c357c1b9ebc2e, type: 3}
       propertyPath: m_Name
-      value: Projectile
+      value: PlayerEarthProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1401383218499347369, guid: f3f0611c57f5f5e4682c357c1b9ebc2e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1401383218499347371, guid: f3f0611c57f5f5e4682c357c1b9ebc2e, type: 3}
       propertyPath: m_RootOrder
@@ -54,6 +58,10 @@ PrefabInstance:
     - target: {fileID: 1401383218499347371, guid: f3f0611c57f5f5e4682c357c1b9ebc2e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2053268023516681620, guid: f3f0611c57f5f5e4682c357c1b9ebc2e, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3f0611c57f5f5e4682c357c1b9ebc2e, type: 3}
