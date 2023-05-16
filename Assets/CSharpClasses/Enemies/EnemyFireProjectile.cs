@@ -20,14 +20,16 @@ public class EnemyFireProjectile : NetworkBehaviour
         }
         else
         {
-            GetComponent<SphereCollider>().enabled = false;
+            //GetComponent<SphereCollider>().enabled = false;
+            this.enabled = false;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Enemy")
+        if (other.tag != "Enemy" && IsServer)
         {
+            Debug.Log(other.tag);
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
             //Explode();
@@ -40,7 +42,8 @@ public class EnemyFireProjectile : NetworkBehaviour
         Invoke("DestrouProjectile", 1f);
     }
 
-    private void DestrouProjectile()
+    [ServerRpc(RequireOwnership = false)]
+    public void DestroyProjectileServerRpc()
     {
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);

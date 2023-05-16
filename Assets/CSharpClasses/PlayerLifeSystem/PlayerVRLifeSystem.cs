@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -20,40 +21,49 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         currentHP = maxHP;
-        if (PlayerStateManager.Singleton)
-        {
-            //PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
-            PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+        if (IsServer)
+        { if (PlayerStateManager.Singleton)
+            {
+                //PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+            this.enabled = false;
         }
-        else
-        {
-            Debug.LogError("No PlayerStateManager in the scene");
-        }
+        else if (IsClient && IsOwner)
+                if (PlayerStateManager.Singleton)
+                {
+                    PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+                }
+                else
+                {
+                    Debug.LogError("No PlayerStateManager in the scene");
+                }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "ChargingStation")
+        if (other.tag == "EnemyHitObject")
         {
-            RevivePlayerServerRpc();
-        }
-        else if (other.tag == "EnemyHitObject")
-        {
+            Debug.Log("Life system trigger enter");
             PlayerHitServerRpc();
+            other.GetComponent<EnemyFireProjectile>().DestroyProjectileServerRpc();
         }
     }
 
     private void Part2Start()
     {
-        GetComponent<MeshCollider>().enabled = true;
+        GetComponent<BoxCollider>().enabled = true;
     }
 
     [ServerRpc]
-    private void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
+    public void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
     {
         currentHP--;
         if (currentHP <= 0)
         {
-            GetComponent<PlayerVRShooting>().PlayerDieClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
+            GetComponentInParent<PlayerVRShooting>().PlayerDieClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
         }
         else
         {
@@ -62,7 +72,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void RevivePlayerServerRpc(ServerRpcParams serverRpcParams = default)
+    public void RevivePlayerServerRpc(ServerRpcParams serverRpcParams = default)
     {
         currentHP = maxHP;
     }

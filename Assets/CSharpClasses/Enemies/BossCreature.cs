@@ -113,7 +113,8 @@ public class BossCreature : NetworkBehaviour
 
     private IEnumerator AttackCorutine()
     {
-        ProjectileShootPoint.LookAt(playerTarget);
+        Vector3 destinationPos = new Vector3(playerTarget.position.x, playerTarget.position.y + 1f, playerTarget.position.z);
+        ProjectileShootPoint.LookAt(destinationPos);
         GameObject projectile = Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
         projectile.GetComponent<NetworkObject>().Spawn(true);
         yield return new WaitForSeconds(2f);

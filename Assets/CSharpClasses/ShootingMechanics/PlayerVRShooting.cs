@@ -13,7 +13,6 @@ public class PlayerVRShooting : NetworkBehaviour
     [SerializeField] private Vector3 projectileOffset;
     [SerializeField] private float projectileShootCooldown = 1;
 
-    [SerializeField] private ParticleSystem streamObjectLeft;
     [SerializeField] private ParticleSystem streamObjectRight;
     [SerializeField] private float streamShootTime = 5;
     [SerializeField] private float streamShootCooldown = 3;
@@ -110,6 +109,8 @@ public class PlayerVRShooting : NetworkBehaviour
                         break;
                     }
                 }
+
+                GetComponentInChildren<PlayerVRLifeSystem>().RevivePlayerServerRpc();
             }
         }
     }
@@ -307,14 +308,12 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         currentDamage.Value = maxDamage;
         currentMaxDamage.Value = maxDamage;
-        streamObjectLeft.GetComponent<Stream>().Damage = maxDamage;
         streamObjectRight.GetComponent<Stream>().Damage = maxDamage;
     }
 
     public void PlayerHit(int livesLeft)
     {
         currentDamage.Value = currentMaxDamage.Value - currentMaxDamage.Value / livesLeft;
-        streamObjectLeft.GetComponent<Stream>().Damage = currentDamage.Value;
         streamObjectRight.GetComponent<Stream>().Damage = currentDamage.Value;
     }
 
