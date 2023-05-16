@@ -56,7 +56,7 @@ public class PlayerVRShooting : NetworkBehaviour
             base.OnNetworkSpawn();
             controls = new PlayerInputActions();
             controls.Enable();
-            
+
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
@@ -132,16 +132,13 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         if (controls != null && shootingMode.Value != ShootingMode.Stream)
         {
-            //controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
             controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
 
-            //controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
             controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
 
             if (shootingMode.Value == ShootingMode.Projectile)
             {
                 Debug.Log("disable projectile");
-                //controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
             }
         }
@@ -151,16 +148,13 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         if (controls != null && shootingMode.Value != ShootingMode.Projectile)
         {
-            //controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
             controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
             if (shootingMode.Value == ShootingMode.Stream)
             {
                 Debug.Log("disable stream");
 
-                //controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
                 controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
 
-                //controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
                 controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
             }
         }
@@ -168,7 +162,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2Start()
     {
-        
+
     }
 
     private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)
@@ -229,201 +223,84 @@ public class PlayerVRShooting : NetworkBehaviour
         }
     }
 
-    private void ShootStreamLeftProxi(InputAction.CallbackContext ctx)
-    {
-        if (shootingStreamLeft == null)
-        {
-            shootingStreamLeft = StartCoroutine(ShootSteam(ControllerType.Left));
-        }
-    }
     private void ShootStreamRightProxi(InputAction.CallbackContext ctx)
     {
         if (shootingStreamRight == null)
         {
-            shootingStreamRight = StartCoroutine(ShootSteam(ControllerType.Right));
+            Debug.Log("Start Stream----------------------");
+            shootingStreamRight = StartCoroutine(ShootSteam());
         }
     }
 
-    private void StopShootStreamLeftProxi(InputAction.CallbackContext ctx)
-    {
-        if (shootingStreamLeftCooldown == null)
-        {
-            shootingStreamLeftCooldown = StartCoroutine(ShootSteamPartialCooldown(ControllerType.Left));
-        }
-    }
     private void StopShootStreamRightProxi(InputAction.CallbackContext ctx)
     {
-        if (shootingStreamRightCooldown == null)
+        if (shootingStreamRight != null)
         {
-            shootingStreamRightCooldown = StartCoroutine(ShootSteamPartialCooldown(ControllerType.Right));
-        }
-    }
-
-    private IEnumerator ShootSteam(ControllerType controller)
-    {
-        ShootStreamServerRPC(controller);
-
-        if (controller == ControllerType.Left)
-        {
-            StartCoroutine(UpdateLeftStreamCorutineClient());
-        }
-        else
-        {
-            StartCoroutine(UpdateRightStreamCorutineClient());
-        }
-
-        yield return new WaitForSeconds(streamShootTime);
-
-        StopStreamServerRPC(controller);
-
-        if (controller == ControllerType.Left)
-        {
-            controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
-            shootingStreamLeft = null;
-        }
-        else
-        {
-            controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
+            StopCoroutine(shootingStreamRight);
+            StopStreamServerRPC();
             shootingStreamRight = null;
         }
     }
-    [ServerRpc]
-    private void ShootStreamServerRPC(ControllerType controller)
-    {
-        if (controller == ControllerType.Left)
-        {
-            streamObjectLeft.Play();
-        }
-        else
-        {
-            streamObjectRight.Play();
-        }
-        ShootStreamClientRPC(controller);
-    }
-    [ClientRpc]
-    private void ShootStreamClientRPC(ControllerType controller)
-    {
-        if (controller == ControllerType.Left)
-        {
-            streamObjectLeft.Play();
-        }
-        else
-        {
-            streamObjectRight.Play();
-        }
-    }
 
-    [ServerRpc]
-    private void StopStreamServerRPC(ControllerType controller)
+    private IEnumerator ShootSteam()
     {
-        if (controller == ControllerType.Left)
-        {
-            if (streamObjectLeft.isPlaying)
-                streamObjectLeft.Stop();
-        }
-        else
-        {
-            if (streamObjectRight.isPlaying)
-                streamObjectRight.Stop();
-        }
-        StopStreamClientRPC(controller);
-    }
+        ShootStreamServerRPC();
 
-    [ClientRpc]
-    private void StopStreamClientRPC(ControllerType controller)
-    {
-        if (controller == ControllerType.Left)
-        {
-            if (streamObjectLeft.isPlaying)
-                streamObjectLeft.Stop();
-        }
-        else
-        {
-            if (streamObjectRight.isPlaying)
-                streamObjectRight.Stop();
-        }
-    }
+        StartCoroutine(UpdateRightStreamCorutineClient());
 
-    [ServerRpc]
-    private void UpdateLeftStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)
-    {
-        streamObjectLeft.transform.localPosition = new Vector3(posX, posY, posZ);
-        streamObjectLeft.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
-    }
+        yield return new WaitForSeconds(streamShootTime);
 
-    [ServerRpc]
-    private void UpdateRightStreamPositionServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ)
-    {
-        streamObjectRight.transform.localPosition = new Vector3(posX, posY, posZ);
-        streamObjectRight.transform.localRotation = Quaternion.Euler(rotX, rotY, rotZ);
-    }
-    private IEnumerator UpdateLeftStreamCorutineClient()
-    {
-        yield return new WaitForSeconds(.3f);
-        while (streamObjectLeft.isPlaying)
-        {
-            UpdateLeftStreamPositionServerRPC(controllerLeft.position.x, controllerLeft.position.y, controllerLeft.position.z,
-                controllerLeft.rotation.eulerAngles.x, controllerLeft.rotation.eulerAngles.y, controllerLeft.rotation.eulerAngles.z);
-            yield return null;
-        }
+        StopStreamServerRPC();
+
+        shootingStreamRight = null;
     }
     private IEnumerator UpdateRightStreamCorutineClient()
     {
         yield return new WaitForSeconds(.3f);
         while (streamObjectRight.isPlaying)
         {
-            UpdateRightStreamPositionServerRPC(controllerRight.position.x, controllerRight.position.y, controllerRight.position.z,
-                controllerRight.rotation.eulerAngles.x, controllerRight.rotation.eulerAngles.y, controllerRight.rotation.eulerAngles.z);//,
-                                                                                                                                        //clientID.Value);
+            UpdateRightStreamPositionServerRPC(controllerRight.position, controllerRight.rotation.eulerAngles);
             yield return null;
         }
     }
 
-    private IEnumerator ShootSteamPartialCooldown(ControllerType controller)
+    [ServerRpc]
+    private void UpdateRightStreamPositionServerRPC(Vector3 pos, Vector3 rot)
     {
-        if (controller == ControllerType.Left)
-        {
-            if (shootingStreamLeft != null)
-            {
-                StopCoroutine(shootingStreamLeft);
-                controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
-            }
-
-            controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
-        }
-        else
-        {
-            if (shootingStreamRight != null)
-            {
-                StopCoroutine(shootingStreamRight);
-                controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
-            }
-
-            controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
-        }
-        StopStreamServerRPC(controller);
-        // add formula for partial stream cooldown
-        yield return new WaitForSeconds(streamShootCooldown);
-
-        if (controller == ControllerType.Left)
-        {
-            shootingStreamLeft = null;
-            shootingStreamLeftCooldown = null;
-
-            controls.PlayerPart2.ShootingLeft.performed += ShootStreamLeftProxi;
-
-            controls.PlayerPart2.ShootingLeft.canceled += StopShootStreamLeftProxi;
-        }
-        else
-        {
-            shootingStreamRight = null;
-            shootingStreamRightCooldown = null;
-
-            controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
-
-            controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
-        }
+        streamObjectRight.transform.position = pos;
+        streamObjectRight.transform.rotation = Quaternion.Euler(rot);
     }
+
+    [ServerRpc]
+    private void ShootStreamServerRPC()
+    {
+        streamObjectRight.Play();
+        
+        ShootStreamClientRPC();
+    }
+
+    [ClientRpc]
+    private void ShootStreamClientRPC()
+    {
+        streamObjectRight.Play();
+    }
+
+    [ServerRpc]
+    private void StopStreamServerRPC()
+    {
+        if (streamObjectRight.isPlaying)
+            streamObjectRight.Stop();
+        StopStreamClientRPC();
+    }
+
+    [ClientRpc]
+    private void StopStreamClientRPC()
+    {
+        if (streamObjectRight.isPlaying)
+            streamObjectRight.Stop();
+    }
+
+
 
     [ServerRpc]
     public void PlayerReviveServerRpc(float maxDamage)
@@ -451,10 +328,8 @@ public class PlayerVRShooting : NetworkBehaviour
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 break;
             case ShootingMode.Stream:
-                controls.PlayerPart2.ShootingLeft.performed -= ShootStreamLeftProxi;
                 controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
 
-                controls.PlayerPart2.ShootingLeft.canceled -= StopShootStreamLeftProxi;
                 controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
 
                 StopAllCoroutines();
