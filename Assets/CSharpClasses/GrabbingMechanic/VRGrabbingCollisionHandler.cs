@@ -6,14 +6,11 @@ public class VRGrabbingCollisionHandler : MonoBehaviour
 {
     [SerializeField] private PlayerVRGrabbing grabbing;
 
-    OculusHaptics oculusHaptics;
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.tag == "Grab")
         {
             grabbing.TriggerEnterGrab(other);
-            //oculusHaptics.Vibrate(OculusHaptics.VibrationForce.Medium);
         }
         else if (other.tag == "GrabDestination")
         {

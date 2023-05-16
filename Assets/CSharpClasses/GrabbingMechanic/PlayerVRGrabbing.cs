@@ -68,7 +68,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             {
                 Debug.LogError("No PlayerStateManager in the scene");
             }
-            
+
             base.OnNetworkSpawn();
         }
         else
@@ -90,7 +90,10 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
     public void TriggerEnterGrab(Collider other)
     {
-        grabedItem = other.GetComponent<GrabbableItem>();
+        if (grabbing.Value == false)
+        {
+            grabedItem = other.GetComponent<GrabbableItem>();
+        }
     }
     public void TriggerEnterGrabDestination(Collider other)
     {
@@ -137,7 +140,10 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     public void TriggerExit()
     {
-        grabedItem = null;
+        if (grabbing.Value == false) 
+        {
+            grabedItem = null;
+        }
     }
 
     void BindInputActions()
@@ -161,7 +167,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         {
             Debug.LogError("No PlayerStateManager in the scene");
         }
-        
+
     }
 
     void UnBindInputActions()
@@ -196,6 +202,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     void GrabItem(InputAction.CallbackContext ctx)
     {
+        Debug.Log(grabedItem);
         if (grabedItem != null)
         {
             GrabItemServerRPC(grabedItem.ObjectID);
@@ -224,11 +231,11 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     private IEnumerator GrabbingObjectCorutineServer()
     {
-        
+
         yield return new WaitForFixedUpdate();
         grabedItemOffset = grabedItem.transform.position - anchor.position;
-        
-        while (grabbing.Value)
+
+        while (grabbing.Value && grabedItem != null)
         {
             grabedItem.transform.position = anchor.position + grabedItemOffset;
             yield return null;
@@ -241,7 +248,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         {
             ResleaseItemServerRPC();
         }
-        
+
     }
 
     public void ReleaseItemServerCall()
