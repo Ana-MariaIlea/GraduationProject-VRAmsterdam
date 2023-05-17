@@ -15,7 +15,20 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [SerializeField] int maxHP = 10;
 
     private int currentHP;
-    // Start is called before the first frame update
+
+    [SerializeField]private GameObject HPText;
+
+    [SerializeField]private Material mat;
+
+    private void Start()
+    {
+        //Should put it in OnNetworkSpawn I know...
+        mat = GetComponent<Renderer>().material;
+        currentHP = maxHP;
+        HPText = GameObject.Find("HPText");
+        HPText.GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + currentHP;
+    }
+
 
     public override void OnNetworkSpawn()
     {
@@ -60,7 +73,12 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [ServerRpc]
     public void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        
         currentHP--;
+        
+        //Material Cutoff affect the transparency of the health indicator
+        mat.SetFloat("_Cutoff", 1f - currentHP / (float)maxHP);
+        
         if (currentHP <= 0)
         {
             GetComponentInParent<PlayerVRShooting>().PlayerDieClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });

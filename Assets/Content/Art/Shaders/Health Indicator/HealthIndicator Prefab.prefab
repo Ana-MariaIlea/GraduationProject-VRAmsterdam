@@ -141,7 +141,6 @@ GameObject:
   - component: {fileID: 5329724910532682637}
   - component: {fileID: 1794457610235281098}
   - component: {fileID: 1764730444372101620}
-  - component: {fileID: 2077871739158187944}
   m_Layer: 0
   m_Name: HealthIndicator
   m_TagString: Untagged
@@ -216,20 +215,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &2077871739158187944
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5699229967610135602}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.6377213
-  m_Height: 13.854293
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &8236521619220965266
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +259,7 @@ GameObject:
   - component: {fileID: 2487002797284030205}
   - component: {fileID: 3253193111060872923}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: HPText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
