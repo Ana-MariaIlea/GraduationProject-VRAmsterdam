@@ -61,7 +61,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         {
             Debug.Log("Life system trigger enter");
             PlayerHitServerRpc();
-            other.GetComponent<EnemyFireProjectile>().DestroyProjectileServerRpc();
+            other.GetComponent<EnemyHitObject>().DestroyProjectileServerRpc(); 
         }
     }
 
