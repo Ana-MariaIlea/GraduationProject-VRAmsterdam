@@ -104,5 +104,8 @@ public class MapCalibrationManager : MonoBehaviour
         this.enabled = false;
     }
 
-    private void proceedToPart1() { }
+    private void proceedToPart1() 
+    {
+
+    }
 }

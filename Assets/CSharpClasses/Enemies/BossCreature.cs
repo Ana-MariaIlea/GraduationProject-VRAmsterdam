@@ -94,7 +94,6 @@ public class BossCreature : NetworkBehaviour
                     playerTarget = hitCollidersSight[i].transform;
                 }
             }
-            Debug.Log("Min distance " + minDist + " attack range " + attackRange);
             // If the player has food, go to the player
             if (minDist > attackRange)
             {
@@ -157,6 +156,7 @@ public class BossCreature : NetworkBehaviour
     public void DamangeBoss(float damage)
     {
         health -= damage;
+        Debug.Log("Boss damage " + damage);
         if (health < 0)
         {
             BossDie();

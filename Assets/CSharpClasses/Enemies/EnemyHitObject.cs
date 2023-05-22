@@ -24,7 +24,6 @@ public class EnemyHitObject : NetworkBehaviour
     {
         if (other.tag != "Enemy" && other.tag != "Player" && IsServer)
         {
-            Debug.Log(other.tag);
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }

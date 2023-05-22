@@ -12,6 +12,8 @@ TagManager:
   - EnemyHitObject
   - Enemy
   - VRButton3D
+  - Boss
+  - Minion
   layers:
   - Default
   - TransparentFX

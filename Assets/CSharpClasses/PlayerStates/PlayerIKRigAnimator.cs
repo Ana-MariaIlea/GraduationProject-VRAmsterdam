@@ -13,8 +13,6 @@ public class PlayerIKRigAnimator : NetworkBehaviour
     [SerializeField] private Vector3 HeadBodyOffset;
     [SerializeField] private Transform BodyObject;
 
-    [SerializeField] private Vector3 HeadOffset = new Vector3(0, -0.8f, 0);
-
     public enum HandType
     {
         Left,
@@ -75,7 +73,6 @@ public class PlayerIKRigAnimator : NetworkBehaviour
     {
         BodyObject.position = NewPosition;
 
-        //List<ulong> clientIDs = new List<ulong>();
         List<ulong> clientIDs = NetworkManager.Singleton.ConnectedClients.Keys.ToList();
         clientIDs.Remove(serverRpcParams.Receive.SenderClientId);
 

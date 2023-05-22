@@ -680,7 +680,7 @@ PrefabInstance:
       objectReference: {fileID: 1658601277}
     - target: {fileID: 6681549834280568153, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: isServer
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568154, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: ConnectionData.Address
@@ -2188,6 +2188,10 @@ PrefabInstance:
     - target: {fileID: 2616300447022384402, guid: 81e343ef655919c4d9d0612d4834a16e, type: 3}
       propertyPath: m_Name
       value: WaterCharginStationSpawnPoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 2616300447022384402, guid: 81e343ef655919c4d9d0612d4834a16e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7369785091902685045, guid: 81e343ef655919c4d9d0612d4834a16e, type: 3}
       propertyPath: m_RootOrder

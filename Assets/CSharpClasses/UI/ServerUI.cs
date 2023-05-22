@@ -25,7 +25,7 @@ public class ServerUI : NetworkBehaviour
     {
         if (PlayerStateManager.Singleton)
         {
-            PlayerStateManager.Singleton.StartPart2Server();
+            PlayerStateManager.Singleton.StartPart1Server();
             UIElementsPanel.SetActive(false);
         }
         else

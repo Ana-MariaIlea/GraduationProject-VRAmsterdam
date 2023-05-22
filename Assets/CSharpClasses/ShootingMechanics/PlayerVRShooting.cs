@@ -102,10 +102,10 @@ public class PlayerVRShooting : NetworkBehaviour
 
                 for (int i = 0; i < shootingVisuals.Count; i++)
                 {
+                    Debug.Log("magic type " + shootingVisuals[i].magicType + " charging station magic " + aux);
                     if (shootingVisuals[i].magicType == aux)
                     {
-                        PlayerReviveServerRpc(shootingVisuals[i].maxDamage);
-                        projectilePrefab = shootingVisuals[i].visualsPrefab;
+                        PlayerReviveServer(i);
                         break;
                     }
                 }
@@ -192,9 +192,7 @@ public class PlayerVRShooting : NetworkBehaviour
         }
         projectileRotation.z = 0;
 
-        ShootProjectileServerRPC(projectilePosition.x, projectilePosition.y, projectilePosition.z,
-                                 projectileRotation.eulerAngles.x, projectileRotation.eulerAngles.y, projectileRotation.eulerAngles.z,
-                                 currentDamage.Value);
+        ShootProjectileServerRPC(projectilePosition, projectileRotation.eulerAngles, currentDamage.Value);
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
@@ -209,11 +207,12 @@ public class PlayerVRShooting : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void ShootProjectileServerRPC(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float damage, ServerRpcParams serverRpcParams = default)
+    private void ShootProjectileServerRPC(Vector3 position, Vector3 rotation, float damage, ServerRpcParams serverRpcParams = default)
     {
         if (projectilePrefab != null)
         {
-            GameObject projectile = Instantiate(projectilePrefab, new Vector3(posX, posY, posZ), Quaternion.Euler(rotX, rotY, rotZ));
+            Debug.Log("Projectile damage " + damage);
+            GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.Euler(rotation));
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
             projectile.GetComponent<NetworkObject>().Spawn();
@@ -276,7 +275,7 @@ public class PlayerVRShooting : NetworkBehaviour
     private void ShootStreamServerRPC()
     {
         streamObjectRight.Play();
-        
+
         ShootStreamClientRPC();
     }
 
@@ -303,12 +302,14 @@ public class PlayerVRShooting : NetworkBehaviour
 
 
 
-    [ServerRpc]
-    public void PlayerReviveServerRpc(float maxDamage)
+    public void PlayerReviveServer(int projectileDataIndex)
     {
-        currentDamage.Value = maxDamage;
-        currentMaxDamage.Value = maxDamage;
-        streamObjectRight.GetComponent<Stream>().Damage = maxDamage;
+        Debug.Log("Revive player damage " + shootingVisuals[projectileDataIndex].maxDamage);
+
+        currentDamage.Value = shootingVisuals[projectileDataIndex].maxDamage;
+        currentMaxDamage.Value = shootingVisuals[projectileDataIndex].maxDamage;
+        projectilePrefab = shootingVisuals[projectileDataIndex].visualsPrefab;
+        streamObjectRight.GetComponent<Stream>().Damage = shootingVisuals[projectileDataIndex].maxDamage;
     }
 
     public void PlayerHit(int livesLeft)

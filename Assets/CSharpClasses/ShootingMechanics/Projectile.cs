@@ -26,24 +26,23 @@ public class Projectile : PlayerHitObject
     {
         switch (other.tag)
         {
-            case "ShieldCollider":
-                //GetComponent<NetworkObject>().Despawn();
-                //Destroy(this);
-                break;
             case "Boss":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
                 other.GetComponent<BossCreature>().DamangeBoss(damage);
                 //GetComponent<NetworkObject>().Despawn();
                 //Destroy(this);
                 break;
-            case "Miniboss":
+            case "Minion":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
                 other.GetComponent<MinionCreature>().DamangeMinion(damage);
                 //GetComponent<NetworkObject>().Despawn();
                 //Destroy(this);
                 break;
         }
-        GetComponent<NetworkObject>().Despawn();
-        Destroy(this);
+        if (other.tag != "Player" && other.tag != "ChargingStation")
+        {
+            GetComponent<NetworkObject>().Despawn();
+            Destroy(this);
+        }
     }
 }
