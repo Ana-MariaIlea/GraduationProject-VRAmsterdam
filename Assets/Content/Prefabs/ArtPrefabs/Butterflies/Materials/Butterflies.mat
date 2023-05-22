@@ -30,11 +30,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Emission: 3
+    - _Emission: 11.48
     - _InvFade: 1
-    - _Speed: 22.5
-    - _WingPower: 0.19
-    - _Wingmaxdown: 0.407
+    - _Speed: 20
+    - _WingPower: 0.02
+    - _Wingmaxdown: 0.5
     - __dirty: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

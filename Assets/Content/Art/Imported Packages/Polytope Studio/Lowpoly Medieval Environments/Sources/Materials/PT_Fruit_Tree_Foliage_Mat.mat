@@ -70,13 +70,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AO: 2.4
-    - _BaseLight: 0.35
+    - _AO: 1.84
+    - _BaseLight: 0.738
     - _BumpScale: 1
     - _CUSTOMCOLORSTINTING: 0
     - _CUSTOMWIND: 1
     - _CUSTOMWIND1: 1
-    - _Cutoff: 0.5
+    - _Cutoff: 0.788
     - _DetailNormalMapScale: 1
     - _DstBlend: 10
     - _GlossMapScale: 1
@@ -88,7 +88,7 @@ Material:
     - _MaskClipValue: 0.5
     - _Metallic: 0
     - _Mode: 3
-    - _Occlusion: 8.67
+    - _Occlusion: 11.37
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SNOWONOFF: 0
