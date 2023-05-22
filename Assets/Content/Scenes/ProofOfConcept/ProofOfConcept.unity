@@ -684,7 +684,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568154, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: ConnectionData.Address
-      value: 145.76.94.214
+      value: 145.76.94.217
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568165, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_Name
@@ -694,6 +694,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6681549834280568167, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
+      propertyPath: NetworkConfig.PlayerPrefab
+      value: 
+      objectReference: {fileID: 2795337031691148671, guid: 0d9a05b22fc379444a6270c03ae45409, type: 3}
     - target: {fileID: 6681549834280568167, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: NetworkConfig.NetworkTransport
       value: 

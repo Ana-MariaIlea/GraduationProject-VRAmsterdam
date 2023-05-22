@@ -423,6 +423,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
+  HPText: {fileID: 0}
+  mat: {fileID: 0}
 --- !u!114 &3137894526206576955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,7 +441,6 @@ MonoBehaviour:
   controllerRight: {fileID: 1844976261673456751}
   projectileOffset: {x: 0, y: -0.5, z: 0}
   projectileShootCooldown: 1
-  streamObjectLeft: {fileID: 3914211718301682462}
   streamObjectRight: {fileID: 8912361870662913256}
   streamShootTime: 5
   streamShootCooldown: 3
@@ -595,7 +596,6 @@ MonoBehaviour:
   HeadConstraint: {fileID: 5106669340130018427}
   HeadBodyOffset: {x: 0, y: 0, z: 0}
   BodyObject: {fileID: 8375235398103602861}
-  HeadOffset: {x: 0, y: -0.8, z: 0}
 --- !u!1 &3030056339682971632
 GameObject:
   m_ObjectHideFlags: 0
@@ -3723,6 +3723,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a267198278036f74aa9244da1c280e85, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1182047512121531973, guid: a267198278036f74aa9244da1c280e85, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -4264,10 +4268,5 @@ PrefabInstance:
 --- !u!4 &2409132460972285958 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6814117899448400170, guid: 663fd613331927d4e8f3bcbd69dd3531, type: 3}
-  m_PrefabInstance: {fileID: 9222924630100875564}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &3914211718301682462 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5308754143485497906, guid: 663fd613331927d4e8f3bcbd69dd3531, type: 3}
   m_PrefabInstance: {fileID: 9222924630100875564}
   m_PrefabAsset: {fileID: 0}

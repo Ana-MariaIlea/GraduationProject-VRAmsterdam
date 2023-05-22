@@ -23,8 +23,8 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     private void Start()
     {
         //Should put it in OnNetworkSpawn I know...
-        mat = GetComponent<Renderer>().material;
-        currentHP = maxHP;
+        //mat = GetComponent<Renderer>().material;
+        //currentHP = maxHP;
         //HPText = GameObject.Find("HPText");
         //HPText.GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + currentHP;
     }

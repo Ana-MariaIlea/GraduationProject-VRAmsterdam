@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// This class manages UI and functionality for map calibration before the start of the game.
@@ -14,6 +15,9 @@ public class MapCalibrationManager : MonoBehaviour
     public bool showOnStart = true;
     [Space(10)]
     public List<GameObject> CalibrationUis;
+    [Space(10)]
+    public GameObject uiHelperObj;
+
 
     private PlayerCameraCalibration _playerCamCalib;
     private int _currentUI = -1;
@@ -98,14 +102,21 @@ public class MapCalibrationManager : MonoBehaviour
         
         _playerCamCalib.SaveCurrentCalibration();
         hideAllCalibrationUIs();
+        disableLaserPointer();
         _playerCamCalib.enabled = false;
         
+
         proceedToPart1();
         this.enabled = false;
     }
 
     private void proceedToPart1() 
     {
+        //used for subscribing to a listener.
+    }
 
+    private void disableLaserPointer()
+    {
+        uiHelperObj.SetActive(false);
     }
 }

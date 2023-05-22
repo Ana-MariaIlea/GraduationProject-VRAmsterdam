@@ -31,14 +31,14 @@ public class GameSessionStart : MonoBehaviour
     }
     private void Awake()
     {
-        //switch (Application.platform)
-        //{
-        //    case RuntimePlatform.Android:
-        //        isServer = false;
-        //        break;
-        //    case RuntimePlatform.WindowsPlayer:
-        //        isServer = true;
-        //        break;
-        //}
+        switch (Application.platform)
+        {
+            case RuntimePlatform.Android:
+                isServer = false;
+                break;
+            case RuntimePlatform.WindowsPlayer:
+                isServer = true;
+                break;
+        }
     }
 }
