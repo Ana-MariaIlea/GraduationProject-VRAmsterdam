@@ -25,8 +25,8 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         //Should put it in OnNetworkSpawn I know...
         mat = GetComponent<Renderer>().material;
         currentHP = maxHP;
-        HPText = GameObject.Find("HPText");
-        HPText.GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + currentHP;
+        //HPText = GameObject.Find("HPText");
+        //HPText.GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + currentHP;
     }
 
 
@@ -77,7 +77,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         currentHP--;
         
         //Material Cutoff affect the transparency of the health indicator
-        mat.SetFloat("_Cutoff", 1f - currentHP / (float)maxHP);
+        //mat.SetFloat("_Cutoff", 1f - currentHP / (float)maxHP);
         
         if (currentHP <= 0)
         {

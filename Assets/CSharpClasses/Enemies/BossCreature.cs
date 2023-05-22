@@ -10,7 +10,7 @@ public class BossCreature : NetworkBehaviour
     [SerializeField] private List<BossStageElements> thresholds;
     [SerializeField] private GameObject shieldObject;
     [SerializeField] private Transform ProjectileShootPoint;
-    [SerializeField] private float attackRange = 10;
+    [SerializeField] private float attackRange = 3;
 
     private float health;
 
@@ -94,7 +94,7 @@ public class BossCreature : NetworkBehaviour
                     playerTarget = hitCollidersSight[i].transform;
                 }
             }
-
+            Debug.Log("Min distance " + minDist + " attack range " + attackRange);
             // If the player has food, go to the player
             if (minDist > attackRange)
             {

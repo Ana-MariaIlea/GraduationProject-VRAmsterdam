@@ -99,7 +99,7 @@ MonoBehaviour:
     minionTypeToSpawn: 3
   shieldObject: {fileID: 3454386082449994740}
   ProjectileShootPoint: {fileID: 4732879594280981817}
-  attackRange: 10
+  attackRange: 3
 --- !u!195 &7002222137553052600
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -322,19 +322,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c208c590c60397944b333f325d65b963, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.0000029504295
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c208c590c60397944b333f325d65b963, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c208c590c60397944b333f325d65b963, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c208c590c60397944b333f325d65b963, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c208c590c60397944b333f325d65b963, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -342,7 +342,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c208c590c60397944b333f325d65b963, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c208c590c60397944b333f325d65b963, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
