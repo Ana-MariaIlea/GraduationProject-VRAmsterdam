@@ -224,7 +224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &116034407363963645
 Transform:
   m_ObjectHideFlags: 0
@@ -389,6 +389,14 @@ PrefabInstance:
     - target: {fileID: 121437793662510184, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 121437793662510187, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
+      propertyPath: m_SortMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 121437793662510187, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
+      propertyPath: m_RenderAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 121437794723586602, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
       propertyPath: m_RootOrder
