@@ -118,16 +118,17 @@ public class PlayerVRShooting : NetworkBehaviour
     private IEnumerator ChangeShootingModeVariable(CreatureType aux)
     {
         yield return new WaitForSeconds(.3f);
-        switch (aux)
-        {
-            case CreatureType.Earth:
-            case CreatureType.Fire:
-                shootingMode.Value = ShootingMode.Projectile;
-                break;
-            case CreatureType.Water:
-                shootingMode.Value = ShootingMode.Stream;
-                break;
-        }
+        shootingMode.Value = ShootingMode.Projectile;
+        //switch (aux)
+        //{
+        //    case CreatureType.Earth:
+        //    case CreatureType.Fire:
+        //        shootingMode.Value = ShootingMode.Projectile;
+        //        break;
+        //    case CreatureType.Water:
+        //        shootingMode.Value = ShootingMode.Stream;
+        //        break;
+        //}
     }
     [ClientRpc]
     private void ChangeShootingModeToStreamClientRpc()
