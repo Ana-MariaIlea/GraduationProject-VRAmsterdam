@@ -172,6 +172,7 @@ public class BossCreature : NetworkBehaviour
             minionNumber = minionSpawnPoints.Count;
             thresholdIndex++;
             shieldObject.SetActive(true);
+            meshAgent.enabled = false;
             ActivateShieldClientRpc();
         }
     }
@@ -189,6 +190,7 @@ public class BossCreature : NetworkBehaviour
         {
             stage = BossStage.Fight;
             shieldObject.SetActive(false);
+            meshAgent.enabled = true;
             DeactivateShieldClientRpc();
         }
     }

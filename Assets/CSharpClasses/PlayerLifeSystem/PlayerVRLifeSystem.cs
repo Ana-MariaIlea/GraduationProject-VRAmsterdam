@@ -53,7 +53,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     {
         if (other.tag == "EnemyHitObject")
         {
-            Debug.Log("Life system trigger enter");
             PlayerHitServer();
             other.GetComponent<EnemyHitObject>().DestroyProjectileServer(); 
         }
@@ -66,7 +65,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
 
     public void PlayerHitServer(ServerRpcParams serverRpcParams = default)
     {
-        Debug.Log("Player hit");
         currentHP--;
         
         //Material Cutoff affect the transparency of the health indicator
@@ -84,7 +82,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
 
     public void RevivePlayerServer()
     {
-        Debug.Log("Revide player");
         currentHP = maxHP;
     }
 }
