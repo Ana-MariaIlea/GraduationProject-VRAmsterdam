@@ -88,16 +88,17 @@ public class PlayerVRShooting : NetworkBehaviour
             if (other.tag == "ChargingStation")
             {
                 CreatureType aux = other.GetComponent<ChargingStation>().CCreatureType;
-                switch (aux)
-                {
-                    case CreatureType.Earth:
-                    case CreatureType.Fire:
-                        ChangeShootingModeToProjectileClientRpc();
-                        break;
-                    case CreatureType.Water:
-                        ChangeShootingModeToStreamClientRpc();
-                        break;
-                }
+                //switch (aux)
+                //{
+                //    case CreatureType.Earth:
+                //    case CreatureType.Fire:
+                //        ChangeShootingModeToProjectileClientRpc();
+                //        break;
+                //    case CreatureType.Water:
+                //        ChangeShootingModeToStreamClientRpc();
+                //        break;
+                //}
+                ChangeShootingModeToProjectileClientRpc();
                 StartCoroutine(ChangeShootingModeVariable(aux));
 
                 for (int i = 0; i < shootingVisuals.Count; i++)
