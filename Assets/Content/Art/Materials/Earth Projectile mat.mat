@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Projectile mat
+  m_Name: Earth Projectile mat
   m_Shader: {fileID: 4800000, guid: 84273470abd10cc4d849f68d11b1c613, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
@@ -121,7 +121,7 @@ Material:
     - _GlossMapScale: 0.909
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Glow: 5
+    - _Glow: 16.6
     - _Gradient: 1
     - _GradientPower1: 1
     - _Intensity: 0.5
@@ -160,7 +160,7 @@ Material:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorAddSubDiff: {r: -1, g: 1, b: 0, a: 0}
-    - _ColorTint: {r: 0.49122512, g: 0.9339623, b: 0.4264507, a: 1}
+    - _ColorTint: {r: 0.4056604, g: 0.17384905, b: 0, a: 1}
     - _DistortionSpeedXYPowerZ: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1.9999998, g: 1.9999998, b: 1.9999998, a: 1}
     - _FLOWERSCOLOR: {r: 1, g: 0, b: 0, a: 0}
