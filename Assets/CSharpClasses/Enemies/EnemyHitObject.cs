@@ -22,15 +22,22 @@ public class EnemyHitObject : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Enemy" && other.tag != "Player" && IsServer)
+        if (IsRightTrigger(other.tag) && IsServer)
         {
             GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void DestroyProjectileServerRpc()
+    private bool IsRightTrigger(string tag)
+    {
+        if (tag != "Boss" && tag != "Minion" && tag != "ShieldBoss" && tag != "ChargingStation" && tag != "Player")
+            return true;
+        return false;
+    }
+
+   // [ServerRpc(RequireOwnership = false)]
+    public void DestroyProjectileServer()
     {
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);

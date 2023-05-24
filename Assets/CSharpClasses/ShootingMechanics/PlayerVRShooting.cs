@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Netcode;
 using System.Linq;
+using static Unity.Burst.Intrinsics.X86;
 
 public class PlayerVRShooting : NetworkBehaviour
 {
@@ -103,7 +104,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
                 for (int i = 0; i < shootingVisuals.Count; i++)
                 {
-                    Debug.Log("magic type " + shootingVisuals[i].magicType + " charging station magic " + aux);
                     if (shootingVisuals[i].magicType == aux)
                     {
                         PlayerReviveServer(i);
@@ -111,24 +111,24 @@ public class PlayerVRShooting : NetworkBehaviour
                     }
                 }
 
-                GetComponentInChildren<PlayerVRLifeSystem>().RevivePlayerServerRpc();
+                GetComponentInChildren<PlayerVRLifeSystem>().RevivePlayerServer();
             }
         }
     }
     private IEnumerator ChangeShootingModeVariable(CreatureType aux)
     {
         yield return new WaitForSeconds(.3f);
-        shootingMode.Value = ShootingMode.Projectile;
-        //switch (aux)
-        //{
-        //    case CreatureType.Earth:
-        //    case CreatureType.Fire:
-        //        shootingMode.Value = ShootingMode.Projectile;
-        //        break;
-        //    case CreatureType.Water:
-        //        shootingMode.Value = ShootingMode.Stream;
-        //        break;
-        //}
+        switch (aux)
+        {
+            case CreatureType.Earth:
+            case CreatureType.Fire:
+            case CreatureType.Water:
+                shootingMode.Value = ShootingMode.Projectile;
+                break;
+            case CreatureType.None:
+                shootingMode.Value = ShootingMode.None;
+                break;
+        }
     }
     [ClientRpc]
     private void ChangeShootingModeToStreamClientRpc()
@@ -213,7 +213,6 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         if (projectilePrefab != null)
         {
-            Debug.Log("Projectile damage " + damage);
             GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.Euler(rotation));
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
@@ -306,8 +305,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
     public void PlayerReviveServer(int projectileDataIndex)
     {
-        Debug.Log("Revive player damage " + shootingVisuals[projectileDataIndex].maxDamage);
-
         currentDamage.Value = shootingVisuals[projectileDataIndex].maxDamage;
         currentMaxDamage.Value = shootingVisuals[projectileDataIndex].maxDamage;
         projectilePrefab = shootingVisuals[projectileDataIndex].visualsPrefab;
@@ -320,8 +317,14 @@ public class PlayerVRShooting : NetworkBehaviour
         streamObjectRight.GetComponent<Stream>().Damage = currentDamage.Value;
     }
 
+    public void PlayerDieServer()
+    {
+        PlayerDieClientRpc();
+        StartCoroutine(ChangeShootingModeVariable(CreatureType.None));
+    }
+
     [ClientRpc]
-    public void PlayerDieClientRpc(ClientRpcParams clientRpcParams)
+    public void PlayerDieClientRpc()
     {
         switch (shootingMode.Value)
         {

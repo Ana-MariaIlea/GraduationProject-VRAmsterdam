@@ -34,34 +34,28 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         currentHP = maxHP;
-        if (IsServer)
-        { if (PlayerStateManager.Singleton)
-            {
-                //PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
-            }
-            else
-            {
-                Debug.LogError("No PlayerStateManager in the scene");
-            }
+        if (!IsServer)
+        { 
+            //GetComponent<BoxCollider>().enabled = false;
             this.enabled = false;
         }
-        else if (IsClient && IsOwner)
-                if (PlayerStateManager.Singleton)
-                {
-                    PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
-                }
-                else
-                {
-                    Debug.LogError("No PlayerStateManager in the scene");
-                }
+        //else if (IsClient && IsOwner)
+        //        if (PlayerStateManager.Singleton)
+        //        {
+        //            PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+        //        }
+        //        else
+        //        {
+        //            Debug.LogError("No PlayerStateManager in the scene");
+        //        }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "EnemyHitObject")
         {
             Debug.Log("Life system trigger enter");
-            PlayerHitServerRpc();
-            other.GetComponent<EnemyHitObject>().DestroyProjectileServerRpc(); 
+            PlayerHitServer();
+            other.GetComponent<EnemyHitObject>().DestroyProjectileServer(); 
         }
     }
 
@@ -70,10 +64,9 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         GetComponent<BoxCollider>().enabled = true;
     }
 
-    [ServerRpc]
-    public void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
+    public void PlayerHitServer(ServerRpcParams serverRpcParams = default)
     {
-        
+        Debug.Log("Player hit");
         currentHP--;
         
         //Material Cutoff affect the transparency of the health indicator
@@ -81,7 +74,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         
         if (currentHP <= 0)
         {
-            GetComponentInParent<PlayerVRShooting>().PlayerDieClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
+            GetComponentInParent<PlayerVRShooting>().PlayerDieServer();
         }
         else
         {
@@ -89,9 +82,9 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void RevivePlayerServerRpc(ServerRpcParams serverRpcParams = default)
+    public void RevivePlayerServer()
     {
+        Debug.Log("Revide player");
         currentHP = maxHP;
     }
 }

@@ -327,13 +327,13 @@ MonoBehaviour:
   streamShootCooldown: 3
   shootingVisuals:
   - magicType: 1
-    maxDamage: 40
+    maxDamage: 20
     visualsPrefab: {fileID: 703492873811771268, guid: 06eff50fb4b042541bbbf767c1408d6e, type: 3}
   - magicType: 3
-    maxDamage: 40
+    maxDamage: 20
     visualsPrefab: {fileID: 8648485984495970599, guid: 25fda82ce4e9de84c9e2c41d6cd0dee7, type: 3}
   - magicType: 2
-    maxDamage: 40
+    maxDamage: 20
     visualsPrefab: {fileID: 7102737332558903888, guid: 7cc5d71c8361f3940abf05a5fd9c8629, type: 3}
   shootingMode:
     m_InternalValue: 0
@@ -3901,7 +3901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5d6f47f8bb83642a727d37b24a1335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 10
+  maxHP: 5
   HPText: {fileID: 0}
   mat: {fileID: 0}
 --- !u!4 &8995649486969969482 stripped
