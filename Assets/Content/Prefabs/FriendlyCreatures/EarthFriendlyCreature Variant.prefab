@@ -51,6 +51,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8117481051936971909, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117481051936971909, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8117481051936971909, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8922303208374366878, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
       propertyPath: m_Name
       value: FriendlyCreatureFoodObstacle

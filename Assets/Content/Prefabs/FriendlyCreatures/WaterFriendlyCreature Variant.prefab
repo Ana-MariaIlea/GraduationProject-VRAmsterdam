@@ -146,6 +146,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: FriendlyCreatureObstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 9179259864690833081, guid: d64084dd7fb90934c940286fdb49ad8a, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179259864690833081, guid: d64084dd7fb90934c940286fdb49ad8a, type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179259864690833081, guid: d64084dd7fb90934c940286fdb49ad8a, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -3995530212803969522, guid: d64084dd7fb90934c940286fdb49ad8a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d64084dd7fb90934c940286fdb49ad8a, type: 3}
