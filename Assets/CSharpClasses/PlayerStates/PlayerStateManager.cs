@@ -15,6 +15,10 @@ public class PlayerStateManager : NetworkBehaviour
     [HideInInspector] public UnityEvent endingStartServer;
     [HideInInspector] public UnityEvent endingStartClient;
 
+    private bool isPart1Triggered = false;
+    private bool isPart2Triggered = false;
+    private bool isEndingTriggered = false;
+
     public enum PlayerState
     {
         Part1,
@@ -37,8 +41,12 @@ public class PlayerStateManager : NetworkBehaviour
 
     public void StartPart1Server()
     {
-        StartPart1ClientRpc();
-        part1StartServer?.Invoke();
+        if (!isPart1Triggered)
+        {
+            StartPart1ClientRpc();
+            part1StartServer?.Invoke();
+            isPart1Triggered = true;
+        }
     }
 
     [ClientRpc]
@@ -49,8 +57,12 @@ public class PlayerStateManager : NetworkBehaviour
 
     public void StartPart2Server()
     {
-        StartPart2ClientRpc();
-        part2StartServer?.Invoke();
+        if (!isPart2Triggered)
+        {
+            StartPart2ClientRpc();
+            part2StartServer?.Invoke();
+            isPart2Triggered = true;
+        }
     }
 
     [ClientRpc]
@@ -61,8 +73,12 @@ public class PlayerStateManager : NetworkBehaviour
 
     public void GameEndServer()
     {
-        endingStartServer?.Invoke();
-        GameEndClientRpc();
+        if (!isPart1Triggered)
+        {
+            endingStartServer?.Invoke();
+            GameEndClientRpc();
+            isEndingTriggered = true;
+        }
     }
 
     [ClientRpc]

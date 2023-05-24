@@ -122,7 +122,7 @@ public class BossCreature : NetworkBehaviour
 
     private void ShieldBehaviour()
     {
-        Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 5, LayerMask.GetMask("Player"));
+        Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 1.5f, LayerMask.GetMask("Player"));
 
         // If there is a player in sight
         if (hitCollidersSight.Length >= 1)

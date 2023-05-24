@@ -75,6 +75,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8467387591309943079, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9004013310176138987, guid: 90be43d171b66824d8a5683a70434f64, type: 3}
       propertyPath: m_Name
       value: WaterFriendlyCreatureSpawnPoint Variant

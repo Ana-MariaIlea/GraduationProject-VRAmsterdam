@@ -114,5 +114,12 @@ public class MinionCreature : NetworkBehaviour
         minionDie?.Invoke();
 
         minionDie.RemoveAllListeners();
+
+        if (attackCorutine != null)
+        {
+            StopCoroutine(attackCorutine);
+        }
+        GetComponent<NetworkObject>().Despawn();
+        Destroy(this);
     }
 }

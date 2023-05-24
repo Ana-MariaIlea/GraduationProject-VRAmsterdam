@@ -22,8 +22,8 @@ public class PlayerCameraCalibration : NetworkBehaviour
     public GameObject canvas;
 
     private float rotSpeed = 0.1f;
-    private float posVerticalSpeed = 0.01f;
-    private float posHorizontalSpeed = 0.001f;
+    private float posVerticalSpeed = 0.1f;
+    private float posHorizontalSpeed = 0.01f;
     private float floorLevelOffset = 0.05f;
 
     private string posKey = "camPos";
@@ -105,7 +105,7 @@ public class PlayerCameraCalibration : NetworkBehaviour
     private void MoveCameraForwardBackward()
     {
         //B - front
-        if (OVRInput.GetDown(OVRInput.Button.Four))
+        if (OVRInput.Get(OVRInput.Button.Four))
         {
             OVRCameraRig.position = new Vector3(
                     OVRCameraRig.position.x,
@@ -114,7 +114,7 @@ public class PlayerCameraCalibration : NetworkBehaviour
         }
 
         //A - back
-        if (OVRInput.GetDown(OVRInput.Button.Three))
+        if (OVRInput.Get(OVRInput.Button.Three))
         {
             OVRCameraRig.position = new Vector3(
                     OVRCameraRig.position.x,

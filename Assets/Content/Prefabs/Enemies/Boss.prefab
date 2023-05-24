@@ -99,7 +99,7 @@ MonoBehaviour:
     minionTypeToSpawn: 3
   shieldObject: {fileID: 3454386082449994740}
   ProjectileShootPoint: {fileID: 4732879594280981817}
-  attackRange: 3
+  attackRange: 4
 --- !u!195 &7002222137553052600
 NavMeshAgent:
   m_ObjectHideFlags: 0
