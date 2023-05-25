@@ -32,7 +32,7 @@ public class SoundSource : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void PlaySoundClientRpc()
+    public void PlaySoundClientRpc(ClientRpcParams clientRpcParams = default)
     {
         source.Play();
     }

@@ -56,9 +56,15 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         if (other.tag == "EnemyHitObject")
         {
             PlayerHitServer();
-            SoundManager.Singleton.PlaySoundAllPlayers(playerHitSoundSource.SoundID);
+            
             other.GetComponent<EnemyHitObject>().DestroyProjectileServer(); 
         }
+    }
+
+    [ClientRpc]
+    private void PlayerHitClientRPC()
+    {
+        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(playerHitSoundSource.SoundID, true);
     }
 
     private void Part2Start()
@@ -69,10 +75,10 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     public void PlayerHitServer(ServerRpcParams serverRpcParams = default)
     {
         currentHP--;
-        
+        PlayerHitClientRPC();
         //Material Cutoff affect the transparency of the health indicator
         //mat.SetFloat("_Cutoff", 1f - currentHP / (float)maxHP);
-        
+
         if (currentHP <= 0)
         {
             GetComponentInParent<PlayerVRShooting>().PlayerDieServer();

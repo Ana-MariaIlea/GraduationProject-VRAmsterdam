@@ -30,13 +30,40 @@ public class SoundManager : NetworkBehaviour
         sounds.Add(soundTag);
     }
 
-    public void PlaySoundAllPlayers(int ID)
+    public void PlaySoundAllPlayers(int ID, bool specificPlayer = false, ulong PlayerID = 0)
     {
         for (int i = 0; i < sounds.Count; i++)
         {
             if (sounds[i].SoundID == ID)
             {
-                sounds[i].PlaySoundClientRpc();
+                if (specificPlayer)
+                {
+                    sounds[i].PlaySoundClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { PlayerID } } });
+                }
+                else
+                {
+                    sounds[i].PlaySoundClientRpc();
+                }
+                return;
+            }
+        }
+    }
+
+    [ServerRpc]
+    public void PlaySoundAllPlayersServerRPC(int ID, bool specificPlayer = false, ServerRpcParams serverRpcParams = default)
+    {
+        for (int i = 0; i < sounds.Count; i++)
+        {
+            if (sounds[i].SoundID == ID)
+            {
+                if (specificPlayer)
+                {
+                    sounds[i].PlaySoundClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
+                }
+                else
+                {
+                    sounds[i].PlaySoundClientRpc();
+                }
                 return;
             }
         }

@@ -91,17 +91,8 @@ public class PlayerVRShooting : NetworkBehaviour
             if (other.tag == "ChargingStation")
             {
                 CreatureType aux = other.GetComponent<ChargingStation>().CCreatureType;
-                //switch (aux)
-                //{
-                //    case CreatureType.Earth:
-                //    case CreatureType.Fire:
-                //        ChangeShootingModeToProjectileClientRpc();
-                //        break;
-                //    case CreatureType.Water:
-                //        ChangeShootingModeToStreamClientRpc();
-                //        break;
-                //}
-                SoundManager.Singleton.PlaySoundAllPlayers(chargingStationSoundSource.SoundID);
+
+                ChargingStationClientRPC();
                 ChangeShootingModeToProjectileClientRpc();
                 StartCoroutine(ChangeShootingModeVariable(aux));
 
@@ -117,6 +108,12 @@ public class PlayerVRShooting : NetworkBehaviour
                 GetComponentInChildren<PlayerVRLifeSystem>().RevivePlayerServer();
             }
         }
+    }
+
+    [ClientRpc]
+    private void ChargingStationClientRPC()
+    {
+        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(chargingStationSoundSource.SoundID, true);
     }
     private IEnumerator ChangeShootingModeVariable(CreatureType aux)
     {
@@ -197,6 +194,7 @@ public class PlayerVRShooting : NetworkBehaviour
         }
         projectileRotation.z = 0;
 
+        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(shootingSoundSource.SoundID, true);
         ShootProjectileServerRPC(projectilePosition, projectileRotation.eulerAngles, currentDamage.Value);
 
         yield return new WaitForSeconds(projectileShootCooldown);
@@ -220,7 +218,7 @@ public class PlayerVRShooting : NetworkBehaviour
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
             projectile.GetComponent<NetworkObject>().Spawn();
-            SoundManager.Singleton.PlaySoundAllPlayers(shootingSoundSource.SoundID);
+            
         }
         else
         {
