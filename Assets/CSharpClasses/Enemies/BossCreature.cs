@@ -156,6 +156,7 @@ public class BossCreature : NetworkBehaviour
     public void DamangeBoss(float damage)
     {
         health -= damage;
+        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID);
         if (health < 0)
         {
             BossDie();

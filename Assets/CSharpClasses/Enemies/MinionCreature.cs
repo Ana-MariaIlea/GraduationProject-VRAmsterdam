@@ -102,6 +102,7 @@ public class MinionCreature : NetworkBehaviour
     public void DamangeMinion(float damage)
     {
         health -= damage;
+        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID);
         if (health < 0)
         {
             MinionDie();

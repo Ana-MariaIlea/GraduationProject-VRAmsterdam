@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class SoundSource : MonoBehaviour
+public class SoundSource : NetworkBehaviour
 {
-    public string SoundTag;
-
     private NetworkVariable<int> soundID = new NetworkVariable<int>(-1);
     private AudioSource source;
 
@@ -20,6 +18,16 @@ public class SoundSource : MonoBehaviour
         set
         {
             soundID.Value = value;
+        }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        SoundManager.Singleton.AddSound(this);
+        if (IsClient)
+        {
+            source = GetComponent<AudioSource>();
         }
     }
 

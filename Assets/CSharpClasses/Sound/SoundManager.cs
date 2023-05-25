@@ -2,19 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine;
-using static UnityEditor.Progress;
 
 public class SoundManager : NetworkBehaviour
 {
     public static SoundManager Singleton { get; private set; }
-    private List<SFX> sounds = new List<SFX>();
+    private List<SoundSource> sounds = new List<SoundSource>();
     private int indexID = -1;
-    public struct SFX
-    {
-        public SoundSource sound;
-        public int id;
-    }
 
     private void Awake()
     {
@@ -29,21 +22,21 @@ public class SoundManager : NetworkBehaviour
     }
     public void AddSound(SoundSource soundTag)
     {
-        SFX sfx=new SFX();
-        sfx.sound = soundTag;
-        soundTag.SoundID = indexID;
-        sfx.id = indexID;
-        indexID++;
-        sounds.Add(sfx);
+        if (IsServer)
+        {
+            soundTag.SoundID = indexID;
+            indexID++;
+        }
+        sounds.Add(soundTag);
     }
 
     public void PlaySoundAllPlayers(int ID)
     {
         for (int i = 0; i < sounds.Count; i++)
         {
-            if (sounds[i].id == ID)
+            if (sounds[i].SoundID == ID)
             {
-                sounds[i].sound.PlaySoundClientRpc();
+                sounds[i].PlaySoundClientRpc();
                 return;
             }
         }
@@ -53,7 +46,7 @@ public class SoundManager : NetworkBehaviour
     {
         for (int i = 0; i < sounds.Count; i++)
         {
-            if(soundID == sounds[i].id)
+            if (soundID == sounds[i].SoundID)
             {
                 sounds.RemoveAt(i);
                 break;
