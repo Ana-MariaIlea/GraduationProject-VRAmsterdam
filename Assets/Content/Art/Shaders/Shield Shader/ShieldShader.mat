@@ -29,7 +29,7 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _FresnelPower: 0.6
-    - _VertexOffsetFreq: 0.58
+    - _VertexOffsetFreq: 1.04
     m_Colors:
     - _Color: {r: 0, g: 6.8831816, b: 6.9912944, a: 0.2}
     - _FrameColor: {r: 0, g: 1.0992835, b: 1.1812177, a: 0.13725491}
