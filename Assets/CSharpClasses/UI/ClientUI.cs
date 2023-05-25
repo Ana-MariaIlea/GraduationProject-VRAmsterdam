@@ -19,6 +19,18 @@ public class ClientUI : NetworkBehaviour
                 Debug.LogError("No PlayerStateManager in the scene");
             }
         }
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.AddListener(EndGame);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
     }
 
     public void EndGame()

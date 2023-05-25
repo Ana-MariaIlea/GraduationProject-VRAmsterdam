@@ -73,7 +73,7 @@ public class PlayerStateManager : NetworkBehaviour
 
     public void GameEndServer()
     {
-        if (!isPart1Triggered)
+        if (!isEndingTriggered)
         {
             endingStartServer?.Invoke();
             GameEndClientRpc();

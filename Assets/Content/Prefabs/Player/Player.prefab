@@ -478,7 +478,7 @@ MonoBehaviour:
     vrTarget: {fileID: 8417744091863558361}
     rigTarget: {fileID: 5106669340130018427}
     positionOffset: {x: 0, y: 0, z: 0}
-    rotationOffset: {x: 0, y: 0, z: 0}
+    rotationOffset: {x: 0, y: -0.3, z: 0}
   HeadConstraint: {fileID: 5106669340130018427}
   HeadBodyOffset: {x: 0, y: 0, z: 0}
   BodyObject: {fileID: 8375235398103602861}

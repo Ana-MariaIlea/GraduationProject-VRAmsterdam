@@ -1954,7 +1954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5366998894992188896, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.52
+      value: 4.707
       objectReference: {fileID: 0}
     - target: {fileID: 5366998894992188896, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1962,7 +1962,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5366998894992188896, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.03
+      value: 4.303
       objectReference: {fileID: 0}
     - target: {fileID: 5366998894992188896, guid: 6e2683674eccd8748832697a922e57d5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2051,7 +2051,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.55
+      value: -1.066
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2059,7 +2059,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.09
+      value: 5.944
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2981,7 +2981,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.9
+      value: 0.33
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2989,7 +2989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.33
+      value: 6.08
       objectReference: {fileID: 0}
     - target: {fileID: 649054386225508736, guid: d61abc42adbf17a4fa739ecb59e26fc2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3313,8 +3313,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1007991140011920109, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1072477667446585950, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2219340291959773104, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4456177007966299706, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
@@ -3368,6 +3376,18 @@ PrefabInstance:
     - target: {fileID: 4456177009245387188, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456177009245387193, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456177010063812112, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456177010063812115, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4456177010063812334, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
       propertyPath: m_IsActive

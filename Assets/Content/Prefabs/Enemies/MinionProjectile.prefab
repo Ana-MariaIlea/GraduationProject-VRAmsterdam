@@ -230,6 +230,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Projectile 17
       objectReference: {fileID: 0}
+    - target: {fileID: 1381080491605798, guid: 9b2879539c049394488bd7a2b3514b6c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4019018889288010, guid: 9b2879539c049394488bd7a2b3514b6c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.59341
