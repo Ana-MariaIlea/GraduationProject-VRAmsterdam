@@ -13,6 +13,8 @@ using UnityEngine;
 public class PlayerVRLifeSystem : NetworkBehaviour
 {
     [SerializeField] int maxHP = 10;
+    [SerializeField] private SoundSource playerHitSoundSource;
+
 
     private int currentHP;
 
@@ -54,6 +56,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         if (other.tag == "EnemyHitObject")
         {
             PlayerHitServer();
+            SoundManager.Singleton.PlaySoundAllPlayers(playerHitSoundSource.SoundID);
             other.GetComponent<EnemyHitObject>().DestroyProjectileServer(); 
         }
     }

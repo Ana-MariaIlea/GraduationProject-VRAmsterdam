@@ -19,6 +19,8 @@ public class PlayerVRShooting : NetworkBehaviour
     [SerializeField] private float streamShootCooldown = 3;
 
     [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
+    [SerializeField] private SoundSource shootingSoundSource;
+    [SerializeField] private SoundSource chargingStationSoundSource;
 
     private GameObject projectilePrefab;
 
@@ -99,6 +101,7 @@ public class PlayerVRShooting : NetworkBehaviour
                 //        ChangeShootingModeToStreamClientRpc();
                 //        break;
                 //}
+                SoundManager.Singleton.PlaySoundAllPlayers(chargingStationSoundSource.SoundID);
                 ChangeShootingModeToProjectileClientRpc();
                 StartCoroutine(ChangeShootingModeVariable(aux));
 
@@ -217,6 +220,7 @@ public class PlayerVRShooting : NetworkBehaviour
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
             projectile.GetComponent<NetworkObject>().Spawn();
+            SoundManager.Singleton.PlaySoundAllPlayers(shootingSoundSource.SoundID);
         }
         else
         {
