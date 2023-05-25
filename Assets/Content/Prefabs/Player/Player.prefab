@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 48293797687892098}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -338,8 +338,8 @@ MonoBehaviour:
   - magicType: 2
     maxDamage: 20
     visualsPrefab: {fileID: 7102737332558903888, guid: 7cc5d71c8361f3940abf05a5fd9c8629, type: 3}
-  shootingSoundSource: {fileID: 0}
-  chargingStationSoundSource: {fileID: 0}
+  shootingSoundSource: {fileID: 6507114206702961167}
+  chargingStationSoundSource: {fileID: 5489023063092279126}
   shootingMode:
     m_InternalValue: 0
 --- !u!114 &1822232012088383732
@@ -4442,7 +4442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 5
-  playerHitSoundSource: {fileID: 0}
+  playerHitSoundSource: {fileID: 609244800720756948}
   HPText: {fileID: 0}
   mat: {fileID: 0}
 --- !u!4 &8995649486969969482 stripped
