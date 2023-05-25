@@ -3,7 +3,7 @@ using Unity.Netcode;
 
 public class GrabbableItemManager : NetworkBehaviour
 {
-    public static GrabbableItemManager Singleton;
+    public static GrabbableItemManager Singleton { get; private set; }
     private List<GrabbableItem> grabbableItems = new List<GrabbableItem>();
 
     int indexID = -1;
