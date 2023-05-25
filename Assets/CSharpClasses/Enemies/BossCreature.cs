@@ -116,7 +116,7 @@ public class BossCreature : NetworkBehaviour
         ProjectileShootPoint.LookAt(destinationPos);
         GameObject projectile = Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
         projectile.GetComponent<NetworkObject>().Spawn(true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(10f);
         attackCorutine = null;
     }
 
@@ -156,7 +156,6 @@ public class BossCreature : NetworkBehaviour
     public void DamangeBoss(float damage)
     {
         health -= damage;
-        Debug.Log("Boss damage " + damage);
         if (health < 0)
         {
             BossDie();
@@ -173,6 +172,7 @@ public class BossCreature : NetworkBehaviour
             minionNumber = minionSpawnPoints.Count;
             thresholdIndex++;
             shieldObject.SetActive(true);
+            meshAgent.enabled = false;
             ActivateShieldClientRpc();
         }
     }
@@ -190,6 +190,7 @@ public class BossCreature : NetworkBehaviour
         {
             stage = BossStage.Fight;
             shieldObject.SetActive(false);
+            meshAgent.enabled = true;
             DeactivateShieldClientRpc();
         }
     }
@@ -212,6 +213,9 @@ public class BossCreature : NetworkBehaviour
         }
         stage = BossStage.Die;
         meshAgent.SetDestination(transform.position);
+        if (attackCorutine != null) StopCoroutine(attackCorutine);
+        GetComponent<NetworkObject>().Despawn();
+        Destroy(this);
     }
 
     public void InitMinionSpawnpoints(List<MinionSpawnPoint> minionSpawnPoints)

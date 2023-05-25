@@ -86,11 +86,11 @@ MonoBehaviour:
   MaxHealth: 100
   thresholds:
   - stageName: Fire
-    healthThreshhold: 60
+    healthThreshhold: 81
     projectilePrefab: {fileID: 7299303036709308142, guid: bed2031d84f518345a0a883baa6a58ff, type: 3}
     minionTypeToSpawn: 1
   - stageName: Water
-    healthThreshhold: 30
+    healthThreshhold: 61
     projectilePrefab: {fileID: 8761505859257855639, guid: 328776a848d562e41b7d216ed0908852, type: 3}
     minionTypeToSpawn: 2
   - stageName: Earth
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 6196196060092639765}
   m_Layer: 0
   m_Name: BossShield
-  m_TagString: Untagged
+  m_TagString: ShieldBoss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -278,7 +278,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5602421507386755754}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.829, z: -0.517}
+  m_LocalPosition: {x: 0, y: 0.97, z: 0.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -389,6 +389,14 @@ PrefabInstance:
     - target: {fileID: 121437793662510184, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 121437793662510187, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
+      propertyPath: m_SortMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 121437793662510187, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
+      propertyPath: m_RenderAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 121437794723586602, guid: 3036623b71b6f0c4ea4f92c035554fd4, type: 3}
       propertyPath: m_RootOrder

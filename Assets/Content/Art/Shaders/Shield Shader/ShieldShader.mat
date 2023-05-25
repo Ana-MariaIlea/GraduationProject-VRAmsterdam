@@ -28,11 +28,11 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _FresnelPower: 0.32
+    - _FresnelPower: 0.6
     - _VertexOffsetFreq: 0.58
     m_Colors:
     - _Color: {r: 0, g: 6.8831816, b: 6.9912944, a: 0.2}
-    - _FrameColor: {r: 0, g: 1.0992835, b: 1.1812177, a: 0.27058825}
+    - _FrameColor: {r: 0, g: 1.0992835, b: 1.1812177, a: 0.13725491}
     - _VectorOffsetDir: {r: 0.05, g: 0.05, b: 0.05, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &561425835451294367

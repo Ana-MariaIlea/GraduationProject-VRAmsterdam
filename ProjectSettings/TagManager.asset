@@ -14,6 +14,7 @@ TagManager:
   - VRButton3D
   - Boss
   - Minion
+  - ShieldBoss
   layers:
   - Default
   - TransparentFX
