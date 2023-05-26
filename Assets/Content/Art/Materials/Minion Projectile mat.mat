@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Minion Projectile mat
-  m_Shader: {fileID: 10720, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: cb61bbfe44fc56e4081bee639a2b33bb, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _COLORADDSUBDIFF_ON
@@ -124,7 +124,7 @@ Material:
     - _Glow: 1.5
     - _Gradient: 1
     - _GradientPower1: 1
-    - _Intensity: 0.5
+    - _Intensity: 4.94
     - _InvFade: 1.02
     - _LeavesThickness: 0.5
     - _LightingEnabled: 0
@@ -134,6 +134,7 @@ Material:
     - _OcclusionStrength: 1
     - _Opacity: 0.96
     - _Parallax: 0.0671
+    - _Pow: 7.33
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
     - _SoftParticlesFarFadeDistance: 1
@@ -164,6 +165,7 @@ Material:
     - _DistortionSpeedXYPowerZ: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1.9999998, g: 1.9999998, b: 1.9999998, a: 1}
     - _FLOWERSCOLOR: {r: 1, g: 0, b: 0, a: 0}
+    - _GlowColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
     - _GroundColor: {r: 0.18796727, g: 0.31132078, b: 0.17768776, a: 1}
     - _RemapXYFresnelZW: {r: -10, g: 10, b: 2, a: 2}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
