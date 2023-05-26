@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine;
 
 public class SoundManager : NetworkBehaviour
 {
@@ -32,33 +33,15 @@ public class SoundManager : NetworkBehaviour
 
     public void PlaySoundAllPlayers(int ID, bool specificPlayer = false, ulong PlayerID = 0)
     {
+        Debug.Log("Send all players sound server rpc " + ID);
         for (int i = 0; i < sounds.Count; i++)
         {
             if (sounds[i].SoundID == ID)
             {
                 if (specificPlayer)
                 {
+                    Debug.Log("Send specific sound");
                     sounds[i].PlaySoundClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { PlayerID } } });
-                }
-                else
-                {
-                    sounds[i].PlaySoundClientRpc();
-                }
-                return;
-            }
-        }
-    }
-
-    [ServerRpc]
-    public void PlaySoundAllPlayersServerRPC(int ID, bool specificPlayer = false, ServerRpcParams serverRpcParams = default)
-    {
-        for (int i = 0; i < sounds.Count; i++)
-        {
-            if (sounds[i].SoundID == ID)
-            {
-                if (specificPlayer)
-                {
-                    sounds[i].PlaySoundClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
                 }
                 else
                 {
