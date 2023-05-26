@@ -103,15 +103,15 @@ public class PlayerVRGrabbing : NetworkBehaviour
             !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType, OwnerClientId))
         {
             Debug.Log("Clear obstacle");
-            CollectCreatureCallServerRpc(other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType);
+            CollectCreatureCallServerRPC(other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType);
             other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleClearedServerRpc();
-            DestroyItemServerRpc();
+            DestroyItemServerRPC();
         }
 
     }
 
     [ServerRpc]
-    public void CollectCreatureCallServerRpc(CreatureType creatureType, ServerRpcParams serverRpcParams = default)
+    public void CollectCreatureCallServerRPC(CreatureType creatureType, ServerRpcParams serverRpcParams = default)
     {
         Debug.Log("Server call " + creatureType);
         PlayerCreatureHandler.Singleton.CreatureCollected(creatureType, serverRpcParams);
@@ -119,7 +119,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void DestroyItemServerRpc()
+    public void DestroyItemServerRPC()
     {
         Debug.Log("Destroy item");
         StartCoroutine(DestroyItemCorutine());
@@ -205,12 +205,12 @@ public class PlayerVRGrabbing : NetworkBehaviour
         Debug.Log(grabedItem);
         if (grabedItem != null)
         {
-            GrabItemServerRpc(grabedItem.ObjectID);
+            GrabItemServerRPC(grabedItem.ObjectID);
         }
     }
 
     [ServerRpc]
-    private void GrabItemServerRpc(int ObjectID, ServerRpcParams serverRpcParams = default)
+    private void GrabItemServerRPC(int ObjectID, ServerRpcParams serverRpcParams = default)
     {
         grabedItem = GrabbableItemManager.Singleton.FindGivenObject(ObjectID);
         if (grabedItem != null)
@@ -246,7 +246,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         if (grabedItem != null)
         {
-            ResleaseItemServerRpc();
+            ResleaseItemServerRPC();
         }
 
     }
@@ -262,7 +262,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void ResleaseItemServerRpc()
+    private void ResleaseItemServerRPC()
     {
         if (grabedItem != null)
         {

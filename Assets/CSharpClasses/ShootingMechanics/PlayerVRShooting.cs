@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 using Unity.Netcode;
 using System.Linq;
 using static Unity.Burst.Intrinsics.X86;
-using System.Runtime.CompilerServices;
 
 public class PlayerVRShooting : NetworkBehaviour
 {
@@ -93,10 +92,10 @@ public class PlayerVRShooting : NetworkBehaviour
             {
                 CreatureType aux = other.GetComponent<ChargingStation>().CCreatureType;
 
-                ChargingStationClientRpc();
+                ChargingStationClientRPC();
                 ChangeShootingModeToProjectileClientRpc();
                 StartCoroutine(ChangeShootingModeVariable(aux));
-                Debug.Log("Charging station trigger");
+
                 for (int i = 0; i < shootingVisuals.Count; i++)
                 {
                     if (shootingVisuals[i].magicType == aux)
@@ -112,20 +111,10 @@ public class PlayerVRShooting : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void ChargingStationClientRpc()
+    private void ChargingStationClientRPC()
     {
-        Debug.Log("SoundManager client rpc for charging station");
-        //SoundManager.Singleton.PlaySoundAllPlayersServerRpc(chargingStationSoundSource.SoundID, true);
-        ChargingStationServerRpc();
+        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(chargingStationSoundSource.SoundID, true);
     }
-
-    [ServerRpc]
-    private void ChargingStationServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        Debug.Log("SoundManager client rpc for charging station");
-        SoundManager.Singleton.PlaySoundAllPlayers(chargingStationSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
-    }
-
     private IEnumerator ChangeShootingModeVariable(CreatureType aux)
     {
         yield return new WaitForSeconds(.3f);
@@ -205,8 +194,8 @@ public class PlayerVRShooting : NetworkBehaviour
         }
         projectileRotation.z = 0;
 
-        
-        ShootProjectileServerRpc(projectilePosition, projectileRotation.eulerAngles, currentDamage.Value);
+        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(shootingSoundSource.SoundID, true);
+        ShootProjectileServerRPC(projectilePosition, projectileRotation.eulerAngles, currentDamage.Value);
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
@@ -221,7 +210,7 @@ public class PlayerVRShooting : NetworkBehaviour
     }
 
     [ServerRpc]
-    private void ShootProjectileServerRpc(Vector3 position, Vector3 rotation, float damage, ServerRpcParams serverRpcParams = default)
+    private void ShootProjectileServerRPC(Vector3 position, Vector3 rotation, float damage, ServerRpcParams serverRpcParams = default)
     {
         if (projectilePrefab != null)
         {
@@ -229,7 +218,7 @@ public class PlayerVRShooting : NetworkBehaviour
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
             projectile.GetComponent<NetworkObject>().Spawn();
-            SoundManager.Singleton.PlaySoundAllPlayers(shootingSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
+            
         }
         else
         {
@@ -251,7 +240,7 @@ public class PlayerVRShooting : NetworkBehaviour
         if (shootingStreamRight != null)
         {
             StopCoroutine(shootingStreamRight);
-            StopStreamServerRpc();
+            StopStreamServerRPC();
             shootingStreamRight = null;
         }
     }
@@ -264,7 +253,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
         yield return new WaitForSeconds(streamShootTime);
 
-        StopStreamServerRpc();
+        StopStreamServerRPC();
 
         shootingStreamRight = null;
     }
@@ -273,13 +262,13 @@ public class PlayerVRShooting : NetworkBehaviour
         yield return new WaitForSeconds(.3f);
         while (streamObjectRight.isPlaying)
         {
-            UpdateRightStreamPositionServerRpc(controllerRight.position, controllerRight.rotation.eulerAngles);
+            UpdateRightStreamPositionServerRPC(controllerRight.position, controllerRight.rotation.eulerAngles);
             yield return null;
         }
     }
 
     [ServerRpc]
-    private void UpdateRightStreamPositionServerRpc(Vector3 pos, Vector3 rot)
+    private void UpdateRightStreamPositionServerRPC(Vector3 pos, Vector3 rot)
     {
         streamObjectRight.transform.position = pos;
         streamObjectRight.transform.rotation = Quaternion.Euler(rot);
@@ -290,25 +279,25 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         streamObjectRight.Play();
 
-        ShootStreamClientRpc();
+        ShootStreamClientRPC();
     }
 
     [ClientRpc]
-    private void ShootStreamClientRpc()
+    private void ShootStreamClientRPC()
     {
         streamObjectRight.Play();
     }
 
     [ServerRpc]
-    private void StopStreamServerRpc()
+    private void StopStreamServerRPC()
     {
         if (streamObjectRight.isPlaying)
             streamObjectRight.Stop();
-        StopStreamClientRpc();
+        StopStreamClientRPC();
     }
 
     [ClientRpc]
-    private void StopStreamClientRpc()
+    private void StopStreamClientRPC()
     {
         if (streamObjectRight.isPlaying)
             streamObjectRight.Stop();
