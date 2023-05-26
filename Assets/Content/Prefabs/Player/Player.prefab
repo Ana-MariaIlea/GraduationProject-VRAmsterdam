@@ -330,13 +330,13 @@ MonoBehaviour:
   streamShootCooldown: 3
   shootingVisuals:
   - magicType: 1
-    maxDamage: 20
+    maxDamage: 8
     visualsPrefab: {fileID: 703492873811771268, guid: 06eff50fb4b042541bbbf767c1408d6e, type: 3}
   - magicType: 3
-    maxDamage: 20
+    maxDamage: 6
     visualsPrefab: {fileID: 8648485984495970599, guid: 25fda82ce4e9de84c9e2c41d6cd0dee7, type: 3}
   - magicType: 2
-    maxDamage: 20
+    maxDamage: 7
     visualsPrefab: {fileID: 7102737332558903888, guid: 7cc5d71c8361f3940abf05a5fd9c8629, type: 3}
   shootingSoundSource: {fileID: 6507114206702961167}
   chargingStationSoundSource: {fileID: 5489023063092279126}
@@ -1262,7 +1262,7 @@ Transform:
   - {fileID: 1149174317815717607}
   - {fileID: 5106669340130018427}
   m_Father: {fileID: 8375235398103602861}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &385243969881823590
 MonoBehaviour:

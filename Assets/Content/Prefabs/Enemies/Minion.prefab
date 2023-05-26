@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 063e7a06df26c9941a8636a844f62c7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealth: 50
+  MaxHealth: 20
   ProjectileShootPoint: {fileID: 8847224357631064904}
   attackRange: 4
   projectilePrefab: {fileID: 8782673446078193449, guid: 9995308dd09aa8f4b86ad60d35c042da, type: 3}
