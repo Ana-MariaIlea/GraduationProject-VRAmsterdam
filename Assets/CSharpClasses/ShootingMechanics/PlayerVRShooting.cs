@@ -113,7 +113,14 @@ public class PlayerVRShooting : NetworkBehaviour
     [ClientRpc]
     private void ChargingStationClientRPC()
     {
-        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(chargingStationSoundSource.SoundID, true);
+        ChargingStationServerRpc();
+    }
+
+    [ServerRpc]
+    private void ChargingStationServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        Debug.Log("SoundManager client rpc for charging station");
+        SoundManager.Singleton.PlaySoundAllPlayers(chargingStationSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
     }
     private IEnumerator ChangeShootingModeVariable(CreatureType aux)
     {
@@ -194,7 +201,6 @@ public class PlayerVRShooting : NetworkBehaviour
         }
         projectileRotation.z = 0;
 
-        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(shootingSoundSource.SoundID, true);
         ShootProjectileServerRPC(projectilePosition, projectileRotation.eulerAngles, currentDamage.Value);
 
         yield return new WaitForSeconds(projectileShootCooldown);
@@ -218,7 +224,7 @@ public class PlayerVRShooting : NetworkBehaviour
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
             projectile.GetComponent<NetworkObject>().Spawn();
-            
+            SoundManager.Singleton.PlaySoundAllPlayers(shootingSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
         }
         else
         {

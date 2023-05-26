@@ -64,7 +64,13 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [ClientRpc]
     private void PlayerHitClientRPC()
     {
-        SoundManager.Singleton.PlaySoundAllPlayersServerRPC(playerHitSoundSource.SoundID, true);
+        PlayerHitServerRpc();
+    }
+
+    [ServerRpc]
+    private void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        SoundManager.Singleton.PlaySoundAllPlayers(playerHitSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
     }
 
     private void Part2Start()

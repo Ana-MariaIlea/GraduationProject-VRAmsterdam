@@ -49,26 +49,6 @@ public class SoundManager : NetworkBehaviour
         }
     }
 
-    [ServerRpc]
-    public void PlaySoundAllPlayersServerRPC(int ID, bool specificPlayer = false, ServerRpcParams serverRpcParams = default)
-    {
-        for (int i = 0; i < sounds.Count; i++)
-        {
-            if (sounds[i].SoundID == ID)
-            {
-                if (specificPlayer)
-                {
-                    sounds[i].PlaySoundClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { serverRpcParams.Receive.SenderClientId } } });
-                }
-                else
-                {
-                    sounds[i].PlaySoundClientRpc();
-                }
-                return;
-            }
-        }
-    }
-
     public void RemoveSound(int soundID)
     {
         for (int i = 0; i < sounds.Count; i++)
