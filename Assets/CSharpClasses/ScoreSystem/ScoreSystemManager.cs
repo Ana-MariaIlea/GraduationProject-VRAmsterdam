@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using TMPro;
+using static ScoreSystemManager;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -15,7 +17,17 @@ using UnityEngine;
 public class ScoreSystemManager : NetworkBehaviour
 {
     public static ScoreSystemManager Singleton;
+    [SerializeField] private List<ScoreBoard> scoreBoardElements;
+    [SerializeField] private GameObject scoreBoardUI;
     private NetworkList<PlayerIndividualScore> scoreList;
+    private NetworkList<PlayerIndividualScore> finalScoreList;
+
+    [System.Serializable]
+    public struct ScoreBoard
+    {
+        public TMP_Text playerName;
+        public TMP_Text playerScore;
+    }
     public struct PlayerIndividualScore : INetworkSerializable, IEquatable<PlayerIndividualScore>
     {
         public ulong playerID; 
@@ -39,10 +51,29 @@ public class ScoreSystemManager : NetworkBehaviour
         {
             Singleton = this;
             scoreList = new NetworkList<PlayerIndividualScore>();
+            finalScoreList = new NetworkList<PlayerIndividualScore>();
         }
         else
         {
             Destroy(this);
+        }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.AddListener(CalcLeaderboard);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
     }
 
@@ -83,15 +114,39 @@ public class ScoreSystemManager : NetworkBehaviour
 
     private void CalcLeaderboard()
     {
-        List<float> sortedScores = new List<float>();
+        scoreBoardUI.SetActive(true);
+        List<PlayerIndividualScore> sortedScores = new List<PlayerIndividualScore>();
         for (int i = 0; i < scoreList.Count; i++)
         {
-            sortedScores.Add(scoreList[i].score);
+            sortedScores.Add(scoreList[i]);
         }
 
-        //sortedScores.Sort();
-        sortedScores.Sort((p1, p2) => p1.CompareTo(p2));
+        sortedScores.Sort((p1, p2) => p1.score.CompareTo(p2.score));
 
+        for (int i = 0; i < sortedScores.Count; i++)
+        {
+            finalScoreList.Add(scoreList[i]);
+        }
         //ClientRpc Update UI with leaderboard
+        CalcLeaderboardClientRpc();
+    }
+
+    [ClientRpc]
+    private void CalcLeaderboardClientRpc()
+    {
+        StartCoroutine(ShowLeaderboardClient());
+    }
+
+    private IEnumerator ShowLeaderboardClient()
+    {
+        yield return new WaitForFixedUpdate();
+
+        scoreBoardUI.SetActive(true);
+
+        for (int i = 0; i < finalScoreList.Count; i++)
+        {
+            scoreBoardElements[i].playerName.text = "Player " + finalScoreList[i].playerID;
+            scoreBoardElements[i].playerScore.text = finalScoreList[i].ToString();
+        }
     }
 }
