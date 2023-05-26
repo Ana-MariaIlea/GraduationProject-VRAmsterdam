@@ -10,7 +10,7 @@ public class FriendlyCreatureFireObstacle : FriendlyCreatureItemObstacle
     {
         GetComponentInParent<FireFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
         GetComponent<BoxCollider>().enabled = false;
-        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID);
+        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID, true, serverRpcParams.Receive.SenderClientId);
         ObstacleClearedClientRpc();
     }
 
