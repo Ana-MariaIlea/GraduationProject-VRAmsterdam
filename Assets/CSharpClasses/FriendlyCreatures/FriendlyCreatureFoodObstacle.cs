@@ -15,7 +15,7 @@ public class FriendlyCreatureFoodObstacle : FriendlyCreatureItemObstacle
     {
         GetComponentInParent<EarthFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
         GetComponent<BoxCollider>().enabled = false;
-        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID, true, serverRpcParams.Receive.SenderClientId);
+        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID);
         ObstacleClearedClientRpc();
     }
 

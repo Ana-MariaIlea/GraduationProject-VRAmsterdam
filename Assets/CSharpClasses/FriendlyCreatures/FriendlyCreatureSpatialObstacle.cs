@@ -16,7 +16,7 @@ public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
         Debug.Log("Water obstacle clear server rpc"); 
         GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
         GetComponent<BoxCollider>().enabled = false;
-        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID, true, serverRpcParams.Receive.SenderClientId);
+        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID);
         ObstacleClearedClientRpc();
     }
 
