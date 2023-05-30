@@ -9,8 +9,11 @@ public class PlayerStateManager : NetworkBehaviour
     [HideInInspector] public UnityEvent part1StartClient;
     [HideInInspector] public UnityEvent part1StartServer;
 
-    [HideInInspector] public UnityEvent part2StartClient;
-    [HideInInspector] public UnityEvent part2StartServer;
+    [HideInInspector] public UnityEvent part2PlayerCoOpStartClient;
+    [HideInInspector] public UnityEvent part2PlayerCoOpStartServer;
+
+    [HideInInspector] public UnityEvent part2PlayerVsPlayerStartClient;
+    [HideInInspector] public UnityEvent part2PlayerVsPlayerStartServer;
 
     [HideInInspector] public UnityEvent endingStartServer;
     [HideInInspector] public UnityEvent endingStartClient;
@@ -18,6 +21,8 @@ public class PlayerStateManager : NetworkBehaviour
     private bool isPart1Triggered = false;
     private bool isPart2Triggered = false;
     private bool isEndingTriggered = false;
+
+    private bool isPlayerCoOp = true;
 
     public enum PlayerState
     {
@@ -39,12 +44,16 @@ public class PlayerStateManager : NetworkBehaviour
     }
 
 
-    public void StartPart1Server()
+    public void StartPart1Server(bool isPlayerCoOp = true)
     {
         if (!isPart1Triggered)
         {
             StartPart1ClientRpc();
             part1StartServer?.Invoke();
+            if (!isPlayerCoOp)
+            {
+                PlayerCreatureHandler.Singleton.IsPlayerCoOp = false;
+            }
             isPart1Triggered = true;
         }
     }
@@ -55,20 +64,36 @@ public class PlayerStateManager : NetworkBehaviour
         part1StartClient?.Invoke();
     }
 
-    public void StartPart2Server()
+    public void StartPart2PlayerCoOpServer()
     {
         if (!isPart2Triggered)
         {
-            StartPart2ClientRpc();
-            part2StartServer?.Invoke();
+            StartPart2PlayerCoOpClientRpc();
+            part2PlayerCoOpStartServer?.Invoke();
             isPart2Triggered = true;
         }
     }
 
     [ClientRpc]
-    private void StartPart2ClientRpc()
+    private void StartPart2PlayerCoOpClientRpc()
     {
-        part2StartClient?.Invoke();
+        part2PlayerCoOpStartClient?.Invoke();
+    }
+
+    public void StartPart2PlayerVsPlayerServer()
+    {
+        if (!isPart2Triggered)
+        {
+            StartPart2PlayerVsPlayerClientRpc();
+            part2PlayerVsPlayerStartServer?.Invoke();
+            isPart2Triggered = true;
+        }
+    }
+
+    [ClientRpc]
+    private void StartPart2PlayerVsPlayerClientRpc()
+    {
+        part2PlayerVsPlayerStartClient?.Invoke();
     }
 
     public void GameEndServer()

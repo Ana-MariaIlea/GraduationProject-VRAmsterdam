@@ -11,8 +11,22 @@ using UnityEngine;
 public class PlayerCreatureHandler : NetworkBehaviour
 {
     public static PlayerCreatureHandler Singleton;
-
+    [SerializeField] private float delayToStartPart2 = 1f; 
     private NetworkList<PlayerCreatures> playerCreatures;
+
+    private bool isPlayerCoOp = true;
+
+    public bool IsPlayerCoOp
+    {
+        get
+        {
+            return isPlayerCoOp;
+        }
+        set
+        {
+            isPlayerCoOp = value;
+        }
+    }
 
     public struct PlayerCreatures : INetworkSerializable, IEquatable<PlayerCreatures>
     {
@@ -118,7 +132,7 @@ public class PlayerCreatureHandler : NetworkBehaviour
                         break;
                 }
                 playerCreatures[i] = aux;
-                Invoke("CheckPlayersCreatures", 1f);
+                Invoke("CheckPlayersCreatures", delayToStartPart2);
                 return;
             }
         }
@@ -175,7 +189,14 @@ public class PlayerCreatureHandler : NetworkBehaviour
 
         if (PlayerStateManager.Singleton)
         {
-            PlayerStateManager.Singleton.StartPart2Server();
+            if (isPlayerCoOp)
+            {
+                PlayerStateManager.Singleton.StartPart2PlayerCoOpServer();
+            }
+            else
+            {
+                PlayerStateManager.Singleton.StartPart2PlayerVsPlayerServer();
+            }
         }
         else
         {

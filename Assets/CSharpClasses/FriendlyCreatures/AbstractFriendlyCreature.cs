@@ -54,7 +54,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
             GetComponent<NetworkTransform>().enabled = true;
             if (PlayerStateManager.Singleton)
             {
-                PlayerStateManager.Singleton.part2StartServer.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
             }
             else
             {

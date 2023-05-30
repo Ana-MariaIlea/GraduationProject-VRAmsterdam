@@ -29,6 +29,8 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private PlayerInputActions controls;
 
+    private bool isPlayerCoOp = true;
+
     private Coroutine shootingStreamLeft = null;
     private Coroutine shootingStreamRight = null;
 
@@ -61,7 +63,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
             if (PlayerStateManager.Singleton)
             {
-                PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2PlayerVSPlayerStart);
             }
             else
             {
@@ -170,9 +172,16 @@ public class PlayerVRShooting : NetworkBehaviour
         }
     }
 
-    private void Part2Start()
+    private void Part2PlayerVSPlayerStart()
     {
+        isPlayerCoOp = false;
+        Part2PlayerVSPlayerStartServerRpc();
+    }
 
+    [ServerRpc]
+    private void Part2PlayerVSPlayerStartServerRpc()
+    {
+        isPlayerCoOp = false;
     }
 
     private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)
@@ -223,6 +232,7 @@ public class PlayerVRShooting : NetworkBehaviour
             GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.Euler(rotation));
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
+            projectile.GetComponent<Projectile>().IsPlayerCoOp = isPlayerCoOp;
             projectile.GetComponent<NetworkObject>().Spawn();
             SoundManager.Singleton.PlaySoundAllPlayers(shootingSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
         }

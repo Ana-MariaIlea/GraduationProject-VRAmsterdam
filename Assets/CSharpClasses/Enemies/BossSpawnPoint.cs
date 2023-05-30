@@ -19,7 +19,7 @@ public class BossSpawnPoint : NetworkBehaviour
         {
             if (PlayerStateManager.Singleton)
             {
-                PlayerStateManager.Singleton.part2StartServer.AddListener(SpawnBoss);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(SpawnBoss);
             }
             else
             {

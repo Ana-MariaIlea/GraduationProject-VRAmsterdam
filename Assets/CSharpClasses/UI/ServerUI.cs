@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class ServerUI : NetworkBehaviour
 {
-    [SerializeField] private Button StartGameButton;
+    [SerializeField] private Button StartPlayerCoOpGameButton;
+    [SerializeField] private Button StartPlayerVsPlayerGameButton;
     [SerializeField] private GameObject UIElementsPanel;
     [SerializeField] private GameObject EventSystem;
     public override void OnNetworkSpawn()
@@ -17,15 +18,29 @@ public class ServerUI : NetworkBehaviour
             base.OnNetworkSpawn();
             UIElementsPanel.SetActive(true);
             EventSystem.SetActive(true);
-            StartGameButton.onClick.AddListener(StartGame);
+            StartPlayerCoOpGameButton.onClick.AddListener(StartPlayerCoOpGame);
+            StartPlayerVsPlayerGameButton.onClick.AddListener(StartPlayerVsPlayerGame);
         }
     }
 
-    public void StartGame()
+    public void StartPlayerCoOpGame()
     {
         if (PlayerStateManager.Singleton)
         {
             PlayerStateManager.Singleton.StartPart1Server();
+            UIElementsPanel.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
+    }
+
+    public void StartPlayerVsPlayerGame()
+    {
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.StartPart1Server(false);
             UIElementsPanel.SetActive(false);
         }
         else

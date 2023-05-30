@@ -21,7 +21,7 @@ public class PlayerVRShield : NetworkBehaviour
             
             if (PlayerStateManager.Singleton)
             {
-                PlayerStateManager.Singleton.part2StartClient.AddListener(BindActions);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(BindActions);
             }
             else
             {
