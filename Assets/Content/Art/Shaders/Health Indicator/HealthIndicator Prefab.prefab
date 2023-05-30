@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 7534967178909834837}
   - component: {fileID: 5736075097446563760}
   - component: {fileID: 1735100570391339751}
-  - component: {fileID: 94440998036018096}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -116,20 +115,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &94440998036018096
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4964329354465862337}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &5699229967610135602
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +332,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 10
+  m_text: '0
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 594edfc0dbb946b499143404a65dd691, type: 2}
   m_sharedMaterial: {fileID: 5039118521025443373, guid: 594edfc0dbb946b499143404a65dd691, type: 2}

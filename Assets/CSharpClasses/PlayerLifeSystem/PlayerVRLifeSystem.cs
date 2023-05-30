@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -18,19 +19,10 @@ public class PlayerVRLifeSystem : NetworkBehaviour
 
     private int currentHP;
 
-    [SerializeField]private GameObject HPText;
+    [SerializeField]private GameObject HealthPanel;
+    [SerializeField]private TMP_Text HPText;
 
     [SerializeField]private Material mat;
-
-    private void Start()
-    {
-        //Should put it in OnNetworkSpawn I know...
-        //mat = GetComponent<Renderer>().material;
-        //currentHP = maxHP;
-        //HPText = GameObject.Find("HPText");
-        //HPText.GetComponent<TMPro.TextMeshProUGUI>().text = "HP: " + currentHP;
-    }
-
 
     public override void OnNetworkSpawn()
     {
@@ -40,16 +32,12 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         { 
             //GetComponent<BoxCollider>().enabled = false;
             this.enabled = false;
+            if (IsOwner)
+            {
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2Start);
+            }
         }
-        //else if (IsClient && IsOwner)
-        //        if (PlayerStateManager.Singleton)
-        //        {
-        //            PlayerStateManager.Singleton.part2StartClient.AddListener(Part2Start);
-        //        }
-        //        else
-        //        {
-        //            Debug.LogError("No PlayerStateManager in the scene");
-        //        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -76,6 +64,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     private void Part2Start()
     {
         GetComponent<BoxCollider>().enabled = true;
+        HealthPanel.SetActive(true);
     }
 
     public void PlayerHitServer(ServerRpcParams serverRpcParams = default)
@@ -83,7 +72,8 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         currentHP--;
         PlayerHitClientRPC();
         //Material Cutoff affect the transparency of the health indicator
-        //mat.SetFloat("_Cutoff", 1f - currentHP / (float)maxHP);
+        mat.SetFloat("_Cutoff", 1f - currentHP / (float)maxHP);
+        HPText.text = currentHP.ToString();
 
         if (currentHP <= 0)
         {
