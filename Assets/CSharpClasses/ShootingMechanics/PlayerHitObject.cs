@@ -7,6 +7,7 @@ public abstract class PlayerHitObject : NetworkBehaviour
 {
     protected float damage;
     protected ulong shooterPlayerID;
+    protected bool isPlayerCoOp = true;
 
     public float Damage
     {
@@ -29,6 +30,18 @@ public abstract class PlayerHitObject : NetworkBehaviour
         set
         {
             shooterPlayerID = value;
+        }
+    }
+
+    public bool IsPlayerCoOp
+    {
+        get
+        {
+            return isPlayerCoOp;
+        }
+        set
+        {
+            isPlayerCoOp = value;
         }
     }
 }
