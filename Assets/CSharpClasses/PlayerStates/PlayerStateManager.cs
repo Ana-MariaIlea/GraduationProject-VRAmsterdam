@@ -44,16 +44,13 @@ public class PlayerStateManager : NetworkBehaviour
     }
 
 
-    public void StartPart1Server(bool isPlayerCoOp = true)
+    public void StartPart1Server(bool isPlayerCoOp)
     {
         if (!isPart1Triggered)
         {
             StartPart1ClientRpc();
             part1StartServer?.Invoke();
-            if (!isPlayerCoOp)
-            {
-                PlayerCreatureHandler.Singleton.IsPlayerCoOp = false;
-            }
+            this.isPlayerCoOp = isPlayerCoOp;
             isPart1Triggered = true;
         }
     }
@@ -64,6 +61,17 @@ public class PlayerStateManager : NetworkBehaviour
         part1StartClient?.Invoke();
     }
 
+    public void StartPart2Server()
+    {
+        if (isPlayerCoOp)
+        {
+            StartPart2PlayerCoOpServer();
+        }
+        else
+        {
+            StartPart2PlayerVsPlayerServer();
+        }
+    }
     public void StartPart2PlayerCoOpServer()
     {
         if (!isPart2Triggered)
