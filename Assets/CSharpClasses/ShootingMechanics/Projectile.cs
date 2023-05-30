@@ -24,22 +24,44 @@ public class Projectile : PlayerHitObject
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isPlayerCoOp)
+        {
+            PlayerCoOpTriggerHandling(other);
+        }
+        else
+        {
+            PlayerVSPlayerTriggerHandling(other);
+        }
+    }
+
+
+    private void PlayerCoOpTriggerHandling(Collider other)
+    {
         switch (other.tag)
         {
             case "Boss":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
                 other.GetComponent<BossCreature>().DamangeBoss(damage);
-                //GetComponent<NetworkObject>().Despawn();
-                //Destroy(this);
                 break;
             case "Minion":
                 ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
                 other.GetComponent<MinionCreature>().DamangeMinion(damage);
-                //GetComponent<NetworkObject>().Despawn();
-                //Destroy(this);
                 break;
         }
         if (other.tag != "Player" && other.tag != "ChargingStation")
+        {
+            GetComponent<NetworkObject>().Despawn();
+            Destroy(this);
+        }
+    }
+
+    private void PlayerVSPlayerTriggerHandling(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            //Increase score and damage player
+        }
+        if (other.tag != "ChargingStation")
         {
             GetComponent<NetworkObject>().Despawn();
             Destroy(this);
