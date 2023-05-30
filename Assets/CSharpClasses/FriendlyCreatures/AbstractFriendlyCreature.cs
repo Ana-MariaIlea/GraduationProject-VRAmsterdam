@@ -55,6 +55,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(Part2Start);
             }
             else
             {

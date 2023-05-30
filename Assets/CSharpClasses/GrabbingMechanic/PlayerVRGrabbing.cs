@@ -63,6 +63,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
             {
                 PlayerStateManager.Singleton.part1StartClient.AddListener(BindInputActions);
                 PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2Start);
             }
             else
             {
@@ -195,6 +196,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
         UnBindInputActions();
 
         PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
+        PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2Start);
 
         controls.Disable();
         this.enabled = false;
