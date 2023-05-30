@@ -16,7 +16,7 @@ using static ScoreSystemManager;
 //------------------------------------------------------------------------------
 public class ScoreSystemManager : NetworkBehaviour
 {
-    public static ScoreSystemManager Singleton { get; private set; };
+    public static ScoreSystemManager Singleton { get; private set; }
     [SerializeField] private List<ScoreBoard> scoreBoardElements;
     [SerializeField] private GameObject scoreBoardUI;
     private NetworkList<PlayerIndividualScore> scoreList;

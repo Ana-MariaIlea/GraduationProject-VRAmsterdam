@@ -10,7 +10,7 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class PlayerCreatureHandler : NetworkBehaviour
 {
-    public static PlayerCreatureHandler Singleton { get; private set; };
+    public static PlayerCreatureHandler Singleton { get; private set; }
     [SerializeField] private float delayToStartPart2 = 1f;
     private NetworkList<PlayerCreatures> playerCreatures;
 
