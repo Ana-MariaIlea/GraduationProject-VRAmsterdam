@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class PlayerStateManager : NetworkBehaviour
 {
-    public static PlayerStateManager Singleton;
+    public static PlayerStateManager Singleton { get; private set; };
 
     [HideInInspector] public UnityEvent part1StartClient;
     [HideInInspector] public UnityEvent part1StartServer;
