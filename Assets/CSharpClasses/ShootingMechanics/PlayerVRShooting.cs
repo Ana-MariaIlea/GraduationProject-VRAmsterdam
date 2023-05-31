@@ -232,7 +232,18 @@ public class PlayerVRShooting : NetworkBehaviour
             GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.Euler(rotation));
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
-            projectile.GetComponent<Projectile>().IsPlayerCoOp = isPlayerCoOp;
+            if (isPlayerCoOp)
+            {
+                projectile.GetComponent<Projectile>().IsPlayerCoOp = isPlayerCoOp;
+                if (gameObject.tag == "Team1")
+                {
+                    projectile.GetComponent<Projectile>().OpposingTeamTag = "Team2";
+                }
+                else
+                {
+                    projectile.GetComponent<Projectile>().OpposingTeamTag = "Team1";
+                }
+            }
             projectile.GetComponent<NetworkObject>().Spawn();
             SoundManager.Singleton.PlaySoundAllPlayers(shootingSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
         }

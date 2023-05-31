@@ -15,6 +15,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     [SerializeField] private Material team1Material;
     [SerializeField] private Material team2Material;
     [SerializeField] private SkinnedMeshRenderer playerMesh;
+    [SerializeField] private GameObject playerVRLiveObject;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -37,10 +38,12 @@ public class PlayerAssignmentHandler : NetworkBehaviour
                 case PossibleTeams.Team1:
                     playerMesh.material = team1Material;
                     gameObject.tag = "Team1";
+                    playerVRLiveObject.tag = "Team1";
                     break;
                 case PossibleTeams.Team2:
                     playerMesh.material = team2Material;
                     gameObject.tag = "Team2";
+                    playerVRLiveObject.tag = "Team2";
                     break;
             }
             

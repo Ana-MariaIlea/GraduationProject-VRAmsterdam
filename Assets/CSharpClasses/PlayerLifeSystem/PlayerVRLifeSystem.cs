@@ -18,18 +18,19 @@ public class PlayerVRLifeSystem : NetworkBehaviour
 
 
     private int currentHP;
+    private bool isPlayerCoOp = true;
 
-    [SerializeField]private GameObject HealthPanel;
-    [SerializeField]private TMP_Text HPText;
+    [SerializeField] private GameObject HealthPanel;
+    [SerializeField] private TMP_Text HPText;
 
-    [SerializeField]private Material mat;
+    [SerializeField] private Material mat;
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
         currentHP = maxHP;
         if (!IsServer)
-        { 
+        {
             //GetComponent<BoxCollider>().enabled = false;
             this.enabled = false;
             if (IsOwner)
@@ -44,8 +45,8 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         if (other.tag == "EnemyHitObject")
         {
             PlayerHitServer();
-            
-            other.GetComponent<EnemyHitObject>().DestroyProjectileServer(); 
+
+            other.GetComponent<EnemyHitObject>().DestroyProjectileServer();
         }
     }
 

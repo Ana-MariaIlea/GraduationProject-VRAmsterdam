@@ -8,6 +8,7 @@ public abstract class PlayerHitObject : NetworkBehaviour
     protected float damage;
     protected ulong shooterPlayerID;
     protected bool isPlayerCoOp = true;
+    protected string opposingTeamTag = "Player";
 
     public float Damage
     {
@@ -43,5 +44,23 @@ public abstract class PlayerHitObject : NetworkBehaviour
         {
             isPlayerCoOp = value;
         }
+    }
+
+    public string OpposingTeamTag
+    {
+        get
+        {
+            return opposingTeamTag;
+        }
+        set
+        {
+            opposingTeamTag = value;
+        }
+    }
+
+    public void DestroyProjectileServer()
+    {
+        GetComponent<NetworkObject>().Despawn();
+        Destroy(gameObject);
     }
 }

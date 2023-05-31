@@ -57,10 +57,11 @@ public class Projectile : PlayerHitObject
 
     private void PlayerVSPlayerTriggerHandling(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == opposingTeamTag)
         {
-            //Increase score
+            //Increase score and damage player
             ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
+            other.GetComponent<PlayerVRLifeSystem>().PlayerHitServer();
         }
         if (other.tag != "ChargingStation")
         {
