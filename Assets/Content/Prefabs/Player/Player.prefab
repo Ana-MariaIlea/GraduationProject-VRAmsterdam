@@ -354,6 +354,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71d89f818bd43d4bb9870551e5a5836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team1Material: {fileID: 2100000, guid: 0817d61373323324194a6d507904aae2, type: 2}
+  team2Material: {fileID: 2100000, guid: 1f68fc24ae5126e40a65ec40b84d1957, type: 2}
+  playerMesh: {fileID: 7282837531911367700}
 --- !u!114 &6168832689911919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,7 +879,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b53a016a1cf096449b01dbaf9abe642e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 527cce12b032f314494cf48020268ee4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -4062,6 +4065,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1630794972795428178, guid: a267198278036f74aa9244da1c280e85, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a71937c5ded457648aa80cf945987830, type: 2}
     - target: {fileID: 1723300971550007744, guid: a267198278036f74aa9244da1c280e85, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -4165,6 +4172,18 @@ PrefabInstance:
     - target: {fileID: 5573573921322251878, guid: a267198278036f74aa9244da1c280e85, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735869759745329168, guid: a267198278036f74aa9244da1c280e85, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.00001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735869759745329168, guid: a267198278036f74aa9244da1c280e85, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.00265
+      objectReference: {fileID: 0}
+    - target: {fileID: 5735869759745329168, guid: a267198278036f74aa9244da1c280e85, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0001
       objectReference: {fileID: 0}
     - target: {fileID: 5829696361170339911, guid: a267198278036f74aa9244da1c280e85, type: 3}
       propertyPath: m_Layer
@@ -4379,6 +4398,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -7518184498139793425, guid: a267198278036f74aa9244da1c280e85, type: 3}
   m_PrefabInstance: {fileID: 8336278655345062214}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &7282837531911367700 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1630794972795428178, guid: a267198278036f74aa9244da1c280e85, type: 3}
+  m_PrefabInstance: {fileID: 8336278655345062214}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7479193702537727185 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -7747591798551544425, guid: a267198278036f74aa9244da1c280e85, type: 3}
@@ -4472,6 +4496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 5
   playerHitSoundSource: {fileID: 609244800720756948}
+  HealthPanel: {fileID: 0}
   HPText: {fileID: 7004952550949266071}
   mat: {fileID: 2100000, guid: f58bb03a81ff4b7428d5ea4dcdd01622, type: 2}
 --- !u!4 &8995649486969969482 stripped
