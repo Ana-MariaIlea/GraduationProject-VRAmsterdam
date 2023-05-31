@@ -324,7 +324,7 @@ MonoBehaviour:
   controllerLeft: {fileID: 8417744091863509257}
   controllerRight: {fileID: 8417744091863506189}
   projectileOffset: {x: 0, y: -0.5, z: 0}
-  projectileShootCooldown: 0.8
+  projectileShootCooldown: 1
   streamObjectRight: {fileID: 8912361870662913256}
   streamShootTime: 5
   streamShootCooldown: 3
@@ -357,7 +357,7 @@ MonoBehaviour:
   team1Material: {fileID: 2100000, guid: 0817d61373323324194a6d507904aae2, type: 2}
   team2Material: {fileID: 2100000, guid: 1f68fc24ae5126e40a65ec40b84d1957, type: 2}
   playerMesh: {fileID: 7282837531911367700}
-  playerVRLiveObject: {fileID: 0}
+  playerVRLiveObject: {fileID: 8890530624155686190}
 --- !u!114 &6168832689911919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2531,9 +2531,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0be87d44c4ba85418a3011edb6d5057, type: 3}
---- !u!1 &7004952550949266071 stripped
+--- !u!114 &3736475734965526524 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3253193111060872923, guid: f0be87d44c4ba85418a3011edb6d5057, type: 3}
+  m_PrefabInstance: {fileID: 2233513868636414247}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7832051954569627317 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 9208064896207897520, guid: f0be87d44c4ba85418a3011edb6d5057, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8236521619220965266, guid: f0be87d44c4ba85418a3011edb6d5057, type: 3}
   m_PrefabInstance: {fileID: 2233513868636414247}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3603840824993865434
@@ -4497,8 +4508,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHP: 5
   playerHitSoundSource: {fileID: 609244800720756948}
-  HealthPanel: {fileID: 0}
-  HPText: {fileID: 7004952550949266071}
+  HealthPanel: {fileID: 7832051954569627317}
+  HPText: {fileID: 3736475734965526524}
   mat: {fileID: 2100000, guid: f58bb03a81ff4b7428d5ea4dcdd01622, type: 2}
 --- !u!4 &8995649486969969482 stripped
 Transform:
