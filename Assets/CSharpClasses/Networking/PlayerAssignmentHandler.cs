@@ -13,7 +13,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
 {
     [SerializeField] private Material team1Material;
     [SerializeField] private Material team2Material;
-    [SerializeField] private MeshRenderer playerMesh;
+    [SerializeField] private SkinnedMeshRenderer playerMesh;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
