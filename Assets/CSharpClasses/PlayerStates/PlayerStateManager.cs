@@ -12,6 +12,9 @@ public class PlayerStateManager : NetworkBehaviour
     [HideInInspector] public UnityEvent part2PlayerCoOpStartClient;
     [HideInInspector] public UnityEvent part2PlayerCoOpStartServer;
 
+    [HideInInspector] public UnityEvent part2PlayerVsPlayerPreStartClient;
+    [HideInInspector] public UnityEvent part2PlayerVsPlayerPreStartServer;
+
     [HideInInspector] public UnityEvent part2PlayerVsPlayerStartClient;
     [HideInInspector] public UnityEvent part2PlayerVsPlayerStartServer;
 
@@ -19,6 +22,7 @@ public class PlayerStateManager : NetworkBehaviour
     [HideInInspector] public UnityEvent endingStartClient;
 
     private bool isPart1Triggered = false;
+    private bool isPrePart2Triggered = false;
     private bool isPart2Triggered = false;
     private bool isEndingTriggered = false;
 
@@ -69,7 +73,7 @@ public class PlayerStateManager : NetworkBehaviour
         }
         else
         {
-            StartPart2PlayerVsPlayerServer();
+            PreStartPart2PlayerVsPlayerServer();
         }
     }
     public void StartPart2PlayerCoOpServer()
@@ -87,6 +91,24 @@ public class PlayerStateManager : NetworkBehaviour
     {
         part2PlayerCoOpStartClient?.Invoke();
     }
+
+
+    public void PreStartPart2PlayerVsPlayerServer()
+    {
+        if (!isPrePart2Triggered)
+        {
+            PreStartPart2PlayerVsPlayerClientRpc();
+            part2PlayerVsPlayerPreStartServer?.Invoke();
+            isPrePart2Triggered = true;
+        }
+    }
+
+    [ClientRpc]
+    private void PreStartPart2PlayerVsPlayerClientRpc()
+    {
+        part2PlayerVsPlayerPreStartClient?.Invoke();
+    }
+
 
     public void StartPart2PlayerVsPlayerServer()
     {

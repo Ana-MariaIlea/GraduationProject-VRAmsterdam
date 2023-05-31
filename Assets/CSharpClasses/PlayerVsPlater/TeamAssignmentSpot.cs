@@ -12,8 +12,34 @@ public class TeamAssignmentSpot : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         if (IsServer)
-            GetComponent<BoxCollider>().enabled = true;
+            PlayerStateManager.Singleton.part2PlayerVsPlayerPreStartServer.AddListener(StartPrePart2PlayerVSPlayerServer);
+            PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(StartPart2PlayerVSPlayerServer);
+
+    }
+
+    private void StartPrePart2PlayerVSPlayerServer()
+    {
+        GetComponent<BoxCollider>().enabled = true;
         visuals.SetActive(true);
+        StartPrePart2PlayerVSPlayerServerClientRpc();
+    }
+    [ClientRpc]
+    private void StartPrePart2PlayerVSPlayerServerClientRpc()
+    {
+        visuals.SetActive(true);
+    }
+
+    private void StartPart2PlayerVSPlayerServer()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+        visuals.SetActive(false);
+        StartPart2PlayerVSPlayerServerClientRpc();
+    }
+
+    [ClientRpc]
+    private void StartPart2PlayerVSPlayerServerClientRpc()
+    {
+        visuals.SetActive(false);
     }
 }
 

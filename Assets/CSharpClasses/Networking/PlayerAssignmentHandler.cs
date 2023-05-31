@@ -48,6 +48,10 @@ public class PlayerAssignmentHandler : NetworkBehaviour
             }
             
         }
+        if (IsClient && IsOwner && other.tag == "TeamAssignment")
+        {
+            AddPlayerToPlayerVsPlayerServerRPC();
+        }
     }
 
     [ClientRpc]
@@ -71,6 +75,12 @@ public class PlayerAssignmentHandler : NetworkBehaviour
         base.OnNetworkDespawn();
         RemovePlayerCreaturesServerRPC();
         RemovePlayerToScoringServerRPC();
+    }
+
+    [ServerRpc]
+    private void AddPlayerToPlayerVsPlayerServerRPC(ServerRpcParams serverRpcParams = default)
+    {
+        ScoreSystemManager.Singleton.NewPlayerConnected(serverRpcParams);
     }
 
     [ServerRpc]
