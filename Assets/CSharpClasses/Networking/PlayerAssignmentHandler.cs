@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
@@ -10,6 +11,9 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class PlayerAssignmentHandler : NetworkBehaviour
 {
+    [SerializeField] private Material team1Material;
+    [SerializeField] private Material team2Material;
+    [SerializeField] private MeshRenderer playerMesh;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -19,6 +23,28 @@ public class PlayerAssignmentHandler : NetworkBehaviour
             AddPlayerCreaturesServerRPC();
             AddPlayerToScoringServerRPC();
             AssignStreamShooterIDServerRpc();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (IsServer && other.tag == "TeamAssignment")
+        {
+            ChangePlayerVisualsClientRpc(other.GetComponent<TeamAssignmentSpot>().team);
+        }
+    }
+
+    [ClientRpc]
+    private void ChangePlayerVisualsClientRpc(PossibleTeams team)
+    {
+        switch (team)
+        {
+            case PossibleTeams.Team1:
+                playerMesh.material = team1Material;
+                break;
+            case PossibleTeams.Team2:
+                playerMesh.material = team2Material;
+                break;
         }
     }
 
