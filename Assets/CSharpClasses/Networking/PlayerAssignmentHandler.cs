@@ -1,3 +1,4 @@
+using Oculus.Platform.Models;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -31,6 +32,18 @@ public class PlayerAssignmentHandler : NetworkBehaviour
         if (IsServer && other.tag == "TeamAssignment")
         {
             ChangePlayerVisualsClientRpc(other.GetComponent<TeamAssignmentSpot>().team);
+            switch (other.GetComponent<TeamAssignmentSpot>().team)
+            {
+                case PossibleTeams.Team1:
+                    playerMesh.material = team1Material;
+                    gameObject.tag = "Team1";
+                    break;
+                case PossibleTeams.Team2:
+                    playerMesh.material = team2Material;
+                    gameObject.tag = "Team2";
+                    break;
+            }
+            
         }
     }
 
@@ -41,9 +54,11 @@ public class PlayerAssignmentHandler : NetworkBehaviour
         {
             case PossibleTeams.Team1:
                 playerMesh.material = team1Material;
+                gameObject.tag = "Team1";
                 break;
             case PossibleTeams.Team2:
                 playerMesh.material = team2Material;
+                gameObject.tag = "Team2";
                 break;
         }
     }
