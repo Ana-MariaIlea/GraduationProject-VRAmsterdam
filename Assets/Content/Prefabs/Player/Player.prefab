@@ -324,7 +324,7 @@ MonoBehaviour:
   controllerLeft: {fileID: 8417744091863509257}
   controllerRight: {fileID: 8417744091863506189}
   projectileOffset: {x: 0, y: -0.5, z: 0}
-  projectileShootCooldown: 1
+  projectileShootCooldown: 0.8
   streamObjectRight: {fileID: 8912361870662913256}
   streamShootTime: 5
   streamShootCooldown: 3
@@ -357,6 +357,7 @@ MonoBehaviour:
   team1Material: {fileID: 2100000, guid: 0817d61373323324194a6d507904aae2, type: 2}
   team2Material: {fileID: 2100000, guid: 1f68fc24ae5126e40a65ec40b84d1957, type: 2}
   playerMesh: {fileID: 7282837531911367700}
+  playerVRLiveObject: {fileID: 0}
 --- !u!114 &6168832689911919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
