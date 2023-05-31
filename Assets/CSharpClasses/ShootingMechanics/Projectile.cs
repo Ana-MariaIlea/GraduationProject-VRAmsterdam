@@ -59,7 +59,8 @@ public class Projectile : PlayerHitObject
     {
         if(other.tag == "Player")
         {
-            //Increase score and damage player
+            //Increase score
+            ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
         }
         if (other.tag != "ChargingStation")
         {

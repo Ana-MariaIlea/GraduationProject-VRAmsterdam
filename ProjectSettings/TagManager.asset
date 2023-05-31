@@ -16,6 +16,8 @@ TagManager:
   - Minion
   - ShieldBoss
   - TeamAssignment
+  - Team1
+  - Team2
   layers:
   - Default
   - TransparentFX
