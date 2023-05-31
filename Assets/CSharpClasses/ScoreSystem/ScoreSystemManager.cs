@@ -97,7 +97,7 @@ public class ScoreSystemManager : NetworkBehaviour
         }
     }
 
-    public void ScoreAddedToPlayer(ulong playerID, int scoreIncrease = 10)
+    public void ScoreAddedToPlayer(ulong playerID, int scoreIncrease = 100)
     {
         for (int i = 0; i < scoreList.Count; i++)
         {
