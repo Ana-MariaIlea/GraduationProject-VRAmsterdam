@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
-using static ScoreSystemManager;
+using TMPro;
 
 public class PlayerVsPlayerTimer : NetworkBehaviour
 {
     public static PlayerVsPlayerTimer Singleton { get; private set; }
     [SerializeField] private float gameTime = 180f;
+    [SerializeField] private GameObject TimerObject;
+    [SerializeField] private TMP_Text TimerText;
+
+    float timer;
 
     private List<PlayerReady> playerReadies = new List<PlayerReady>();
     public struct PlayerReady
@@ -47,6 +51,9 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.StartPart2PlayerVsPlayerServer();
+                timer = gameTime;
+                TimerObject.SetActive(true);
+                DisplayTimerClientRpc();
                 StartCoroutine(StartGameTimerCorutine());
             }
             else
@@ -56,9 +63,30 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    private void DisplayTimerClientRpc()
+    {
+        TimerObject.SetActive(true);
+    }
+
     private IEnumerator StartGameTimerCorutine()
     {
-        yield return new WaitForSeconds(gameTime);
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            int min = (int)(timer / 60);
+            int sec = (int)(timer - min * 60);
+            if (sec < 10)
+            {
+                TimerText.text = min.ToString() + ":0" + sec.ToString();
+            }
+            else
+            {
+                TimerText.text = min.ToString() + ":" + sec.ToString();
+            }
+            UpdateTimerClientRpc(min, sec);
+            yield return null;
+        }
         if (PlayerStateManager.Singleton)
         {
             PlayerStateManager.Singleton.GameEndServer();
@@ -66,6 +94,19 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
         else
         {
             Debug.LogError("No PlayerStateManager in the scene");
+        }
+    }
+
+    [ClientRpc]
+    private void UpdateTimerClientRpc(int min, int sec)
+    {
+        if (sec < 10)
+        {
+            TimerText.text = min.ToString() + ":0" + sec.ToString();
+        }
+        else
+        {
+            TimerText.text = min.ToString() + ":" + sec.ToString();
         }
     }
 
