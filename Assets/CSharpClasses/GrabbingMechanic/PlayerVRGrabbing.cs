@@ -101,7 +101,8 @@ public class PlayerVRGrabbing : NetworkBehaviour
         CreatureType otherType = other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType;
 
         if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value &&
-            !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType, OwnerClientId))
+            !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType, OwnerClientId) &&
+            other.GetComponent<FriendlyCreatureItemObstacle>().isObstacleClear == false)
         {
             Debug.Log("Clear obstacle");
             CollectCreatureCallServerRPC(other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType);
@@ -131,17 +132,20 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
     private IEnumerator DestroyItemCorutine()
     {
-        GrabbableItem aux = grabedItem;
-        ReleaseItemServerCall();
-        yield return new WaitForFixedUpdate();
-        GrabbableItemManager.Singleton.RemoveGivenObject(aux);
-        aux.GetComponent<NetworkObject>().Despawn();
-        Destroy(aux.gameObject);
+        if (grabedItem != null)
+        {
+            GrabbableItem aux = grabedItem;
+            ReleaseItemServerCall();
+            yield return new WaitForFixedUpdate();
+            GrabbableItemManager.Singleton.RemoveGivenObject(aux);
+            aux.GetComponent<NetworkObject>().Despawn();
+            Destroy(aux.gameObject);
+        }
     }
 
     public void TriggerExit()
     {
-        if (grabbing.Value == false) 
+        if (grabbing.Value == false)
         {
             grabedItem = null;
         }

@@ -69,6 +69,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
+--- !u!114 &1350181796845175950 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 805868878407880392, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
+  m_PrefabInstance: {fileID: 1843039089120283206}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7950206114637463654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15caba0e561b9a54eb3b829e0393bd21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3569865645999855427 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2889481019014880517, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
@@ -146,6 +157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FriendlyCreatureObstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 6976384816035909230, guid: d64084dd7fb90934c940286fdb49ad8a, type: 3}
+      propertyPath: soundSource
+      value: 
+      objectReference: {fileID: 1350181796845175950}
     - target: {fileID: 9179259864690833081, guid: d64084dd7fb90934c940286fdb49ad8a, type: 3}
       propertyPath: m_Size.x
       value: 1

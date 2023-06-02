@@ -14,6 +14,10 @@ public abstract class FriendlyCreatureItemObstacle : NetworkBehaviour
     [SerializeField] private ItemID obstacleItemID;
 
     [SerializeField] private CreatureType creatureType;
+
+    [SerializeField] protected SoundSource soundSource;
+
+    public bool isObstacleClear = false;
     public ItemID ObstacleItemID
     {
         get

@@ -13,18 +13,21 @@ public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
     [ServerRpc(RequireOwnership = false)]
     public override void ObstacleClearedServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        Debug.Log("Water obstacle clear server rpc"); 
-        GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
-        GetComponent<BoxCollider>().enabled = false;
-        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID, true, serverRpcParams.Receive.SenderClientId);
-        ObstacleClearedClientRpc();
+        if (isObstacleClear == false)
+        {
+            isObstacleClear = true;
+            Debug.Log("Water obstacle clear server rpc");
+            GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
+            GetComponent<BoxCollider>().enabled = false;
+            SoundManager.Singleton.PlaySoundAllPlayers(soundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
+            ObstacleClearedClientRpc();
+        }
     }
 
     [ClientRpc]
     public void ObstacleClearedClientRpc()
     {
-        Debug.Log("Water obstacle clear client rpc");
-
         gameObject.SetActive(false);
+        isObstacleClear = true;
     }
 }

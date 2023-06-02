@@ -8,15 +8,20 @@ public class FriendlyCreatureFireObstacle : FriendlyCreatureItemObstacle
     [ServerRpc(RequireOwnership = false)]
     public override void ObstacleClearedServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        GetComponentInParent<FireFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
-        GetComponent<BoxCollider>().enabled = false;
-        SoundManager.Singleton.PlaySoundAllPlayers(GetComponent<SoundSource>().SoundID, true, serverRpcParams.Receive.SenderClientId);
-        ObstacleClearedClientRpc();
+        if (isObstacleClear == false)
+        {
+            isObstacleClear = true;
+            GetComponentInParent<FireFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
+            GetComponent<BoxCollider>().enabled = false;
+            SoundManager.Singleton.PlaySoundAllPlayers(soundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
+            ObstacleClearedClientRpc();
+        }
     }
 
     [ClientRpc]
     public void ObstacleClearedClientRpc()
     {
         gameObject.SetActive(false);
+        isObstacleClear = true;
     }
 }

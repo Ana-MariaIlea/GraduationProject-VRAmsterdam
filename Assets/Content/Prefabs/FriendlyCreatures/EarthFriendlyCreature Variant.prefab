@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4861355302916526042}
     m_Modifications:
+    - target: {fileID: 2190410457317152868, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
+      propertyPath: soundSource
+      value: 
+      objectReference: {fileID: 6935959251594238999}
     - target: {fileID: 2850072838558495377, guid: 28f8f37ecaa25b643a9d4d203be54af9, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -161,3 +165,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2889481019014880517, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
   m_PrefabInstance: {fileID: 7741264762328093407}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6935959251594238999 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 805868878407880392, guid: 7945d792cbab63a43be774ecc119abc1, type: 3}
+  m_PrefabInstance: {fileID: 7741264762328093407}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065317517498702079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15caba0e561b9a54eb3b829e0393bd21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

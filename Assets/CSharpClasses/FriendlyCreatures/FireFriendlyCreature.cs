@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Scripting;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -55,21 +56,23 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                     playerTarget = hitCollidersSight[i].gameObject;
 
                     PlayerVRGrabbing[] grab = playerTarget.GetComponentsInChildren<PlayerVRGrabbing>();
-
-                    if (grab[0].GrabedItemID == ItemID.Food)
+                    if (grab.Length > 0)
                     {
-                        doesPlayerHaveFood = true;
-                        grabAux = grab[0];
-                    }
-                    else if (grab[1].GrabedItemID == ItemID.Food)
-                    {
-                        doesPlayerHaveFood = true;
-                        grabAux = grab[1];
-                    }
-                    else
-                    {
-                        doesPlayerHaveFood = false;
-                        grabAux = null;
+                        if (grab[0].GrabedItemID == ItemID.Food)
+                        {
+                            doesPlayerHaveFood = true;
+                            grabAux = grab[0];
+                        }
+                        else if (grab[1].GrabedItemID == ItemID.Food)
+                        {
+                            doesPlayerHaveFood = true;
+                            grabAux = grab[1];
+                        }
+                        else
+                        {
+                            doesPlayerHaveFood = false;
+                            grabAux = null;
+                        }
                     }
                 }
             }
