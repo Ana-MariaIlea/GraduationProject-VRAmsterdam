@@ -268,7 +268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7099297068041336308, guid: 7bcc43cfac9f8c84ea81a7f38933d93b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bcc43cfac9f8c84ea81a7f38933d93b, type: 3}
@@ -2161,7 +2161,7 @@ PrefabInstance:
       objectReference: {fileID: 32949146}
     - target: {fileID: 6681549834280568153, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: isServer
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568154, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: ConnectionData.Address
