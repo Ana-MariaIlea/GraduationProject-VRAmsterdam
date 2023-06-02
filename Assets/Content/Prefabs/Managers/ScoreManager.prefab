@@ -211,6 +211,14 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 216283121557612045, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 216283121557612046, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 216283121962583259, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -351,6 +359,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -20
       objectReference: {fileID: 0}
+    - target: {fileID: 7927084013444422439, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8169906391292393443, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -366,6 +378,10 @@ PrefabInstance:
     - target: {fileID: 8169906391292393443, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8238614515387790723, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8625638520851713494, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
       propertyPath: m_AnchorMax.y
@@ -403,7 +419,9 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -20
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7927084013444422439, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
+    - {fileID: 216283121557612043, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b8eb87b193d97f54d8c5e59d6c6f4835, type: 3}
 --- !u!114 &667759018510359956 stripped
 MonoBehaviour:
