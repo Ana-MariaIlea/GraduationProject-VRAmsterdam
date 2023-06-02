@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
-using static ScoreSystemManager;
 
 //------------------------------------------------------------------------------
 // </summary>

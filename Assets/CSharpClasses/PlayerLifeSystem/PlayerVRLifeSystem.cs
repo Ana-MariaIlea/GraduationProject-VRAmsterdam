@@ -51,7 +51,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void PlayerHitClientRPC(float materieanCutoffValue)
+    private void PlayerHitClientRPC(float materieanCutoffValue, int currentHP)
     {
         PlayerHitServerRpc();
         //Material Cutoff affect the transparency of the health indicator
@@ -75,7 +75,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     {
         currentHP--;
         float materialCutofValue = 1f - currentHP / (float)maxHP;
-        PlayerHitClientRPC(materialCutofValue);
+        PlayerHitClientRPC(materialCutofValue, currentHP);
 
         if (currentHP <= 0)
         {
