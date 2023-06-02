@@ -143,7 +143,7 @@ public class ScoreSystemManager : NetworkBehaviour
 
     private IEnumerator ShowLeaderboardClient()
     {
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(.5f);
 
         scoreBoardUI.SetActive(true);
 
