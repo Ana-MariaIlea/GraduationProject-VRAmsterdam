@@ -87,6 +87,7 @@ MonoBehaviour:
   MaxHealth: 20
   ProjectileShootPoint: {fileID: 8847224357631064904}
   attackRange: 4
+  attackSpeed: 7
   projectilePrefab: {fileID: 8782673446078193449, guid: 9995308dd09aa8f4b86ad60d35c042da, type: 3}
   minionDie:
     m_PersistentCalls:
