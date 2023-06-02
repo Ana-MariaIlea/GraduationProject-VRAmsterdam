@@ -825,7 +825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerType: 1
   anchor: {fileID: 8417744091863506189}
-  creatureUIPanel: {fileID: 0}
+  creatureUIPanel: {fileID: 4525924738080554284}
 --- !u!1 &4163269199541819769
 GameObject:
   m_ObjectHideFlags: 0
@@ -2019,7 +2019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controllerType: 0
   anchor: {fileID: 8417744091863509257}
-  creatureUIPanel: {fileID: 0}
+  creatureUIPanel: {fileID: 4525924738080554284}
 --- !u!1 &9108338829058705131
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,6 +2846,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+--- !u!114 &4525924738080554284 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 234314948467357049, guid: c2940520ed9946044bbda1d6cbf6db93, type: 3}
+  m_PrefabInstance: {fileID: 4435804451781232725}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf113b433932b34c92b9805b36c7bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5206711808208320756
 PrefabInstance:
   m_ObjectHideFlags: 0
