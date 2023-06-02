@@ -358,7 +358,7 @@ public class PlayerVRShooting : NetworkBehaviour
         switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
-                controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
+                //controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 break;
             case ShootingMode.Stream:

@@ -126,6 +126,11 @@ public class ScoreSystemManager : NetworkBehaviour
         {
             finalScoreList.Add(scoreList[i]);
         }
+        for (int i = 0; i < finalScoreList.Count; i++)
+        {
+            scoreBoardElements[i].playerName.text = "Player " + finalScoreList[i].playerID;
+            scoreBoardElements[i].playerScore.text = finalScoreList[i].score.ToString();
+        }
         //ClientRpc Update UI with leaderboard
         CalcLeaderboardClientRpc();
     }
@@ -145,7 +150,7 @@ public class ScoreSystemManager : NetworkBehaviour
         for (int i = 0; i < finalScoreList.Count; i++)
         {
             scoreBoardElements[i].playerName.text = "Player " + finalScoreList[i].playerID;
-            scoreBoardElements[i].playerScore.text = finalScoreList[i].ToString();
+            scoreBoardElements[i].playerScore.text = finalScoreList[i].score.ToString();
         }
     }
 }
