@@ -99,7 +99,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [ClientRpc]
     private void RevivePlaterClientRpc()
     {
-        mat.SetFloat("_Cutoff", 1f);
+        mat.SetFloat("_Cutoff", 0f);
         HPText.text = maxHP.ToString();
     }
 }
