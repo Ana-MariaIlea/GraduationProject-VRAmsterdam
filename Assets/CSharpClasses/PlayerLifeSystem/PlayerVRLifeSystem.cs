@@ -74,17 +74,20 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     public void PlayerHitServer(ServerRpcParams serverRpcParams = default)
     {
         currentHP--;
-        float materialCutofValue = 1f - currentHP / (float)maxHP;
-        PlayerHitClientRPC(materialCutofValue, currentHP);
+
 
         if (currentHP <= 0)
         {
             GetComponentInParent<PlayerVRShooting>().PlayerDieServer();
+            currentHP = 0;
         }
         else
         {
             GetComponentInParent<PlayerVRShooting>().PlayerHit(currentHP);
         }
+
+        float materialCutofValue = 1f - currentHP / (float)maxHP;
+        PlayerHitClientRPC(materialCutofValue, currentHP);
     }
 
     public void RevivePlayerServer()
