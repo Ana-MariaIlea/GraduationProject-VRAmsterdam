@@ -8,7 +8,7 @@ public class BossCreature : NetworkBehaviour
 {
     [SerializeField] private float MaxHealth = 100;
     [SerializeField] private List<BossStageElements> thresholds;
-    [SerializeField] private GameObject shieldObject;
+    [SerializeField] private GameObject bossModel;
     [SerializeField] private Transform ProjectileShootPoint;
     [SerializeField] private float attackRange = 3;
     [SerializeField] private float attackSpeed = 10;
@@ -59,6 +59,7 @@ public class BossCreature : NetworkBehaviour
         else
         {
             this.enabled = false;
+            GetComponent<CapsuleCollider>().enabled = false;
         }
     }
 
@@ -71,7 +72,7 @@ public class BossCreature : NetworkBehaviour
                 FightBehaviour();
                 break;
             case BossStage.Shield:
-                ShieldBehaviour();
+                //ShieldBehaviour();
                 break;
         }
     }
@@ -173,7 +174,8 @@ public class BossCreature : NetworkBehaviour
             }
             minionNumber = minionSpawnPoints.Count;
             thresholdIndex++;
-            shieldObject.SetActive(true);
+            bossModel.SetActive(false);
+            GetComponent<CapsuleCollider>().enabled = false;
             meshAgent.enabled = false;
             ActivateShieldClientRpc();
         }
@@ -182,7 +184,7 @@ public class BossCreature : NetworkBehaviour
     [ClientRpc]
     private void ActivateShieldClientRpc()
     {
-        shieldObject.SetActive(true);
+        bossModel.SetActive(false);
     }
 
     public void MinionDied()
@@ -191,7 +193,8 @@ public class BossCreature : NetworkBehaviour
         if (minionNumber == 0)
         {
             stage = BossStage.Fight;
-            shieldObject.SetActive(false);
+            bossModel.SetActive(true);
+            GetComponent<CapsuleCollider>().enabled = true;
             meshAgent.enabled = true;
             DeactivateShieldClientRpc();
         }
@@ -200,7 +203,7 @@ public class BossCreature : NetworkBehaviour
     [ClientRpc]
     private void DeactivateShieldClientRpc()
     {
-        shieldObject.SetActive(false);
+        bossModel.SetActive(true);
     }
 
     private void BossDie()

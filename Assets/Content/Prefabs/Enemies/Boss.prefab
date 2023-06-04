@@ -196,7 +196,7 @@ MonoBehaviour:
     healthThreshhold: 0
     projectilePrefab: {fileID: 6672442421368627584, guid: 9e84746ce87ed5149b1b5eecff7c602c, type: 3}
     minionTypeToSpawn: 3
-  shieldObject: {fileID: 3454386082449994740}
+  bossModel: {fileID: 1615424571849496081}
   ProjectileShootPoint: {fileID: 4732879594280981817}
   attackRange: 4
   attackSpeed: 5
