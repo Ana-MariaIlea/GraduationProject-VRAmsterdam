@@ -31,16 +31,20 @@ public class ScoreSystemManager : NetworkBehaviour
     {
         public ulong playerID; 
         public float score;
+        public int kills;
+        public int deaths;
 
         public bool Equals(PlayerIndividualScore other)
         {
-            return playerID == other.playerID && score == other.score;
+            return playerID == other.playerID && score == other.score && kills == other.kills && deaths == other.deaths;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref playerID);
             serializer.SerializeValue(ref score);
+            serializer.SerializeValue(ref kills);
+            serializer.SerializeValue(ref deaths);
         }
     }
 
@@ -81,6 +85,8 @@ public class ScoreSystemManager : NetworkBehaviour
         PlayerIndividualScore playerIndividualScore = new PlayerIndividualScore();
         playerIndividualScore.playerID = serverRpcParams.Receive.SenderClientId;
         playerIndividualScore.score = 0;
+        playerIndividualScore.kills = 0;
+        playerIndividualScore.deaths = 0;
         scoreList.Add(playerIndividualScore);
     }
 
@@ -105,6 +111,42 @@ public class ScoreSystemManager : NetworkBehaviour
                 PlayerIndividualScore newScore;
                 newScore.playerID = scoreList[i].playerID;
                 newScore.score = scoreList[i].score + scoreIncrease;
+                newScore.kills = scoreList[i].kills;
+                newScore.deaths = scoreList[i].deaths;
+                scoreList[i] = newScore;
+                return;
+            }
+        }
+    }
+
+    public void KillAddedToPlayer(ulong playerID, int scoreIncrease = 100)
+    {
+        for (int i = 0; i < scoreList.Count; i++)
+        {
+            if (scoreList[i].playerID == playerID)
+            {
+                PlayerIndividualScore newScore;
+                newScore.playerID = scoreList[i].playerID;
+                newScore.score = scoreList[i].score + scoreIncrease;
+                newScore.kills = scoreList[i].kills + 1;
+                newScore.deaths = scoreList[i].deaths;
+                scoreList[i] = newScore;
+                return;
+            }
+        }
+    }
+
+    public void DeathAddedToPlayer(ulong playerID)
+    {
+        for (int i = 0; i < scoreList.Count; i++)
+        {
+            if (scoreList[i].playerID == playerID)
+            {
+                PlayerIndividualScore newScore;
+                newScore.playerID = scoreList[i].playerID;
+                newScore.score = scoreList[i].score;
+                newScore.kills = scoreList[i].kills;
+                newScore.deaths = scoreList[i].deaths + 1;
                 scoreList[i] = newScore;
                 return;
             }

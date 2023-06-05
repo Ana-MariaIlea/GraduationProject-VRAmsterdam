@@ -376,4 +376,10 @@ public class PlayerVRShooting : NetworkBehaviour
 
         //shootingMode = ShootingMode.None;
     }
+
+    [ServerRpc]
+    public void PlayerDieServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        ScoreSystemManager.Singleton.DeathAddedToPlayer(serverRpcParams.Receive.SenderClientId);
+    }
 }

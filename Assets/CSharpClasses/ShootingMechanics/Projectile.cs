@@ -61,7 +61,11 @@ public class Projectile : PlayerHitObject
         {
             //Increase score and damage player
             ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
-            other.GetComponent<PlayerVRLifeSystem>().PlayerHitServer();
+            bool otherHP = other.GetComponent<PlayerVRLifeSystem>().PlayerHitServer();
+            if (otherHP) 
+            {
+                ScoreSystemManager.Singleton.KillAddedToPlayer(shooterPlayerID);
+            }
         }
         if (other.tag != "ChargingStation")
         {

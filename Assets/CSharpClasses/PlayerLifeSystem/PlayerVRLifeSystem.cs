@@ -71,10 +71,15 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         HealthPanel.SetActive(true);
     }
 
-    public void PlayerHitServer(ServerRpcParams serverRpcParams = default)
+    public bool PlayerHitServer(ServerRpcParams serverRpcParams = default)
     {
+        bool hasPlayrDied = false;
         currentHP--;
 
+        if (currentHP == 0)
+        {
+            hasPlayrDied = true;
+        }
 
         if (currentHP <= 0)
         {
@@ -88,6 +93,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
 
         float materialCutofValue = 1f - currentHP / (float)maxHP;
         PlayerHitClientRPC(materialCutofValue, currentHP);
+        return hasPlayrDied;
     }
 
     public void RevivePlayerServer()
