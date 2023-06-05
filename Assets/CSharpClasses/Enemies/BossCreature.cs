@@ -61,6 +61,7 @@ public class BossCreature : NetworkBehaviour
             this.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
         }
+        LeanTween.scale(bossModel, Vector3.one, 1f).setEaseOutBack();
     }
 
     // Update is called once per frame
@@ -177,14 +178,15 @@ public class BossCreature : NetworkBehaviour
             bossModel.SetActive(false);
             GetComponent<CapsuleCollider>().enabled = false;
             meshAgent.enabled = false;
-            ActivateShieldClientRpc();
+            TurnOffBossModelClientRpc();
         }
     }
 
     [ClientRpc]
-    private void ActivateShieldClientRpc()
+    private void TurnOffBossModelClientRpc()
     {
-        bossModel.SetActive(false);
+        //bossModel.SetActive(false);
+        StartCoroutine(BossSpawningDespawing(false));
     }
 
     public void MinionDied()
@@ -196,14 +198,29 @@ public class BossCreature : NetworkBehaviour
             bossModel.SetActive(true);
             GetComponent<CapsuleCollider>().enabled = true;
             meshAgent.enabled = true;
-            DeactivateShieldClientRpc();
+            TurnOnBossModelClientRpc();
         }
     }
 
     [ClientRpc]
-    private void DeactivateShieldClientRpc()
+    private void TurnOnBossModelClientRpc()
     {
-        bossModel.SetActive(true);
+        //bossModel.SetActive(true);
+        StartCoroutine(BossSpawningDespawing(true));
+    }
+
+    private IEnumerator BossSpawningDespawing(bool isSpawning)
+    {
+        if (isSpawning)
+        {
+            LeanTween.scale(bossModel, Vector3.one, 1f).setEaseOutBack();
+
+        }
+        else
+        {
+            LeanTween.scale(bossModel, Vector3.zero, 1f).setEaseInBack();
+        }
+        yield return null;
     }
 
     private void BossDie()

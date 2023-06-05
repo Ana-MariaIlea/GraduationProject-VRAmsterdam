@@ -11,6 +11,8 @@ public class MinionCreature : NetworkBehaviour
     [SerializeField] private float attackRange = 10;
     [SerializeField] private float attackSpeed = 4;
     [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject minionModel;
+    [SerializeField] private Vector3 minionModelScale;
 
     [HideInInspector] public UnityEvent minionDie;
 
@@ -32,6 +34,7 @@ public class MinionCreature : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        LeanTween.scale(minionModel, minionModelScale, 1f).setEaseOutBack();
         if (IsServer)
         {
             base.OnNetworkSpawn();
@@ -121,7 +124,20 @@ public class MinionCreature : NetworkBehaviour
         {
             StopCoroutine(attackCorutine);
         }
+        StartCoroutine(MinionDieCorutine());
+    }
+
+    private IEnumerator MinionDieCorutine()
+    {
+        MinionDieClientRpc();
+        yield return new WaitForSeconds(1);
         GetComponent<NetworkObject>().Despawn();
         Destroy(this);
+    }
+
+    [ClientRpc]
+    private void MinionDieClientRpc()
+    {
+        LeanTween.scale(minionModel, Vector3.zero, 1f).setEaseOutBack();
     }
 }
