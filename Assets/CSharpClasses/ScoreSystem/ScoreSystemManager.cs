@@ -18,6 +18,7 @@ public class ScoreSystemManager : NetworkBehaviour
     public static ScoreSystemManager Singleton { get; private set; }
     [SerializeField] private List<ScoreBoard> scoreBoardElements;
     [SerializeField] private GameObject scoreBoardUI;
+    [SerializeField] private GameObject KillsAndDeathsTitle;
     private NetworkList<PlayerIndividualScore> scoreList;
     private NetworkList<PlayerIndividualScore> finalScoreList;
 
@@ -26,6 +27,8 @@ public class ScoreSystemManager : NetworkBehaviour
     {
         public TMP_Text playerName;
         public TMP_Text playerScore;
+        public TMP_Text playerKills;
+        public TMP_Text playerDeaths;
     }
     public struct PlayerIndividualScore : INetworkSerializable, IEquatable<PlayerIndividualScore>
     {
@@ -157,6 +160,11 @@ public class ScoreSystemManager : NetworkBehaviour
     {
         scoreBoardUI.SetActive(true);
         List<PlayerIndividualScore> sortedScores = new List<PlayerIndividualScore>();
+        bool isGameCoOp = PlayerStateManager.Singleton.isPlayerCoOp;
+        if (!isGameCoOp)
+        {
+            KillsAndDeathsTitle.SetActive(true);
+        }
         for (int i = 0; i < scoreList.Count; i++)
         {
             sortedScores.Add(scoreList[i]);
@@ -172,27 +180,42 @@ public class ScoreSystemManager : NetworkBehaviour
         {
             scoreBoardElements[i].playerName.text = "Player " + finalScoreList[i].playerID;
             scoreBoardElements[i].playerScore.text = finalScoreList[i].score.ToString();
+            if (!isGameCoOp)
+            {
+                scoreBoardElements[i].playerKills.text = finalScoreList[i].kills.ToString();
+                scoreBoardElements[i].playerDeaths.text = finalScoreList[i].deaths.ToString();
+            }
         }
         //ClientRpc Update UI with leaderboard
-        CalcLeaderboardClientRpc();
+        CalcLeaderboardClientRpc(isGameCoOp);
     }
 
     [ClientRpc]
-    private void CalcLeaderboardClientRpc()
+    private void CalcLeaderboardClientRpc(bool isGameCoOp)
     {
-        StartCoroutine(ShowLeaderboardClient());
+        StartCoroutine(ShowLeaderboardClient(isGameCoOp));
     }
 
-    private IEnumerator ShowLeaderboardClient()
+    private IEnumerator ShowLeaderboardClient(bool isGameCoOp)
     {
         yield return new WaitForSeconds(.5f);
 
         scoreBoardUI.SetActive(true);
 
+        if (!isGameCoOp)
+        {
+            KillsAndDeathsTitle.SetActive(true);
+        }
+
         for (int i = 0; i < finalScoreList.Count; i++)
         {
             scoreBoardElements[i].playerName.text = "Player " + finalScoreList[i].playerID;
             scoreBoardElements[i].playerScore.text = finalScoreList[i].score.ToString();
+            if (!isGameCoOp)
+            {
+                scoreBoardElements[i].playerKills.text = finalScoreList[i].kills.ToString();
+                scoreBoardElements[i].playerDeaths.text = finalScoreList[i].deaths.ToString();
+            }
         }
     }
 }
