@@ -26,7 +26,7 @@ public class PlayerStateManager : NetworkBehaviour
     private bool isPart2Triggered = false;
     private bool isEndingTriggered = false;
 
-    private bool isPlayerCoOp = true;
+    public bool isPlayerCoOp = true;
 
     public enum PlayerState
     {
