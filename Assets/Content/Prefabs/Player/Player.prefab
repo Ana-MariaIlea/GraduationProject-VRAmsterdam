@@ -557,6 +557,7 @@ MonoBehaviour:
   team2Material: {fileID: 2100000, guid: 1f68fc24ae5126e40a65ec40b84d1957, type: 2}
   playerMesh: {fileID: 7282837531911367700}
   playerVRLiveObject: {fileID: 8890530624155686190}
+  PlayerNameText: {fileID: 7016292884799683446}
 --- !u!114 &6168832689911919894
 MonoBehaviour:
   m_ObjectHideFlags: 0

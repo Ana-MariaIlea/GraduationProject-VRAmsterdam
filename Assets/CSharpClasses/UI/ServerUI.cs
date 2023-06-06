@@ -11,6 +11,14 @@ public class ServerUI : NetworkBehaviour
     [SerializeField] private Button StartPlayerVsPlayerGameButton;
     [SerializeField] private GameObject UIElementsPanel;
     [SerializeField] private GameObject EventSystem;
+    private GameMode gameMode = GameMode.NoneSelected;
+
+    public enum GameMode
+    {
+        NoneSelected,
+        CoOp,
+        PvP
+    }
     public override void OnNetworkSpawn()
     {
         if (IsServer)
@@ -20,6 +28,39 @@ public class ServerUI : NetworkBehaviour
             EventSystem.SetActive(true);
             StartPlayerCoOpGameButton.onClick.AddListener(StartPlayerCoOpGame);
             StartPlayerVsPlayerGameButton.onClick.AddListener(StartPlayerVsPlayerGame);
+        }
+    }
+
+    public void ChooseGameMode(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                gameMode = GameMode.NoneSelected;
+                break;
+            case 1:
+                gameMode = GameMode.CoOp;
+                break;
+            case 2:
+                gameMode = GameMode.PvP;
+                break;
+        }
+    }
+
+    public void StartGame()
+    {
+        switch (gameMode)
+        {
+            case GameMode.NoneSelected:
+                break;
+            case GameMode.CoOp:
+                StartPlayerCoOpGame();
+                break;
+            case GameMode.PvP:
+                StartPlayerVsPlayerGame();
+                break;
+            default:
+                break;
         }
     }
 

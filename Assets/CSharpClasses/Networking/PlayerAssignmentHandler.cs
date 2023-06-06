@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -16,6 +17,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     [SerializeField] private Material team2Material;
     [SerializeField] private SkinnedMeshRenderer playerMesh;
     [SerializeField] private GameObject playerVRLiveObject;
+    [SerializeField] private TMP_Text PlayerNameText;
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -25,6 +27,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
             AddPlayerCreaturesServerRPC();
             AddPlayerToScoringServerRPC();
             AssignStreamShooterIDServerRpc();
+            AssignPlayerNameServerRpc();
         }
     }
 
@@ -46,12 +49,25 @@ public class PlayerAssignmentHandler : NetworkBehaviour
                     playerVRLiveObject.tag = "Team2";
                     break;
             }
-            
+
         }
         if (IsClient && IsOwner && other.tag == "TeamAssignment")
         {
             AddPlayerToPlayerVsPlayerServerRPC();
         }
+    }
+
+    [ServerRpc]
+    private void AssignPlayerNameServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        PlayerNameText.text = "Player " + serverRpcParams.Receive.SenderClientId.ToString();
+        AssignPlayerNameClientRpc(serverRpcParams.Receive.SenderClientId);
+    }
+
+    [ClientRpc]
+    private void AssignPlayerNameClientRpc(ulong playerID)
+    {
+        PlayerNameText.text = "Player " + playerID.ToString();
     }
 
     [ClientRpc]
