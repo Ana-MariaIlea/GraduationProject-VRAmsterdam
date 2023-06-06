@@ -13,6 +13,7 @@ public class ServerUI : NetworkBehaviour
     [SerializeField] private GameObject UIElementsPanel;
     [SerializeField] private GameObject EventSystem;
     [SerializeField] private TMP_Text clientConnectedText;
+    [SerializeField] private TMP_Text possibleEorrorText;
     private GameMode gameMode = GameMode.NoneSelected;
 
     public enum GameMode
@@ -51,9 +52,11 @@ public class ServerUI : NetworkBehaviour
                 break;
             case 1:
                 gameMode = GameMode.CoOp;
+                possibleEorrorText.text = string.Empty;
                 break;
             case 2:
                 gameMode = GameMode.PvP;
+                possibleEorrorText.text = string.Empty;
                 break;
         }
     }
@@ -63,6 +66,7 @@ public class ServerUI : NetworkBehaviour
         switch (gameMode)
         {
             case GameMode.NoneSelected:
+                possibleEorrorText.text = "No Game Mode Selected. Please choose a game mode.";
                 break;
             case GameMode.CoOp:
                 StartPlayerCoOpGame();
