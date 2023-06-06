@@ -1994,6 +1994,7 @@ MonoBehaviour:
   UIElementsPanel: {fileID: 3122708679245243583}
   EventSystem: {fileID: 3122708679448934646}
   clientConnectedText: {fileID: 6254658380959692168}
+  possibleEorrorText: {fileID: 9065694554085145623}
 --- !u!114 &3122708680359995987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3348,7 +3349,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Error text
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 594edfc0dbb946b499143404a65dd691, type: 2}
   m_sharedMaterial: {fileID: 5039118521025443373, guid: 594edfc0dbb946b499143404a65dd691, type: 2}
