@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8925057938836941101}
   - component: {fileID: 1246457386808722771}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: PlayerID Holder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24,19 +24,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 968855056295958912}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00000058114523}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0015650558, y: 0.0015650558, z: 0.0015650558}
+  m_LocalRotation: {x: -0.000000068106445, y: -0.9890746, z: 0.14741586, w: 0.0000006927014}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00131}
+  m_LocalScale: {x: 0.000015650558, y: 0.000015650567, z: 0.000015650561}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8566115739572068003}
   - {fileID: 7875372040290900523}
-  m_Father: {fileID: 2109180853545549293}
-  m_RootOrder: 12
+  m_Father: {fileID: 8594091849750971604}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.088}
+  m_AnchoredPosition: {x: -0, y: 0.00476}
   m_SizeDelta: {x: 250, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1246457386808722771
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 7875372040290900523}
   - component: {fileID: 5450405139731439804}
   - component: {fileID: 7016292884799683446}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: PlayerID
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -504,7 +504,6 @@ Transform:
   - {fileID: 7892556387473997073}
   - {fileID: 7800549526942384748}
   - {fileID: 7198183764116582103}
-  - {fileID: 8925057938836941101}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2246,7 +2245,7 @@ GameObject:
   - component: {fileID: 8566115739572068003}
   - component: {fileID: 406240871650634232}
   - component: {fileID: 7984179663988800550}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,6 +12,7 @@ public class ServerUI : NetworkBehaviour
     [SerializeField] private Button StartPlayerVsPlayerGameButton;
     [SerializeField] private GameObject UIElementsPanel;
     [SerializeField] private GameObject EventSystem;
+    [SerializeField] private TMP_Text clientConnectedText;
     private GameMode gameMode = GameMode.NoneSelected;
 
     public enum GameMode
@@ -29,6 +31,15 @@ public class ServerUI : NetworkBehaviour
             StartPlayerCoOpGameButton.onClick.AddListener(StartPlayerCoOpGame);
             StartPlayerVsPlayerGameButton.onClick.AddListener(StartPlayerVsPlayerGame);
         }
+        else
+        {
+            this.enabled = false;
+        }
+    }
+
+    private void Update()
+    {
+        clientConnectedText.text = NetworkManager.Singleton.ConnectedClientsIds.Count.ToString();
     }
 
     public void ChooseGameMode(int index)
@@ -70,6 +81,7 @@ public class ServerUI : NetworkBehaviour
         {
             PlayerStateManager.Singleton.StartPart1Server(true);
             UIElementsPanel.SetActive(false);
+            this.enabled = false;
         }
         else
         {

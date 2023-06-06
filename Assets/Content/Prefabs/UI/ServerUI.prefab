@@ -1993,7 +1993,7 @@ MonoBehaviour:
   StartPlayerVsPlayerGameButton: {fileID: 2126462390126763739}
   UIElementsPanel: {fileID: 3122708679245243583}
   EventSystem: {fileID: 3122708679448934646}
-  gameMode: 0
+  clientConnectedText: {fileID: 6254658380959692168}
 --- !u!114 &3122708680359995987
 MonoBehaviour:
   m_ObjectHideFlags: 0
