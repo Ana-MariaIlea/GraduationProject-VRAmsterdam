@@ -311,7 +311,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7020489631023834176}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Players Connected
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +648,7 @@ GameObject:
   - component: {fileID: 2540032956723474278}
   - component: {fileID: 8797377421259733673}
   - component: {fileID: 6254658380959692168}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1641,12 +1641,12 @@ GameObject:
   - component: {fileID: 3122708679245243580}
   - component: {fileID: 3122708679245243581}
   m_Layer: 0
-  m_Name: Canvas
+  m_Name: Canvas - Disable!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3122708679245243582
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1741,12 +1741,12 @@ GameObject:
   - component: {fileID: 3122708679448934643}
   - component: {fileID: 3122708679448934644}
   m_Layer: 0
-  m_Name: EventSystem
+  m_Name: EventSystem - Disable!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3122708679448934645
 Transform:
   m_ObjectHideFlags: 0
@@ -2720,7 +2720,7 @@ GameObject:
   - component: {fileID: 4094151679937801332}
   - component: {fileID: 8496130998984526511}
   - component: {fileID: 4431851348042740697}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3583,7 +3583,7 @@ GameObject:
   - component: {fileID: 247410789060153631}
   - component: {fileID: 1983859832460880244}
   - component: {fileID: 4734151359748864980}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

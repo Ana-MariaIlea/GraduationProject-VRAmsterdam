@@ -103,7 +103,7 @@ public class MapCalibrationManager : MonoBehaviour
         _playerCamCalib.SaveCurrentCalibration();
         hideAllCalibrationUIs();
         // Make laser noninteractive but still visible
-        uiHelperObj.SetActive(false);
+        //uiHelperObj.SetActive(false);
         //uiHelperObj.GetComponent<UIHelpersManager>().EnableEventSystem(false);
         _playerCamCalib.enabled = false;
         
