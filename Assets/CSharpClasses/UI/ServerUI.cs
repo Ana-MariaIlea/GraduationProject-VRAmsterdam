@@ -29,8 +29,8 @@ public class ServerUI : NetworkBehaviour
             base.OnNetworkSpawn();
             UIElementsPanel.SetActive(true);
             EventSystem.SetActive(true);
-            StartPlayerCoOpGameButton.onClick.AddListener(StartPlayerCoOpGame);
-            StartPlayerVsPlayerGameButton.onClick.AddListener(StartPlayerVsPlayerGame);
+            //StartPlayerCoOpGameButton.onClick.AddListener(StartPlayerCoOpGame);
+            //StartPlayerVsPlayerGameButton.onClick.AddListener(StartPlayerVsPlayerGame);
         }
         else
         {
@@ -40,7 +40,10 @@ public class ServerUI : NetworkBehaviour
 
     private void Update()
     {
-        clientConnectedText.text = NetworkManager.Singleton.ConnectedClientsIds.Count.ToString();
+        if (IsServer)
+        {
+            clientConnectedText.text = NetworkManager.Singleton.ConnectedClientsIds.Count.ToString();
+        }
     }
 
     public void ChooseGameMode(int index)

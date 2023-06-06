@@ -18,16 +18,24 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     [SerializeField] private SkinnedMeshRenderer playerMesh;
     [SerializeField] private GameObject playerVRLiveObject;
     [SerializeField] private TMP_Text PlayerNameText;
+    private NetworkVariable<ulong> playerNameID = new NetworkVariable<ulong>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
 
-        if (IsClient && IsOwner)
+        if (IsClient)
         {
-            AddPlayerCreaturesServerRPC();
-            AddPlayerToScoringServerRPC();
-            AssignStreamShooterIDServerRpc();
-            AssignPlayerNameServerRpc();
+            if (IsOwner)
+            {
+                AddPlayerCreaturesServerRPC();
+                AddPlayerToScoringServerRPC();
+                AssignStreamShooterIDServerRpc();
+                AssignPlayerNameServerRpc();
+            }
+            else
+            {
+                AssignPlayerNameClient();
+            }
         }
     }
 
@@ -61,6 +69,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     private void AssignPlayerNameServerRpc(ServerRpcParams serverRpcParams = default)
     {
         PlayerNameText.text = "Player " + serverRpcParams.Receive.SenderClientId.ToString();
+        playerNameID.Value = serverRpcParams.Receive.SenderClientId;
         AssignPlayerNameClientRpc(serverRpcParams.Receive.SenderClientId);
     }
 
@@ -68,6 +77,11 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     private void AssignPlayerNameClientRpc(ulong playerID)
     {
         PlayerNameText.text = "Player " + playerID.ToString();
+    }
+
+    private void AssignPlayerNameClient()
+    {
+        PlayerNameText.text = "Player " + playerNameID.Value.ToString();
     }
 
     [ClientRpc]
@@ -96,7 +110,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     [ServerRpc]
     private void AddPlayerToPlayerVsPlayerServerRPC(ServerRpcParams serverRpcParams = default)
     {
-        ScoreSystemManager.Singleton.NewPlayerConnected(serverRpcParams);
+        PlayerVsPlayerTimer.Singleton.NewPlayerConnected(serverRpcParams);
     }
 
     [ServerRpc]

@@ -26,6 +26,7 @@ public class TeamAssignmentSpot : NetworkBehaviour
     [ClientRpc]
     private void StartPrePart2PlayerVSPlayerServerClientRpc()
     {
+        GetComponent<BoxCollider>().enabled = true;
         visuals.SetActive(true);
     }
 
@@ -39,6 +40,7 @@ public class TeamAssignmentSpot : NetworkBehaviour
     [ClientRpc]
     private void StartPart2PlayerVSPlayerServerClientRpc()
     {
+        GetComponent<BoxCollider>().enabled = false;
         visuals.SetActive(false);
     }
 }

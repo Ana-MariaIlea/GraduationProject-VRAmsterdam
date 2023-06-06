@@ -33,32 +33,35 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
     }
     public void NewPlayerConnected(ServerRpcParams serverRpcParams = default)
     {
-        for (int i = 0; i < playerReadies.Count; i++)
+        if (IsServer)
         {
-            if (playerReadies[i].playerID == serverRpcParams.Receive.SenderClientId)
+            for (int i = 0; i < playerReadies.Count; i++)
             {
-                return;
+                if (playerReadies[i].playerID == serverRpcParams.Receive.SenderClientId)
+                {
+                    return;
+                }
             }
-        }
-        PlayerReady playerIndividualScore = new PlayerReady();
-        playerIndividualScore.playerID = serverRpcParams.Receive.SenderClientId;
-        playerIndividualScore.isReady = true;
-        playerReadies.Add(playerIndividualScore);
+            PlayerReady playerIndividualScore = new PlayerReady();
+            playerIndividualScore.playerID = serverRpcParams.Receive.SenderClientId;
+            playerIndividualScore.isReady = true;
+            playerReadies.Add(playerIndividualScore);
 
-        if (playerReadies.Count == NetworkManager.Singleton.ConnectedClients.Count)
-        {
-            //Start player vs player part 2
-            if (PlayerStateManager.Singleton)
+            if (playerReadies.Count == NetworkManager.Singleton.ConnectedClients.Count)
             {
-                PlayerStateManager.Singleton.StartPart2PlayerVsPlayerServer();
-                timer = gameTime;
-                TimerObject.SetActive(true);
-                DisplayTimerClientRpc();
-                StartCoroutine(StartGameTimerCorutine());
-            }
-            else
-            {
-                Debug.LogError("No PlayerStateManager in the scene");
+                //Start player vs player part 2
+                if (PlayerStateManager.Singleton)
+                {
+                    PlayerStateManager.Singleton.StartPart2PlayerVsPlayerServer();
+                    timer = gameTime;
+                    TimerObject.SetActive(true);
+                    DisplayTimerClientRpc();
+                    StartCoroutine(StartGameTimerCorutine());
+                }
+                else
+                {
+                    Debug.LogError("No PlayerStateManager in the scene");
+                }
             }
         }
     }
