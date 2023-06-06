@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: VRAmsterdam
-  productName: Test-StartToFinish
+  productName: CalibrationUI-Update
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -157,8 +157,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.VRAmsterdam.TestStartToFinish
-    Standalone: com.VRAmsterdam.Test-LaserPointerOnlyUI
+    Android: com.VRAmsterdam.CalibrationUIUpdate
+    Standalone: com.VRAmsterdam.CalibrationUI-Update
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -736,7 +736,7 @@ PlayerSettings:
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
   enableRoslynAnalyzers: 1
-  selectedPlatform: 2
+  selectedPlatform: 0
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1
