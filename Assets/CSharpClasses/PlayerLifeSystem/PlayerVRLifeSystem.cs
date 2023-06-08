@@ -42,12 +42,32 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "EnemyHitObject")
+        if (isPlayerCoOp)
         {
-            PlayerHitServer();
+            if (other.tag == "EnemyHitObject")
+            {
+                PlayerHitServer();
 
-            other.GetComponent<EnemyHitObject>().DestroyProjectileServer();
+                other.GetComponent<EnemyHitObject>().DestroyProjectileServer();
+            }
         }
+        //else
+        //{
+        //    if (other.tag == "PlayerHitObject")
+        //    {
+        //        if (other.GetComponent<Projectile>().OpposingTeamTag == gameObject.tag)
+        //        {
+        //            ScoreSystemManager.Singleton.ScoreAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
+        //            bool otherHP = PlayerHitServer();
+        //            if (otherHP)
+        //            {
+        //                ScoreSystemManager.Singleton.KillAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
+        //            }
+
+        //            other.GetComponent<PlayerHitObject>().DestroyProjectileServer();
+        //        }
+        //    }
+        //}
     }
 
     [ClientRpc]

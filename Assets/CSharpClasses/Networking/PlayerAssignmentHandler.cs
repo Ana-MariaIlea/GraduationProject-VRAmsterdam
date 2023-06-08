@@ -92,10 +92,12 @@ public class PlayerAssignmentHandler : NetworkBehaviour
             case PossibleTeams.Team1:
                 playerMesh.material = team1Material;
                 gameObject.tag = "Team1";
+                playerVRLiveObject.tag = "Team1";
                 break;
             case PossibleTeams.Team2:
                 playerMesh.material = team2Material;
                 gameObject.tag = "Team2";
+                playerVRLiveObject.tag = "Team2";
                 break;
         }
     }
