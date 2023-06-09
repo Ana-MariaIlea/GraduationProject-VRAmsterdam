@@ -32,9 +32,42 @@ public class ClientUI : NetworkBehaviour
             }
         }
     }
-
+    public override void OnNetworkDespawn()
+    {
+        if (IsClient)
+        {
+            base.OnNetworkDespawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartClient.RemoveListener(EndGame);
+                PlayerStateManager.Singleton.part1StartClient.RemoveListener(StartGame);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.RemoveListener(EndGame);
+                PlayerStateManager.Singleton.part1StartServer.RemoveListener(StartGame);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
     public void EndGame()
     {
         UIElementsPanel.SetActive(true);
+    }
+
+    public void StartGame()
+    {
+        UIElementsPanel.SetActive(false);
     }
 }
