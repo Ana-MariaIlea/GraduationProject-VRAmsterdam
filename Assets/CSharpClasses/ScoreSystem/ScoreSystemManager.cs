@@ -32,7 +32,7 @@ public class ScoreSystemManager : NetworkBehaviour
     }
     public struct PlayerIndividualScore : INetworkSerializable, IEquatable<PlayerIndividualScore>
     {
-        public ulong playerID; 
+        public ulong playerID;
         public float score;
         public int kills;
         public int deaths;
@@ -75,6 +75,7 @@ public class ScoreSystemManager : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.endingStartServer.AddListener(CalcLeaderboard);
+                PlayerStateManager.Singleton.part1StartServer.AddListener(ResetScore);
             }
             else
             {
@@ -206,6 +207,10 @@ public class ScoreSystemManager : NetworkBehaviour
         {
             KillsAndDeathsTitle.SetActive(true);
         }
+        else
+        {
+            KillsAndDeathsTitle.SetActive(false);
+        }
 
         for (int i = 0; i < finalScoreList.Count; i++)
         {
@@ -217,5 +222,40 @@ public class ScoreSystemManager : NetworkBehaviour
                 scoreBoardElements[i].playerDeaths.text = finalScoreList[i].deaths.ToString();
             }
         }
+    }
+
+    void ResetScore()
+    {
+        for (int i = 0; i < scoreList.Count; i++)
+        {
+            PlayerIndividualScore newScore;
+            newScore.playerID = scoreList[i].playerID;
+            newScore.score = 0;
+            newScore.kills = 0;
+            newScore.deaths = 0;
+            scoreList[i] = newScore;
+        }
+        for (int i = 0; i < scoreBoardElements.Count; i++)
+        {
+            scoreBoardElements[i].playerName.text = string.Empty;
+            scoreBoardElements[i].playerScore.text = string.Empty;
+            scoreBoardElements[i].playerKills.text = string.Empty;
+            scoreBoardElements[i].playerDeaths.text = string.Empty;
+        }
+        scoreBoardUI.SetActive(false);
+        ResetScoreClientRpc();
+    }
+
+    [ClientRpc]
+    void ResetScoreClientRpc()
+    {
+        for (int i = 0; i < scoreBoardElements.Count; i++)
+        {
+            scoreBoardElements[i].playerName.text = string.Empty;
+            scoreBoardElements[i].playerScore.text = string.Empty;
+            scoreBoardElements[i].playerKills.text = string.Empty;
+            scoreBoardElements[i].playerDeaths.text = string.Empty;
+        }
+        scoreBoardUI.SetActive(false);
     }
 }
