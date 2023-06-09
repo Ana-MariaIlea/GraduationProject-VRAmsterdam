@@ -29,7 +29,6 @@ public class PlayerAssignmentHandler : NetworkBehaviour
             {
                 AddPlayerCreaturesServerRPC();
                 AddPlayerToScoringServerRPC();
-                AssignStreamShooterIDServerRpc();
                 AssignPlayerNameServerRpc();
             }
             else
@@ -137,15 +136,5 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     private void RemovePlayerToScoringServerRPC(ServerRpcParams serverRpcParams = default)
     {
         ScoreSystemManager.Singleton.PlayerDisonnected(serverRpcParams);
-    }
-
-    [ServerRpc]
-    private void AssignStreamShooterIDServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        Stream[] streamsObjetcs = GetComponentsInChildren<Stream>();
-        foreach (var stream in streamsObjetcs)
-        {
-            stream.ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
-        }
     }
 }
