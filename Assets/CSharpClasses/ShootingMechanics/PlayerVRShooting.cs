@@ -55,6 +55,7 @@ public class PlayerVRShooting : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2PlayerVSPlayerStart);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
                 PlayerStateManager.Singleton.endingStartClient.AddListener(GameEnd);
             }
             else
@@ -66,6 +67,18 @@ public class PlayerVRShooting : NetworkBehaviour
         {
             this.enabled = false;
         }
+    }
+
+    private void Part2Start()
+    {
+        isPlayerCoOp = true;
+        Part2StartServerRpc();
+    }
+
+    [ServerRpc]
+    private void Part2StartServerRpc()
+    {
+        isPlayerCoOp = true;
     }
 
     private void GameEnd()
@@ -88,6 +101,7 @@ public class PlayerVRShooting : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2PlayerVSPlayerStart);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
                 PlayerStateManager.Singleton.endingStartClient.RemoveListener(GameEnd);
             }
             else

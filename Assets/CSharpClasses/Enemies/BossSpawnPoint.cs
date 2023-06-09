@@ -29,6 +29,23 @@ public class BossSpawnPoint : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (isInitalSpawnPoint && IsServer)
+        {
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.RemoveListener(SpawnBoss);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+
+        }
+    }
+
     private void SpawnBoss()
     {
         minionSpawnPoints = FindObjectsOfType<MinionSpawnPoint>().ToList();

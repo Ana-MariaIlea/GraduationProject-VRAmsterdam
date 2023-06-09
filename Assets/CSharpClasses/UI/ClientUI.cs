@@ -13,6 +13,7 @@ public class ClientUI : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.endingStartClient.AddListener(EndGame);
+                PlayerStateManager.Singleton.part1StartClient.AddListener(StartGame);
             }
             else
             {
@@ -25,6 +26,7 @@ public class ClientUI : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.endingStartServer.AddListener(EndGame);
+                PlayerStateManager.Singleton.part1StartServer.AddListener(StartGame);
             }
             else
             {
