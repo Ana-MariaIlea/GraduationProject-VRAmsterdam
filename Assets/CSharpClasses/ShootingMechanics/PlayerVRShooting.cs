@@ -84,8 +84,16 @@ public class PlayerVRShooting : NetworkBehaviour
         if (IsOwner && IsClient)
         {
             base.OnNetworkDespawn();
-            //PlayerDieClientRpc();
             controls.Disable();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2PlayerVSPlayerStart);
+                PlayerStateManager.Singleton.endingStartClient.RemoveListener(GameEnd);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
     }
 

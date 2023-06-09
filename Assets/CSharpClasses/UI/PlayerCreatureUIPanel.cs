@@ -47,6 +47,16 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
         if (IsOwner && IsClient)
         {
             UnBindInputActions();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2StartClient);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2StartClient);
+                PlayerStateManager.Singleton.part1StartClient.RemoveListener(BindInputActions);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
             controls.Disable();
         }
         base.OnNetworkDespawn();

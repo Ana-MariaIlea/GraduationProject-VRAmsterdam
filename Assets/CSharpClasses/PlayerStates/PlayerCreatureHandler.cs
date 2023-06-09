@@ -1,6 +1,7 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using static Unity.Burst.Intrinsics.X86;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -50,6 +51,54 @@ public class PlayerCreatureHandler : NetworkBehaviour
         else
         {
             Destroy(this);
+        }
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            base.OnNetworkDespawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.RemoveListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.RemoveListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
+
+    private void Part2Start()
+    {
+        for (int i = 0; i < playerCreatures.Count; i++)
+        {
+            PlayerCreatures aux = new PlayerCreatures();
+            aux.PlayerID = playerCreatures[i].PlayerID;
+            aux.creaturesCollected = 0;
+            aux.isFireCretureCollected = false;
+            aux.isWaterCretureCollected = false;
+            aux.isEarthCretureCollected = false;
+            playerCreatures[i] = aux;
         }
     }
 

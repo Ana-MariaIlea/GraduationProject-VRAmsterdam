@@ -57,6 +57,7 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
                     TimerObject.SetActive(true);
                     DisplayTimerClientRpc();
                     StartCoroutine(StartGameTimerCorutine());
+                    playerReadies.Clear();
                 }
                 else
                 {

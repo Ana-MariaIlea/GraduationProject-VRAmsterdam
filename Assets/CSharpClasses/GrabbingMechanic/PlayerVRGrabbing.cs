@@ -85,6 +85,16 @@ public class PlayerVRGrabbing : NetworkBehaviour
         {
             UnBindInputActions();
             controls.Disable();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part1StartClient.RemoveListener(BindInputActions);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
         base.OnNetworkDespawn();
 

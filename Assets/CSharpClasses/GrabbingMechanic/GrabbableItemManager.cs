@@ -37,6 +37,22 @@ public class GrabbableItemManager : NetworkBehaviour
             }
         }
     }
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            base.OnNetworkDespawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.RemoveListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.RemoveListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
     public void AddGrabbableItem(GrabbableItem item)
     {
         grabbableItems.Add(item);
