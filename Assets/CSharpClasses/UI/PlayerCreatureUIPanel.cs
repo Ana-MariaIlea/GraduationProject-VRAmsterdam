@@ -13,6 +13,7 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
     [SerializeField] private Sprite fireCreatureSprite;
     [SerializeField] private Sprite waterCreatureSprite;
     [SerializeField] private Sprite earthCreatureSprite;
+    [SerializeField] private Sprite defaultSprite;
 
     private PlayerInputActions controls;
 
@@ -22,11 +23,11 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
         {
             controls = new PlayerInputActions();
             controls.Enable();
-            
+
             if (PlayerStateManager.Singleton)
             {
-                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
-                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2StartClient);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2StartClient);
                 PlayerStateManager.Singleton.part1StartClient.AddListener(BindInputActions);
             }
             else
@@ -62,12 +63,23 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
         controls.PlayerPart1.OpenCloseInventory.performed -= TurnOffOnPanel;
     }
 
-    void Part2Start()
+    void Part2StartClient()
     {
         UnBindInputActions();
         controls.Disable();
         TurnOffOnPanelServerRpc(true);
-        this.enabled = false;
+        fireCreatureImage.sprite = defaultSprite;
+        waterCreatureImage.sprite = defaultSprite;
+        earthCreatureImage.sprite = defaultSprite;
+        Part2StartServerRpc();
+    }
+    [ServerRpc]
+    void Part2StartServerRpc()
+    {
+        TurnOffOnPanelServerRpc(true);
+        fireCreatureImage.sprite = defaultSprite;
+        waterCreatureImage.sprite = defaultSprite;
+        earthCreatureImage.sprite = defaultSprite;
     }
 
     private void TurnOffOnPanel(InputAction.CallbackContext ctx)
