@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Netcode;
 using System.Linq;
-using static Unity.Burst.Intrinsics.X86;
+using System;
 
 public class PlayerVRShooting : NetworkBehaviour
 {
@@ -13,10 +13,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
     [SerializeField] private Vector3 projectileOffset;
     [SerializeField] private float projectileShootCooldown = 1;
-
-    [SerializeField] private ParticleSystem streamObjectRight;
-    [SerializeField] private float streamShootTime = 5;
-    [SerializeField] private float streamShootCooldown = 3;
 
     [SerializeField] private List<ShootingVisualsAndInfo> shootingVisuals;
     [SerializeField] private SoundSource shootingSoundSource;
@@ -31,11 +27,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private bool isPlayerCoOp = true;
 
-    private Coroutine shootingStreamLeft = null;
-    private Coroutine shootingStreamRight = null;
-
-    private Coroutine shootingStreamLeftCooldown = null;
-    private Coroutine shootingStreamRightCooldown = null;
 
     [SerializeField] private NetworkVariable<ShootingMode> shootingMode = new NetworkVariable<ShootingMode>(ShootingMode.None, NetworkVariableReadPermission.Everyone);
     public enum ShootingMode
@@ -64,6 +55,7 @@ public class PlayerVRShooting : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2PlayerVSPlayerStart);
+                PlayerStateManager.Singleton.endingStartClient.AddListener(GameEnd);
             }
             else
             {
@@ -74,6 +66,17 @@ public class PlayerVRShooting : NetworkBehaviour
         {
             this.enabled = false;
         }
+    }
+
+    private void GameEnd()
+    {
+        GameEndServerRpc();
+    }
+
+    [ServerRpc]
+    private void GameEndServerRpc()
+    {
+        PlayerDieServer();
     }
 
     public override void OnNetworkDespawn()
@@ -140,35 +143,11 @@ public class PlayerVRShooting : NetworkBehaviour
         }
     }
     [ClientRpc]
-    private void ChangeShootingModeToStreamClientRpc()
-    {
-        if (controls != null && shootingMode.Value != ShootingMode.Stream)
-        {
-            controls.PlayerPart2.ShootingRight.performed += ShootStreamRightProxi;
-
-            controls.PlayerPart2.ShootingRight.canceled += StopShootStreamRightProxi;
-
-            if (shootingMode.Value == ShootingMode.Projectile)
-            {
-                Debug.Log("disable projectile");
-                controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
-            }
-        }
-    }
-    [ClientRpc]
     private void ChangeShootingModeToProjectileClientRpc()
     {
         if (controls != null && shootingMode.Value != ShootingMode.Projectile)
         {
             controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
-            if (shootingMode.Value == ShootingMode.Stream)
-            {
-                Debug.Log("disable stream");
-
-                controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
-
-                controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
-            }
         }
     }
 
@@ -253,97 +232,16 @@ public class PlayerVRShooting : NetworkBehaviour
         }
     }
 
-    private void ShootStreamRightProxi(InputAction.CallbackContext ctx)
-    {
-        if (shootingStreamRight == null)
-        {
-            Debug.Log("Start Stream----------------------");
-            shootingStreamRight = StartCoroutine(ShootSteam());
-        }
-    }
-
-    private void StopShootStreamRightProxi(InputAction.CallbackContext ctx)
-    {
-        if (shootingStreamRight != null)
-        {
-            StopCoroutine(shootingStreamRight);
-            StopStreamServerRPC();
-            shootingStreamRight = null;
-        }
-    }
-
-    private IEnumerator ShootSteam()
-    {
-        ShootStreamServerRPC();
-
-        StartCoroutine(UpdateRightStreamCorutineClient());
-
-        yield return new WaitForSeconds(streamShootTime);
-
-        StopStreamServerRPC();
-
-        shootingStreamRight = null;
-    }
-    private IEnumerator UpdateRightStreamCorutineClient()
-    {
-        yield return new WaitForSeconds(.3f);
-        while (streamObjectRight.isPlaying)
-        {
-            UpdateRightStreamPositionServerRPC(controllerRight.position, controllerRight.rotation.eulerAngles);
-            yield return null;
-        }
-    }
-
-    [ServerRpc]
-    private void UpdateRightStreamPositionServerRPC(Vector3 pos, Vector3 rot)
-    {
-        streamObjectRight.transform.position = pos;
-        streamObjectRight.transform.rotation = Quaternion.Euler(rot);
-    }
-
-    [ServerRpc]
-    private void ShootStreamServerRPC()
-    {
-        streamObjectRight.Play();
-
-        ShootStreamClientRPC();
-    }
-
-    [ClientRpc]
-    private void ShootStreamClientRPC()
-    {
-        streamObjectRight.Play();
-    }
-
-    [ServerRpc]
-    private void StopStreamServerRPC()
-    {
-        if (streamObjectRight.isPlaying)
-            streamObjectRight.Stop();
-        StopStreamClientRPC();
-    }
-
-    [ClientRpc]
-    private void StopStreamClientRPC()
-    {
-        if (streamObjectRight.isPlaying)
-            streamObjectRight.Stop();
-    }
-
-
-
     public void PlayerReviveServer(int projectileDataIndex)
     {
         currentDamage.Value = shootingVisuals[projectileDataIndex].maxDamage;
         currentMaxDamage.Value = shootingVisuals[projectileDataIndex].maxDamage;
         projectilePrefab = shootingVisuals[projectileDataIndex].visualsPrefab;
-        streamObjectRight.GetComponent<Stream>().Damage = shootingVisuals[projectileDataIndex].maxDamage;
     }
 
     public void PlayerHit(int livesLeft)
     {
         currentDamage.Value = currentMaxDamage.Value - currentMaxDamage.Value / livesLeft;
-        streamObjectRight.GetComponent<Stream>().Damage = currentDamage.Value;
     }
 
     public void PlayerDieServer()
@@ -358,23 +256,9 @@ public class PlayerVRShooting : NetworkBehaviour
         switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
-                //controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 break;
-            case ShootingMode.Stream:
-                controls.PlayerPart2.ShootingRight.performed -= ShootStreamRightProxi;
-
-                controls.PlayerPart2.ShootingRight.canceled -= StopShootStreamRightProxi;
-
-                StopAllCoroutines();
-                shootingStreamLeft = null;
-                shootingStreamRight = null;
-                shootingStreamLeftCooldown = null;
-                shootingStreamRightCooldown = null;
-                break;
         }
-
-        //shootingMode = ShootingMode.None;
     }
 
     [ServerRpc]

@@ -184,11 +184,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     void Part2Start()
     {
         UnBindInputActions();
-
-        PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
-        PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2Start);
-
-        controls.Disable();
     }
 
     void GrabItem(InputAction.CallbackContext ctx)
