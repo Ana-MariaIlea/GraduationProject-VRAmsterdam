@@ -104,7 +104,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
             !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType, OwnerClientId) &&
             other.GetComponent<FriendlyCreatureItemObstacle>().isObstacleClear == false)
         {
-            Debug.Log("Clear obstacle");
             CollectCreatureCallServerRPC(other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType);
             other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleClearedServerRpc();
             DestroyItemServerRPC();
@@ -115,7 +114,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [ServerRpc]
     public void CollectCreatureCallServerRPC(CreatureType creatureType, ServerRpcParams serverRpcParams = default)
     {
-        Debug.Log("Server call " + creatureType);
         PlayerCreatureHandler.Singleton.CreatureCollected(creatureType, serverRpcParams);
         creatureUIPanel.ColectCreaturServerCall(creatureType);
     }
@@ -123,7 +121,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [ServerRpc]
     public void DestroyItemServerRPC()
     {
-        Debug.Log("Destroy item");
         StartCoroutine(DestroyItemCorutine());
     }
     public void DestroyItemServerCall()
@@ -163,16 +160,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
             controls.PlayerPart1.GrabbingRight.performed += GrabItem;
             controls.PlayerPart1.GrabbingRight.canceled += ResealseItem;
         }
-
-        if (PlayerStateManager.Singleton)
-        {
-            PlayerStateManager.Singleton.part1StartClient.RemoveListener(BindInputActions);
-        }
-        else
-        {
-            Debug.LogError("No PlayerStateManager in the scene");
-        }
-
     }
 
     void UnBindInputActions()
@@ -196,19 +183,16 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
     void Part2Start()
     {
-        Debug.Log("Part2start in vr grabbing");
         UnBindInputActions();
 
         PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
         PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2Start);
 
         controls.Disable();
-        this.enabled = false;
     }
 
     void GrabItem(InputAction.CallbackContext ctx)
     {
-        Debug.Log(grabedItem);
         if (grabedItem != null)
         {
             GrabItemServerRPC(grabedItem.ObjectID);

@@ -57,17 +57,17 @@ public class Projectile : PlayerHitObject
 
     private void PlayerVSPlayerTriggerHandling(Collider other)
     {
-        if(other.tag == opposingTeamTag)
-        {
-            //Increase score and damage player
-            ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
-            bool otherHP = other.GetComponent<PlayerVRLifeSystem>().PlayerHitServer();
-            if (otherHP) 
-            {
-                ScoreSystemManager.Singleton.KillAddedToPlayer(shooterPlayerID);
-            }
-        }
-        if (other.tag != "ChargingStation")
+        //if(other.tag == opposingTeamTag)
+        //{
+        //    //Increase score and damage player
+        //    ScoreSystemManager.Singleton.ScoreAddedToPlayer(shooterPlayerID);
+        //    bool otherHP = other.GetComponent<PlayerVRLifeSystem>().PlayerHitServer();
+        //    if (otherHP) 
+        //    {
+        //        ScoreSystemManager.Singleton.KillAddedToPlayer(shooterPlayerID);
+        //    }
+        //}
+        if (other.tag != "ChargingStation" && other.tag!="Team1" && other.tag != "Team2" && other.tag != "Player")
         {
             GetComponent<NetworkObject>().Despawn();
             Destroy(this);

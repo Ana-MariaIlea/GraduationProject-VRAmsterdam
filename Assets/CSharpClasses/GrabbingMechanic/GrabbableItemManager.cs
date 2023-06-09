@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Unity.Netcode;
+using UnityEngine;
 
 public class GrabbableItemManager : NetworkBehaviour
 {
@@ -20,6 +21,22 @@ public class GrabbableItemManager : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkSpawn()
+    {
+        if (IsServer)
+        {
+            base.OnNetworkSpawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
     public void AddGrabbableItem(GrabbableItem item)
     {
         grabbableItems.Add(item);
@@ -44,5 +61,16 @@ public class GrabbableItemManager : NetworkBehaviour
     public void RemoveGivenObject(GrabbableItem item)
     {
         grabbableItems.Remove(item);
+    }
+
+    public void Part2Start()
+    {
+        for (int i = grabbableItems.Count-1; i >= 0; i--)
+        {
+            GrabbableItem item = grabbableItems[i];
+            grabbableItems.Remove(item);
+            item.GetComponent<NetworkObject>().Despawn();
+            Destroy(item.gameObject);
+        }
     }
 }

@@ -56,6 +56,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
             {
                 PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(Part2Start);
+                PlayerStateManager.Singleton.endingStartServer.AddListener(GameEnd);
             }
             else
             {
@@ -66,6 +67,23 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
         {
             this.enabled = false;
         }
+    }
+
+    private void GameEnd()
+    {
+        if (PlayerStateManager.Singleton)
+        {
+            PlayerStateManager.Singleton.part2PlayerCoOpStartServer.RemoveListener(Part2Start);
+            PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.RemoveListener(Part2Start);
+            PlayerStateManager.Singleton.endingStartServer.RemoveListener(GameEnd);
+        }
+        else
+        {
+            Debug.LogError("No PlayerStateManager in the scene");
+        }
+
+        GetComponent<NetworkObject>().Despawn();
+        Destroy(gameObject);
     }
 
     // Update is called once per frame

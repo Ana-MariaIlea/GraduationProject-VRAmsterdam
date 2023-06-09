@@ -16,6 +16,8 @@ public class ServerUI : NetworkBehaviour
     [SerializeField] private TMP_Text possibleEorrorText;
     private GameMode gameMode = GameMode.NoneSelected;
 
+    private bool hasGameStarted = false;
+
     public enum GameMode
     {
         NoneSelected,
@@ -29,8 +31,15 @@ public class ServerUI : NetworkBehaviour
             base.OnNetworkSpawn();
             UIElementsPanel.SetActive(true);
             EventSystem.SetActive(true);
-            //StartPlayerCoOpGameButton.onClick.AddListener(StartPlayerCoOpGame);
-            //StartPlayerVsPlayerGameButton.onClick.AddListener(StartPlayerVsPlayerGame);
+            StartCoroutine(UpdateConnectedClientsNumber());
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.AddListener(EndGame);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
         else
         {
@@ -38,11 +47,15 @@ public class ServerUI : NetworkBehaviour
         }
     }
 
-    private void Update()
+    private IEnumerator UpdateConnectedClientsNumber()
     {
-        if (IsServer)
+        while (!hasGameStarted)
         {
-            clientConnectedText.text = NetworkManager.Singleton.ConnectedClientsIds.Count.ToString();
+            if (IsServer)
+            {
+                clientConnectedText.text = NetworkManager.Singleton.ConnectedClientsIds.Count.ToString();
+            }
+            yield return null;
         }
     }
 
@@ -66,6 +79,7 @@ public class ServerUI : NetworkBehaviour
 
     public void StartGame()
     {
+        hasGameStarted = true;
         switch (gameMode)
         {
             case GameMode.NoneSelected:
@@ -80,6 +94,14 @@ public class ServerUI : NetworkBehaviour
             default:
                 break;
         }
+    }
+
+    public void EndGame()
+    {
+        UIElementsPanel.SetActive(true);
+        EventSystem.SetActive(true);
+        StartCoroutine(UpdateConnectedClientsNumber());
+        hasGameStarted = false;
     }
 
     public void StartPlayerCoOpGame()

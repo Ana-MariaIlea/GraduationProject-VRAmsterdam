@@ -35,8 +35,16 @@ public class PlayerVRLifeSystem : NetworkBehaviour
             this.enabled = false;
             if (IsOwner)
             {
-                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
-                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2Start);
+                if (PlayerStateManager.Singleton)
+                {
+                    PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
+                    PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2Start);
+                    PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2PlayerVSPlayerStart);
+                }
+                else
+                {
+                    Debug.LogError("No PlayerStateManager in the scene");
+                }
             }
         }
     }
@@ -51,23 +59,35 @@ public class PlayerVRLifeSystem : NetworkBehaviour
                 other.GetComponent<EnemyHitObject>().DestroyProjectileServer();
             }
         }
-        //else
-        //{
-        //    if (other.tag == "PlayerHitObject")
-        //    {
-        //        if (other.GetComponent<Projectile>().OpposingTeamTag == gameObject.tag)
-        //        {
-        //            ScoreSystemManager.Singleton.ScoreAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
-        //            bool otherHP = PlayerHitServer();
-        //            if (otherHP)
-        //            {
-        //                ScoreSystemManager.Singleton.KillAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
-        //            }
+        else
+        {
+            if (other.tag == "PlayerHitObject")
+            {
+                if (other.GetComponent<Projectile>().OpposingTeamTag == gameObject.tag)
+                {
+                    ScoreSystemManager.Singleton.ScoreAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
+                    bool otherHP = PlayerHitServer();
+                    if (otherHP)
+                    {
+                        ScoreSystemManager.Singleton.KillAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
+                    }
 
-        //            other.GetComponent<PlayerHitObject>().DestroyProjectileServer();
-        //        }
-        //    }
-        //}
+                    other.GetComponent<PlayerHitObject>().DestroyProjectileServer();
+                }
+            }
+        }
+    }
+
+    private void Part2PlayerVSPlayerStart()
+    {
+        isPlayerCoOp = false;
+        Part2PlayerVSPlayerStartServerRpc();
+    }
+
+    [ServerRpc]
+    private void Part2PlayerVSPlayerStartServerRpc()
+    {
+        isPlayerCoOp = false;
     }
 
     [ClientRpc]
