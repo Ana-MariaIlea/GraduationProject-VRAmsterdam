@@ -48,6 +48,27 @@ public class PlayerVRLifeSystem : NetworkBehaviour
             }
         }
     }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (!IsServer)
+        {
+            if (IsOwner)
+            {
+                if (PlayerStateManager.Singleton)
+                {
+                    PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
+                    PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2Start);
+                    PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2PlayerVSPlayerStart);
+                }
+                else
+                {
+                    Debug.LogError("No PlayerStateManager in the scene");
+                }
+            }
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (isPlayerCoOp)

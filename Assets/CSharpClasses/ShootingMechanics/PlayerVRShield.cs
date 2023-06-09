@@ -16,8 +16,6 @@ public class PlayerVRShield : NetworkBehaviour
         if (IsOwner && IsClient)
         {
             base.OnNetworkSpawn();
-            controls = new PlayerInputActions();
-            controls.Enable();
             
             if (PlayerStateManager.Singleton)
             {
@@ -33,8 +31,35 @@ public class PlayerVRShield : NetworkBehaviour
         VisualIndication.SetActive(false);
     }
 
+    public override void OnNetworkDespawn()
+    {
+        if (IsOwner && IsClient)
+        {
+            base.OnNetworkDespawn();
+            if (controls != null)
+            {
+                controls.PlayerPart2.ShootingLeft.performed -= ShieldTrigger;
+            }
+            controls.Disable();
+
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(BindActions);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(BindActions);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+
+        VisualIndication.SetActive(false);
+    }
+
     private void BindActions()
     {
+        controls = new PlayerInputActions();
+        controls.Enable();
         if (controls != null)
         {
             controls.PlayerPart2.ShootingLeft.performed += ShieldTrigger;
