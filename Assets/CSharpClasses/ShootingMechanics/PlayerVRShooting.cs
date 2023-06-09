@@ -75,6 +75,7 @@ public class PlayerVRShooting : NetworkBehaviour
         Part2StartServerRpc();
     }
 
+    [ServerRpc]
     private void Part2StartServerRpc()
     {
         isPlayerCoOp = true;
