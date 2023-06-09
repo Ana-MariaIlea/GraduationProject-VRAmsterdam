@@ -84,6 +84,25 @@ public class ScoreSystemManager : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+
+        if (IsServer)
+        {
+            base.OnNetworkDespawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.RemoveListener(CalcLeaderboard);
+                PlayerStateManager.Singleton.part1StartServer.RemoveListener(ResetScore);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
+
     public void NewPlayerConnected(ServerRpcParams serverRpcParams = default)
     {
         PlayerIndividualScore playerIndividualScore = new PlayerIndividualScore();

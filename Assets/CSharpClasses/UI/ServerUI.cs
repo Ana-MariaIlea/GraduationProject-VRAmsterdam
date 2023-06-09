@@ -47,6 +47,22 @@ public class ServerUI : NetworkBehaviour
         }
     }
 
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            base.OnNetworkDespawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.RemoveListener(EndGame);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
+
     private IEnumerator UpdateConnectedClientsNumber()
     {
         while (!hasGameStarted)

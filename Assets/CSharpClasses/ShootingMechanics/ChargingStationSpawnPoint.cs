@@ -6,18 +6,37 @@ public class ChargingStationSpawnPoint : NetworkBehaviour
 {
     [SerializeField] private GameObject chargingStationPrefab;
 
-    private void Start()
+    public override void OnNetworkSpawn()
     {
-        //GameObject station = Instantiate(chargingStationPrefab, transform.position, Quaternion.identity);
-        
-        if (PlayerStateManager.Singleton)
+        if (IsServer)
         {
-            PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
-            PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(Part2Start);
+            base.OnNetworkSpawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
-        else
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
         {
-            Debug.LogError("No PlayerStateManager in the scene");
+            base.OnNetworkDespawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part2PlayerCoOpStartServer.RemoveListener(Part2Start);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.RemoveListener(Part2Start);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
         }
     }
 

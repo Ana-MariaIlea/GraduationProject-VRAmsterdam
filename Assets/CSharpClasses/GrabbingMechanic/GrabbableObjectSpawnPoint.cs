@@ -24,6 +24,21 @@ public class GrabbableObjectSpawnPoint : NetworkBehaviour
             }
         }
     }
+    public override void OnNetworkDespawn()
+    {
+        if (IsServer)
+        {
+            base.OnNetworkDespawn();
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.part1StartServer.RemoveListener(SpawnGrabbableObject);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
 
     private void SpawnGrabbableObject()
     {

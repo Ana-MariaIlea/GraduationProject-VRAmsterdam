@@ -28,7 +28,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
-        currentHP = maxHP;
         if (!IsServer)
         {
             //GetComponent<BoxCollider>().enabled = false;
@@ -128,8 +127,18 @@ public class PlayerVRLifeSystem : NetworkBehaviour
 
     private void Part2Start()
     {
+        isPlayerCoOp = true;
+        currentHP = maxHP;
         GetComponent<BoxCollider>().enabled = true;
         HealthPanel.SetActive(true);
+        Part2StartServerRpc();
+    }
+
+    [ServerRpc]
+    private void Part2StartServerRpc()
+    {
+        isPlayerCoOp = true;
+        currentHP = maxHP;
     }
 
     public bool PlayerHitServer(ServerRpcParams serverRpcParams = default)

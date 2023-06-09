@@ -12,9 +12,20 @@ public class TeamAssignmentSpot : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         if (IsServer)
+        {
             PlayerStateManager.Singleton.part2PlayerVsPlayerPreStartServer.AddListener(StartPrePart2PlayerVSPlayerServer);
             PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.AddListener(StartPart2PlayerVSPlayerServer);
+        }
+    }
 
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (IsServer)
+        {
+            PlayerStateManager.Singleton.part2PlayerVsPlayerPreStartServer.RemoveListener(StartPrePart2PlayerVSPlayerServer);
+            PlayerStateManager.Singleton.part2PlayerVsPlayerStartServer.RemoveListener(StartPart2PlayerVSPlayerServer);
+        }
     }
 
     private void StartPrePart2PlayerVSPlayerServer()
