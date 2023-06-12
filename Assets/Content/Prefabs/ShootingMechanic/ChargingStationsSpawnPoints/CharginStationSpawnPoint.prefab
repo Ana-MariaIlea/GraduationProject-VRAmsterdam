@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4782326087016399299}
   - component: {fileID: 3742185302432835638}
   - component: {fileID: -4890545452820160108}
+  - component: {fileID: 7708582656843074104}
   m_Layer: 0
   m_Name: CharginStationSpawnPoint
   m_TagString: Untagged
@@ -62,3 +63,16 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &7708582656843074104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24337855691193252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958a944d2c6d9a40a41b77c990a1bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customColor: {r: 0, g: 1, b: 0.0442698, a: 0.5}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2253138314676661560}
   - component: {fileID: 201020326845318320}
   - component: {fileID: -8790590613431578823}
+  - component: {fileID: 3116495306606660205}
   m_Layer: 0
   m_Name: BossSpawnPoint
   m_TagString: Untagged
@@ -64,6 +65,19 @@ MonoBehaviour:
   AlwaysReplicateAsRoot: 0
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
+--- !u!114 &3116495306606660205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 484485591596301796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958a944d2c6d9a40a41b77c990a1bdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customColor: {r: 1, g: 0, b: 0, a: 0.5}
 --- !u!1 &4828175675729411819
 GameObject:
   m_ObjectHideFlags: 0
