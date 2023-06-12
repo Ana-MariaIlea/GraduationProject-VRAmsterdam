@@ -15,6 +15,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
 {
     [SerializeField] int maxHP = 10;
     [SerializeField] private SoundSource playerHitSoundSource;
+    [SerializeField] private SoundSource playerDieSoundSource;
 
 
     private int currentHP;
@@ -130,7 +131,14 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [ServerRpc]
     private void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
     {
-        SoundManager.Singleton.PlaySoundAllPlayers(playerHitSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
+        if (currentHP == 0)
+        {
+            SoundManager.Singleton.PlaySoundAllPlayers(playerDieSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
+        }
+        else
+        {
+            SoundManager.Singleton.PlaySoundAllPlayers(playerHitSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
+        }
     }
 
     private void Part2Start()
