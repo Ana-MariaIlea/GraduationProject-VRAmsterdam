@@ -126,7 +126,6 @@ public class ServerUI : NetworkBehaviour
         {
             PlayerStateManager.Singleton.StartPart1Server(true);
             UIElementsPanel.SetActive(false);
-            this.enabled = false;
         }
         else
         {
