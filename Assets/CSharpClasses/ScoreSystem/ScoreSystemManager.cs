@@ -245,6 +245,7 @@ public class ScoreSystemManager : NetworkBehaviour
 
     void ResetScore()
     {
+        finalScoreList.Clear();
         for (int i = 0; i < scoreList.Count; i++)
         {
             PlayerIndividualScore newScore;

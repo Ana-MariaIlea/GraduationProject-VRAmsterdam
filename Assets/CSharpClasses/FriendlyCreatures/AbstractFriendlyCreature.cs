@@ -35,6 +35,8 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
     protected GameObject playerTarget;
     protected Transform helpingSpace;
 
+    private GameObject visuals;
+
     public CreatureType CCreatureType
     {
         get
@@ -81,7 +83,8 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
         {
             Debug.LogError("No PlayerStateManager in the scene");
         }
-
+        visuals.GetComponent<NetworkObject>().Despawn();
+        Destroy(visuals);
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }
@@ -122,10 +125,10 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
                 int randomIndex = Random.Range(0, atlas.creatureVisualDatas[i].Mesh.Count - 1);
 
                 // Instantiate it with a random prfab from list
-                GameObject visual = Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, transform.rotation);
-                
-                visual.GetComponent<NetworkObject>().Spawn(true);
-                visual.GetComponent<NetworkObject>().TrySetParent(transform);
+                visuals = Instantiate(atlas.creatureVisualDatas[i].Mesh[randomIndex], transform.position, transform.rotation);
+
+                visuals.GetComponent<NetworkObject>().Spawn(true);
+                visuals.GetComponent<NetworkObject>().TrySetParent(transform);
                 break;
             }
         }
