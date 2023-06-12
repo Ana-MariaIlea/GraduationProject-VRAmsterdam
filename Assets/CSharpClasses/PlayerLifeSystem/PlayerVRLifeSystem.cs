@@ -139,6 +139,8 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         currentHP = maxHP;
         GetComponent<BoxCollider>().enabled = true;
         HealthPanel.SetActive(true);
+        mat.SetFloat("_Cutoff", 0f);
+        HPText.text = "0";
         Part2StartServerRpc();
     }
 
@@ -147,6 +149,8 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     {
         isPlayerCoOp = true;
         currentHP = maxHP;
+        mat.SetFloat("_Cutoff", 0f);
+        HPText.text = "0";
     }
 
     public bool PlayerHitServer(ServerRpcParams serverRpcParams = default)
