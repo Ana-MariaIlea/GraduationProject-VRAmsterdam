@@ -78,7 +78,8 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
     {
         UnBindInputActions();
         controls.Disable();
-        TurnOffOnPanelServerRpc(true);
+        //TurnOffOnPanelServerRpc(true);
+        panel.SetActive(false);
         fireCreatureImage.sprite = defaultSprite;
         waterCreatureImage.sprite = defaultSprite;
         earthCreatureImage.sprite = defaultSprite;
@@ -87,7 +88,8 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
     [ServerRpc]
     void Part2StartServerRpc()
     {
-        TurnOffOnPanelServerRpc(true);
+        panel.SetActive(false);
+        //TurnOffOnPanelServerRpc(true);
         fireCreatureImage.sprite = defaultSprite;
         waterCreatureImage.sprite = defaultSprite;
         earthCreatureImage.sprite = defaultSprite;
