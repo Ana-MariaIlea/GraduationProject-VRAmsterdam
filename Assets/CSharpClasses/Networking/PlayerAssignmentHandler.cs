@@ -5,6 +5,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
+using System;
 
 //------------------------------------------------------------------------------
 // </summary>
@@ -15,6 +16,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
 {
     [SerializeField] private Material team1Material;
     [SerializeField] private Material team2Material;
+    [SerializeField] private Material defaultMaterial;
     [SerializeField] private SkinnedMeshRenderer playerMesh;
     [SerializeField] private GameObject playerVRLiveObject;
     [SerializeField] private TMP_Text PlayerNameText;
@@ -36,6 +38,34 @@ public class PlayerAssignmentHandler : NetworkBehaviour
                 AssignPlayerNameClient();
             }
         }
+
+        if (IsServer)
+        {
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.AddListener(EndGameServer);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
+    }
+
+    private void EndGameServer()
+    {
+        playerMesh.material = defaultMaterial;
+        gameObject.tag = "Player";
+        playerVRLiveObject.tag = "Player";
+        EndGameClientRpc();
+    }
+
+    [ClientRpc]
+    private void EndGameClientRpc()
+    {
+        playerMesh.material = defaultMaterial;
+        gameObject.tag = "Player";
+        playerVRLiveObject.tag = "Player";
     }
 
     private void OnTriggerEnter(Collider other)
@@ -106,6 +136,18 @@ public class PlayerAssignmentHandler : NetworkBehaviour
         base.OnNetworkDespawn();
         RemovePlayerCreaturesServerRPC();
         RemovePlayerToScoringServerRPC();
+
+        if (IsServer)
+        {
+            if (PlayerStateManager.Singleton)
+            {
+                PlayerStateManager.Singleton.endingStartServer.RemoveListener(EndGameServer);
+            }
+            else
+            {
+                Debug.LogError("No PlayerStateManager in the scene");
+            }
+        }
     }
 
     [ServerRpc]

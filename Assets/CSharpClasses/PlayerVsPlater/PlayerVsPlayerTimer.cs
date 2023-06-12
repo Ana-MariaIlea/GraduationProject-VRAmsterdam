@@ -73,6 +73,12 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
         TimerObject.SetActive(true);
     }
 
+    [ClientRpc]
+    private void HideTimerClientRpc()
+    {
+        TimerObject.SetActive(false);
+    }
+
     private IEnumerator StartGameTimerCorutine()
     {
         while (timer > 0)
@@ -93,6 +99,7 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
         }
         if (PlayerStateManager.Singleton)
         {
+            HideTimerClientRpc();
             PlayerStateManager.Singleton.GameEndServer();
         }
         else

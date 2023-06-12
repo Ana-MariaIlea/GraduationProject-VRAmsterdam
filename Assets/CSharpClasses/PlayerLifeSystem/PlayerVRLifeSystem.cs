@@ -32,7 +32,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         if (!IsServer)
         {
             //GetComponent<BoxCollider>().enabled = false;
-            this.enabled = false;
+            //this.enabled = false;
             if (IsOwner)
             {
                 if (PlayerStateManager.Singleton)
@@ -79,6 +79,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (!IsServer) return;
         if (isPlayerCoOp)
         {
             if (other.tag == "EnemyHitObject")
@@ -157,8 +158,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     {
         isPlayerCoOp = true;
         currentHP = maxHP;
-        mat.SetFloat("_Cutoff", 1f);
-        HPText.text = "0";
     }
 
     public bool PlayerHitServer(ServerRpcParams serverRpcParams = default)

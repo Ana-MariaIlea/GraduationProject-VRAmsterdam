@@ -692,6 +692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team1Material: {fileID: 2100000, guid: 0817d61373323324194a6d507904aae2, type: 2}
   team2Material: {fileID: 2100000, guid: 1f68fc24ae5126e40a65ec40b84d1957, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: a71937c5ded457648aa80cf945987830, type: 2}
   playerMesh: {fileID: 7282837531911367700}
   playerVRLiveObject: {fileID: 8890530624155686190}
   PlayerNameText: {fileID: 7016292884799683446}
