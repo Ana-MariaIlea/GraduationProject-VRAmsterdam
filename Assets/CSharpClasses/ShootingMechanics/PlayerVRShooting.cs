@@ -83,13 +83,19 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void GameEnd()
     {
+        switch (shootingMode.Value)
+        {
+            case ShootingMode.Projectile:
+                controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+                break;
+        }
         GameEndServerRpc();
     }
 
     [ServerRpc]
     private void GameEndServerRpc()
     {
-        PlayerDieServer();
+        StartCoroutine(ChangeShootingModeVariable(CreatureType.None));
     }
 
     public override void OnNetworkDespawn()
