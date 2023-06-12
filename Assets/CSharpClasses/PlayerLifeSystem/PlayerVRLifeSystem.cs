@@ -39,6 +39,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
                     PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
                     PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2Start);
                     PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2PlayerVSPlayerStart);
+                    PlayerStateManager.Singleton.endingStartClient.AddListener(EndGame);
                 }
                 else
                 {
@@ -46,6 +47,11 @@ public class PlayerVRLifeSystem : NetworkBehaviour
                 }
             }
         }
+    }
+
+    private void EndGame()
+    {
+        HealthPanel.SetActive(false);
     }
 
     public override void OnNetworkDespawn()
@@ -60,6 +66,8 @@ public class PlayerVRLifeSystem : NetworkBehaviour
                     PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
                     PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2Start);
                     PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2PlayerVSPlayerStart);
+                    PlayerStateManager.Singleton.endingStartClient.RemoveListener(EndGame);
+
                 }
                 else
                 {

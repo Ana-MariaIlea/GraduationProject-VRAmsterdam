@@ -49,14 +49,12 @@ public class PlayerVRShooting : NetworkBehaviour
         if (IsOwner && IsClient)
         {
             base.OnNetworkSpawn();
-            controls = new PlayerInputActions();
-            controls.Enable();
 
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2PlayerVSPlayerStart);
                 PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2Start);
-                PlayerStateManager.Singleton.endingStartClient.AddListener(GameEnd);
+                PlayerStateManager.Singleton.endingStartClient.AddListener(GameEndClient);
             }
             else
             {
@@ -71,6 +69,8 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2Start()
     {
+        controls = new PlayerInputActions();
+        controls.Enable();
         isPlayerCoOp = true;
         Part2StartServerRpc();
     }
@@ -79,23 +79,27 @@ public class PlayerVRShooting : NetworkBehaviour
     private void Part2StartServerRpc()
     {
         isPlayerCoOp = true;
+        StartCoroutine(ChangeShootingModeVariable(CreatureType.None));
     }
 
-    private void GameEnd()
+    private void GameEndClient()
     {
+        StartCoroutine(EndGameCorutine());
+    }
+
+    private IEnumerator EndGameCorutine()
+    {
+        yield return new WaitForSeconds(3f);
         switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
+                Debug.Log("vr shooting end game");
+
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+                controls.Disable();
+                controls = null;
                 break;
         }
-        GameEndServerRpc();
-    }
-
-    [ServerRpc]
-    private void GameEndServerRpc()
-    {
-        StartCoroutine(ChangeShootingModeVariable(CreatureType.None));
     }
 
     public override void OnNetworkDespawn()
@@ -108,7 +112,7 @@ public class PlayerVRShooting : NetworkBehaviour
             {
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.RemoveListener(Part2PlayerVSPlayerStart);
                 PlayerStateManager.Singleton.part2PlayerCoOpStartClient.RemoveListener(Part2Start);
-                PlayerStateManager.Singleton.endingStartClient.RemoveListener(GameEnd);
+                PlayerStateManager.Singleton.endingStartClient.RemoveListener(GameEndClient);
             }
             else
             {
@@ -181,6 +185,8 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2PlayerVSPlayerStart()
     {
+        controls = new PlayerInputActions();
+        controls.Enable();
         isPlayerCoOp = false;
         Part2PlayerVSPlayerStartServerRpc();
     }
@@ -189,12 +195,9 @@ public class PlayerVRShooting : NetworkBehaviour
     private void Part2PlayerVSPlayerStartServerRpc()
     {
         isPlayerCoOp = false;
+        StartCoroutine(ChangeShootingModeVariable(CreatureType.None));
     }
 
-    private void ShootProjectileLeftProxi(InputAction.CallbackContext ctx)
-    {
-        StartCoroutine(ShootProjectile(ControllerType.Left));
-    }
     private void ShootProjectileRightProxi(InputAction.CallbackContext ctx)
     {
         StartCoroutine(ShootProjectile(ControllerType.Right));
@@ -203,32 +206,19 @@ public class PlayerVRShooting : NetworkBehaviour
     {
         Vector3 projectilePosition = transform.position;
         Quaternion projectileRotation = transform.rotation;
-        if (controller == ControllerType.Left)
-        {
-            projectilePosition = controllerLeft.position + projectileOffset;
-            projectileRotation = controllerLeft.rotation;
-            controls.PlayerPart2.ShootingLeft.performed -= ShootProjectileLeftProxi;
-        }
-        else
-        {
-            projectilePosition = controllerRight.position + projectileOffset;
-            projectileRotation = controllerRight.rotation;
-            controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
-        }
+
+        projectilePosition = controllerRight.position + projectileOffset;
+        projectileRotation = controllerRight.rotation;
+        controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+
         projectileRotation.z = 0;
 
         ShootProjectileServerRPC(projectilePosition, projectileRotation.eulerAngles, currentDamage.Value);
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
-        if (controller == ControllerType.Left)
-        {
-            controls.PlayerPart2.ShootingLeft.performed += ShootProjectileLeftProxi;
-        }
-        else
-        {
-            controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
-        }
+        controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
+
     }
 
     [ServerRpc]
