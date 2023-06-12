@@ -100,12 +100,25 @@ public class PlayerVRLifeSystem : NetworkBehaviour
                     if (otherHP)
                     {
                         ScoreSystemManager.Singleton.KillAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
+                        PlayerDiePvPClientRPC();
                     }
 
                     other.GetComponent<PlayerHitObject>().DestroyProjectileServer();
                 }
             }
         }
+    }
+
+    [ClientRpc]
+    private void PlayerDiePvPClientRPC()
+    {
+        PlayerDiePvPServerRpc();
+    }
+
+    [ServerRpc]
+    private void PlayerDiePvPServerRpc(ServerRpcParams serverRpcParams = default)
+    {
+        ScoreSystemManager.Singleton.DeathAddedToPlayer(serverRpcParams.Receive.SenderClientId);
     }
 
     private void Part2PlayerVSPlayerStart()

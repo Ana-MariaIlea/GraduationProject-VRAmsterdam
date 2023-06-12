@@ -36,7 +36,9 @@ public class PlayerAssignmentHandler : NetworkBehaviour
             else
             {
                 AssignPlayerNameClient();
+                
             }
+            this.enabled = false;
         }
 
         if (IsServer)
@@ -72,6 +74,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
     {
         if (IsServer && other.tag == "TeamAssignment")
         {
+            Debug.Log("team assignment");
             ChangePlayerVisualsClientRpc(other.GetComponent<TeamAssignmentSpot>().team);
             switch (other.GetComponent<TeamAssignmentSpot>().team)
             {
@@ -87,10 +90,6 @@ public class PlayerAssignmentHandler : NetworkBehaviour
                     break;
             }
 
-        }
-        if (IsClient && IsOwner && other.tag == "TeamAssignment")
-        {
-            AddPlayerToPlayerVsPlayerServerRPC();
         }
     }
 
@@ -129,6 +128,7 @@ public class PlayerAssignmentHandler : NetworkBehaviour
                 playerVRLiveObject.tag = "Team2";
                 break;
         }
+        AddPlayerToPlayerVsPlayerServerRPC();
     }
 
     public override void OnNetworkDespawn()

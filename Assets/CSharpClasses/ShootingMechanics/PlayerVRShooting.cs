@@ -222,7 +222,7 @@ public class PlayerVRShooting : NetworkBehaviour
             GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.Euler(rotation));
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
-            if (isPlayerCoOp)
+            if (!isPlayerCoOp)
             {
                 projectile.GetComponent<Projectile>().IsPlayerCoOp = isPlayerCoOp;
                 if (gameObject.tag == "Team1")
@@ -270,11 +270,5 @@ public class PlayerVRShooting : NetworkBehaviour
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 break;
         }
-    }
-
-    [ServerRpc]
-    public void PlayerDieServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        ScoreSystemManager.Singleton.DeathAddedToPlayer(serverRpcParams.Receive.SenderClientId);
     }
 }
