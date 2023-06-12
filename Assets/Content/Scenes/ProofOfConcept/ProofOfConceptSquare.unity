@@ -2111,6 +2111,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6540679873977371600, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 32949146}
+    - target: {fileID: 6540679873977371600, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
+      propertyPath: ServerName
+      value: VRAmsterdam
+      objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568152, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2155,43 +2163,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6681549834280568153, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
-      propertyPath: cam
-      value: 
-      objectReference: {fileID: 32949146}
-    - target: {fileID: 6681549834280568153, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
-      propertyPath: isServer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568154, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: ConnectionData.Address
-      value: 145.76.94.99
+      value: 0.0.0.0
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568165, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6681549834280568165, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6681549834280568167, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
-      propertyPath: NetworkConfig.NetworkTransport
-      value: 
-      objectReference: {fileID: 1299689862}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
---- !u!114 &1299689862 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6681549834280568154, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
-  m_PrefabInstance: {fileID: 1299689861}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1307857463
 GameObject:
   m_ObjectHideFlags: 0
