@@ -84,17 +84,10 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void GameEndClient()
     {
-        StartCoroutine(EndGameCorutine());
-    }
-
-    private IEnumerator EndGameCorutine()
-    {
-        yield return new WaitForSeconds(3f);
         switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
-                Debug.Log("vr shooting end game");
-
+                StopAllCoroutines();
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 controls.Disable();
                 controls = null;
