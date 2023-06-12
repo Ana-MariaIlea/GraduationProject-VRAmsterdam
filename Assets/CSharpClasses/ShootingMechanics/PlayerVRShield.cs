@@ -37,7 +37,7 @@ public class PlayerVRShield : NetworkBehaviour
     {
         if (controls != null)
         {
-            controls.PlayerPart2.ShootingLeft.performed += ShieldTrigger;
+            controls.PlayerPart2.ShootingLeft.performed -= ShieldTrigger;
             controls.Disable();
             controls = null;
         }
