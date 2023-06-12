@@ -65,6 +65,7 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
 
     void BindInputActions()
     {
+        controls.Enable();
         controls.PlayerPart1.OpenCloseInventory.performed += TurnOffOnPanel;
     }
 
