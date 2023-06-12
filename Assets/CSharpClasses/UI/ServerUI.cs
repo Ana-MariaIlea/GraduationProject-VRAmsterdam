@@ -96,21 +96,20 @@ public class ServerUI : NetworkBehaviour
     public void StartGame()
     {
         hasGameStarted = true;
-        StartPlayerCoOpGame();
-        //switch (gameMode)
-        //{
-        //    case GameMode.NoneSelected:
-        //        possibleEorrorText.text = "No Game Mode Selected. Please choose a game mode.";
-        //        break;
-        //    case GameMode.CoOp:
-        //        StartPlayerCoOpGame();
-        //        break;
-        //    case GameMode.PvP:
-        //        StartPlayerVsPlayerGame();
-        //        break;
-        //    default:
-        //        break;
-        //}
+        switch (gameMode)
+        {
+            case GameMode.NoneSelected:
+                possibleEorrorText.text = "No Game Mode Selected. Please choose a game mode.";
+                break;
+            case GameMode.CoOp:
+                StartPlayerCoOpGame();
+                break;
+            case GameMode.PvP:
+                StartPlayerVsPlayerGame();
+                break;
+            default:
+                break;
+        }
     }
 
     public void EndGame()
@@ -129,7 +128,7 @@ public class ServerUI : NetworkBehaviour
 
             PlayerStateManager.Singleton.StartPart1Server(true);
             //PlayerStateManager.Singleton.StartPart2Server();
-            PlayerStateManager.Singleton.GameEndServer();
+            //PlayerStateManager.Singleton.GameEndServer();
         }
         else
         {
