@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// This class manages UI and functionality for map calibration before the start of the game.
-/// The map calibration happens through adjusting the player's camera transform (OVRCameraRig).
+/// This class manages UI and functionality for map calibration.
+/// The map calibration happens through adjusting the player's camera transform (OVRCameraRig) happening inside the PlayerCameraCalibration.
 /// </summary>
 
 [RequireComponent(typeof(PlayerCameraCalibration))]
@@ -15,95 +15,51 @@ public class MapCalibrationManager : MonoBehaviour
     public bool shownUiOnStart = true;
     public bool disableLaserPointerOnCalibrationFinish = false;
     [Space(10)]
-    [Tooltip("This list represents the steps in the map calibration.")]
-    public List<GameObject> CalibrationUis;
-    [Space(10)]
     [Tooltip("This obj enables interaction with regular UI elements, such as buttons in the calibration steps, through a laser pointer.")]
-    public GameObject uiHelperObj;
+    public GameObject uiHelpersObj;
+    [Space(10)]
+    [Tooltip("This list represents the consequent steps in the map calibration.")]
+    [SerializeField] public CalibrationStep[] calibrationSteps;
+
+    [System.Serializable]
+    public struct CalibrationStep
+    {
+        public GameObject ui;
+        public PlayerCameraCalibration.CalibrationControlls assignedControll;
+    }
 
 
     private PlayerCameraCalibration _playerCamCalib;
-    private int _currentUI = -1;
+    
+    private int _currentUI;
 
     private void Start()
     {
         _playerCamCalib = GetComponent<PlayerCameraCalibration>();
-
         _playerCamCalib.LoadExistingCalibration();
+        
 
-        hideAllCalibrationUIs();
+        HideAllSteps();
         if (shownUiOnStart)
-            ShowNextUI();
-    }
-    public void ShowNextUI()
-    {
-        if (CalibrationUis.Count == 0)
         {
-            Debug.LogError($"There are no Calibration UIs assigned to start the map calibration tutorial!");
-            return;
-        }
-
-        if (_currentUI >= -1)
-        {
-            if(_currentUI >= 0)
-                CalibrationUis[_currentUI].SetActive(false);//hide existing previous
-
-            if(_currentUI < (CalibrationUis.Count - 1))
-            {
-                _currentUI += 1;
-                CalibrationUis[_currentUI].SetActive(true);
-                switchCameraCalibrationControlls(_currentUI);
-            }
-            else calibrationFinished();
-        }
-    }
-    private void hideAllCalibrationUIs()
-    {
-        foreach(GameObject ui in CalibrationUis)
-        {
-            ui.SetActive(false);
-        }
-    }
-    private void switchCameraCalibrationControlls(int currentUI)
-    {
-        switch (currentUI)
-        {
-            case 0:
-                //Map calibration request UI
-                _playerCamCalib.calibrationControlls = PlayerCameraCalibration.CalibrationControlls.NONE;
-                break;
-            case 1:
-                _playerCamCalib.calibrationControlls = PlayerCameraCalibration.CalibrationControlls.FLOOR;
-                break;
-            case 2:
-                _playerCamCalib.calibrationControlls = PlayerCameraCalibration.CalibrationControlls.MOVEROTATE;
-                break;
-            case 3:
-                //Finish or restart
-                _playerCamCalib.calibrationControlls = PlayerCameraCalibration.CalibrationControlls.NONE;
-                break;
-        }
+            StartMapCalibration();
+        } 
     }
     
-    public void SkipCalibration()
+    public void StartMapCalibration()
     {
-        calibrationFinished();
+        // Start with 1st step in the list
+        _currentUI = -1;
+        ShowNextStep();
     }
-    public void RestartCalibration()
-    {
-        hideAllCalibrationUIs();
-
-        _currentUI = 0;
-        ShowNextUI();
-    }
-    private void calibrationFinished()
+    public void FinishCalibration()
     {
         _playerCamCalib.SaveCurrentCalibration();
-        hideAllCalibrationUIs();
+        HideAllSteps();
 
         if (disableLaserPointerOnCalibrationFinish)
         {
-            uiHelperObj.SetActive(false);
+            uiHelpersObj.SetActive(false);
         } 
         
         // Do something before disabling itself.
@@ -111,5 +67,48 @@ public class MapCalibrationManager : MonoBehaviour
         
         this.gameObject.SetActive(false);
     }
+    public void RestartCalibration()
+    {
+        HideAllSteps();
 
+        _currentUI = 0;
+        ShowNextStep();
+    }
+    public void ShowNextStep()
+    {
+        if (calibrationSteps.Length == 0)
+        {
+            Debug.LogError($"There are no Calibration Steps assigned to start the map calibration tutorial!");
+            return;
+        }
+
+        if (_currentUI >= -1)
+        {
+            if(_currentUI >= 0)
+                calibrationSteps[_currentUI].ui.SetActive(false);//hide existing previous
+
+            if(_currentUI < (calibrationSteps.Length - 1))
+            {
+                _currentUI += 1;
+                calibrationSteps[_currentUI].ui.SetActive(true);
+                SwitchCalibrationControlls(_currentUI);
+            }
+            else
+            {
+                FinishCalibration();
+            }
+        }
+    }
+
+    private void HideAllSteps()
+    {
+        for (int i = 0; i < calibrationSteps.Length; i++)
+        {
+            calibrationSteps[i].ui.SetActive(false);
+        }
+    }
+    private void SwitchCalibrationControlls(int currentUI)
+    {
+        _playerCamCalib.calibrationControlls = calibrationSteps[currentUI].assignedControll;
+    }
 }

@@ -13,10 +13,8 @@ public class PlayerCameraCalibration : NetworkBehaviour
 {
     [Tooltip("OVRCameraRig transform")]
     public Transform OVRCameraRig;
-    [Tooltip("Left hand controller anchor.")]
-    public Transform LeftHandController;
-    [Space(10)]
-    public GameObject canvas;
+    [Tooltip("Transform that will dictate the Y position of the floor level on controller button pressed.")]
+    public Transform floorLevelTransform;
     [Space(10)]
     public Slider calibrationSpeedSlider;
     public float calibrationSpeedModifier = 0.1f;
@@ -39,29 +37,13 @@ public class PlayerCameraCalibration : NetworkBehaviour
         ALL
     }
     [Space(10)]
-    [Tooltip("Calibration controlls setting applied at the Start of the application until changed later.")]
+    [Tooltip("The inital setting of the calibration controlls applied at the Start of the application until changed later.")]
     public CalibrationControlls calibrationControlls = CalibrationControlls.NONE;
 
-    public override void OnNetworkSpawn()
+    private void Start()
     {
-        if (IsClient && IsOwner)
-        {
-            if (OVRCameraRig == null)
-            {
-                Debug.LogError($"Camera calibration is not possible. CameraRig reference is not defined!");
-                if (!LeftHandController)
-                    Debug.LogError($"Floor calibration is not possible. LeftHandController reference is not defined!");
-            }
-            else
-            {
-                canvas.SetActive(true);
-                InitiateCalibrationSpeedSlider();
-            }
-            base.OnNetworkSpawn();
-        }
+        InitiateCalibrationSpeedSlider();
     }
-
-
     void Update()
     {
         if (IsClient && IsOwner)
@@ -147,8 +129,8 @@ public class PlayerCameraCalibration : NetworkBehaviour
         }
     }
     /// <summary>
-    /// Allows for floor level calibration by making the player CameraRig.y higher or lower based on the controller.y position when the left grab button is pressed.
-    /// (Left grab button = OVRInput.Axis1D.PrimaryHandTrigger)
+    /// Allows for setting the correct level of the virtual floor.
+    /// It making the player CameraRig.y higher or lower based on the floorLevelTransform.y position when the left grab button is pressed.
     /// </summary>
     private void CalibrateFloorLevel()
     {
@@ -156,23 +138,22 @@ public class PlayerCameraCalibration : NetworkBehaviour
 
         if (axisValue == 1.0f)
         {
-            float controllerY = LeftHandController.position.y;
+            float controllerY = floorLevelTransform.position.y;
             if (controllerY < 0)
             {
-                //Physical floor under virtual -> Make player higher
+                // Physical floor under virtual -> Make player higher
                 OVRCameraRig.position = new Vector3(OVRCameraRig.position.x, OVRCameraRig.position.y + (controllerY * -1) + _floorLevelOffset, OVRCameraRig.position.z);
             }
             else if (controllerY > 0)
             {
-                //Physical floor above virtual -> Make player smaller
+                // Physical floor above virtual -> Make player smaller
                 OVRCameraRig.position = new Vector3(OVRCameraRig.position.x, OVRCameraRig.position.y - controllerY + _floorLevelOffset, OVRCameraRig.position.z);
             }
         }
     }
 
-
     /// <summary>
-    /// Saves current position and rotation of the CameraRig into PlayerPreferences (local memory available only to this application).
+    /// Saves current position and rotation of the CameraRig into PlayerPreferences (local memory available only to this instance of the application).
     /// </summary>
     public void SaveCurrentCalibration()
     {
@@ -210,9 +191,6 @@ public class PlayerCameraCalibration : NetworkBehaviour
         //}
     }
 
-    /// <summary>
-    /// Map calibration UI button method
-    /// </summary>
     public void IncreaseCalibrationSpeed()
     {
         if(_calibrationSpeedMultiplayer <= (MAX_CALIBRATION_SPEED - calibrationSpeedModifier))
@@ -221,9 +199,6 @@ public class PlayerCameraCalibration : NetworkBehaviour
             calibrationSpeedSlider.value = _calibrationSpeedMultiplayer;
         }        
     }
-    /// <summary>
-    /// Map calibration UI button method
-    /// </summary>
     public void DecreaseCalibrationSpeed()
     {
         if (_calibrationSpeedMultiplayer >= calibrationSpeedModifier)
@@ -232,7 +207,6 @@ public class PlayerCameraCalibration : NetworkBehaviour
             calibrationSpeedSlider.value = _calibrationSpeedMultiplayer;
         }
     }
-
     private void InitiateCalibrationSpeedSlider()
     {
         if(calibrationSpeedSlider != null)
