@@ -56,6 +56,9 @@ public class PlayerStateManager : NetworkBehaviour
             part1StartServer?.Invoke();
             this.isPlayerCoOp = isPlayerCoOp;
             isPart1Triggered = true;
+            isPrePart2Triggered = false;
+            isPart2Triggered = false;
+            isEndingTriggered = false;
         }
     }
 
@@ -133,6 +136,7 @@ public class PlayerStateManager : NetworkBehaviour
             endingStartServer?.Invoke();
             GameEndClientRpc();
             isEndingTriggered = true;
+            isPart1Triggered = false;
         }
     }
 
