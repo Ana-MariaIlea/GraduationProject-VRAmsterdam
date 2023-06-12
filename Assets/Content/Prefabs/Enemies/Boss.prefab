@@ -199,7 +199,7 @@ MonoBehaviour:
   bossModel: {fileID: 1615424571849496081}
   ProjectileShootPoint: {fileID: 4732879594280981817}
   attackRange: 4
-  attackSpeed: 5
+  attackSpeed: 2
 --- !u!195 &7002222137553052600
 NavMeshAgent:
   m_ObjectHideFlags: 0
