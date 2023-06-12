@@ -22,7 +22,7 @@ public class PlayerVRShield : NetworkBehaviour
             {
                 PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(BindActions);
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(BindActions);
-                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(EndGame);
+                PlayerStateManager.Singleton.endingStartClient.AddListener(EndGame);
             }
             else
             {
