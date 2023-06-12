@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerVRShield : NetworkBehaviour
 {
@@ -21,6 +22,7 @@ public class PlayerVRShield : NetworkBehaviour
             {
                 PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(BindActions);
                 PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(BindActions);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(EndGame);
             }
             else
             {
@@ -29,6 +31,16 @@ public class PlayerVRShield : NetworkBehaviour
         }
 
         VisualIndication.SetActive(false);
+    }
+
+    private void EndGame()
+    {
+        if (controls != null)
+        {
+            controls.PlayerPart2.ShootingLeft.performed += ShieldTrigger;
+            controls.Disable();
+            controls = null;
+        }
     }
 
     public override void OnNetworkDespawn()
