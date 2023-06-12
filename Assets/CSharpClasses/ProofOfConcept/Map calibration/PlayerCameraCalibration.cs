@@ -19,8 +19,8 @@ public class PlayerCameraCalibration : NetworkBehaviour
     public GameObject canvas;
     [Space(10)]
     public Slider calibrationSpeedSlider;
-    [Space(10)]
     public float calibrationSpeedModifier = 0.1f;
+
     private float _rotSpeed = 0.1f;
     private float _posVerticalSpeed = 0.1f;
     private float _posHorizontalSpeed = 0.01f;

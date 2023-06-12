@@ -12,10 +12,13 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(PlayerCameraCalibration))]
 public class MapCalibrationManager : MonoBehaviour
 {
-    public bool showOnStart = true;
+    public bool shownUiOnStart = true;
+    public bool disableLaserPointerOnCalibrationFinish = false;
     [Space(10)]
+    [Tooltip("This list represents the steps in the map calibration.")]
     public List<GameObject> CalibrationUis;
     [Space(10)]
+    [Tooltip("This obj enables interaction with regular UI elements, such as buttons in the calibration steps, through a laser pointer.")]
     public GameObject uiHelperObj;
 
 
@@ -29,11 +32,8 @@ public class MapCalibrationManager : MonoBehaviour
         _playerCamCalib.LoadExistingCalibration();
 
         hideAllCalibrationUIs();
-        if (showOnStart)
+        if (shownUiOnStart)
             ShowNextUI();
-
-
-        PlayerStateManager.Singleton.part1StartClient.AddListener(proceedToPart1);
     }
     public void ShowNextUI()
     {
@@ -98,23 +98,18 @@ public class MapCalibrationManager : MonoBehaviour
     }
     private void calibrationFinished()
     {
-        //Starts the actual gameplay (Start)
-        
         _playerCamCalib.SaveCurrentCalibration();
         hideAllCalibrationUIs();
-        // Make laser noninteractive but still visible
-        //uiHelperObj.SetActive(false);
-        //uiHelperObj.GetComponent<UIHelpersManager>().EnableEventSystem(false);
-        _playerCamCalib.enabled = false;
+
+        if (disableLaserPointerOnCalibrationFinish)
+        {
+            uiHelperObj.SetActive(false);
+        } 
         
-
-        proceedToPart1();
-        this.enabled = false;
-    }
-
-    private void proceedToPart1() 
-    {
-        //used for subscribing to a listener.
+        // Do something before disabling itself.
+        // (Perhaps trigger an event?)
+        
+        this.gameObject.SetActive(false);
     }
 
 }
