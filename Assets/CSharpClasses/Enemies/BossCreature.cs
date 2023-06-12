@@ -11,7 +11,8 @@ public class BossCreature : NetworkBehaviour
     [SerializeField] private GameObject bossModel;
     [SerializeField] private Transform ProjectileShootPoint;
     [SerializeField] private float attackRange = 3;
-    [SerializeField] private float attackSpeed = 10;
+    [SerializeField] private float minAttackSpeed = 1;
+    [SerializeField] private float maxAttackSpeed = 5;
 
     private float health;
 
@@ -119,7 +120,8 @@ public class BossCreature : NetworkBehaviour
         ProjectileShootPoint.LookAt(destinationPos);
         GameObject projectile = Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
         projectile.GetComponent<NetworkObject>().Spawn(true);
-        yield return new WaitForSeconds(attackSpeed);
+        float attacktime = Random.Range(minAttackSpeed,maxAttackSpeed);
+        yield return new WaitForSeconds(attacktime);
         attackCorutine = null;
     }
 

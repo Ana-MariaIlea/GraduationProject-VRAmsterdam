@@ -9,7 +9,8 @@ public class MinionCreature : NetworkBehaviour
     [SerializeField] private float MaxHealth = 100;
     [SerializeField] private Transform ProjectileShootPoint;
     [SerializeField] private float attackRange = 10;
-    [SerializeField] private float attackSpeed = 4;
+    [SerializeField] private float minAttackSpeed = 1;
+    [SerializeField] private float maxAttackSpeed = 5; 
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject minionModel;
     [SerializeField] private Vector3 minionModelScale;
@@ -100,7 +101,8 @@ public class MinionCreature : NetworkBehaviour
         ProjectileShootPoint.LookAt(destinationPos);
         GameObject projectile = Instantiate(projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
         projectile.GetComponent<NetworkObject>().Spawn(true);
-        yield return new WaitForSeconds(attackSpeed);
+        float attacktime = Random.Range(minAttackSpeed, maxAttackSpeed);
+        yield return new WaitForSeconds(attacktime);
         attackCorutine = null;
     }
     public void DamangeMinion(float damage)
