@@ -127,8 +127,6 @@ public class ServerUI : NetworkBehaviour
             UIElementsPanel.SetActive(false);
 
             PlayerStateManager.Singleton.StartPart1Server(true);
-            //PlayerStateManager.Singleton.StartPart2Server();
-            //PlayerStateManager.Singleton.GameEndServer();
         }
         else
         {
@@ -141,8 +139,6 @@ public class ServerUI : NetworkBehaviour
         if (PlayerStateManager.Singleton)
         {
             PlayerStateManager.Singleton.StartPart1Server(false);
-            //PlayerStateManager.Singleton.PreStartPart2PlayerVsPlayerServer();
-
             UIElementsPanel.SetActive(false);
         }
         else

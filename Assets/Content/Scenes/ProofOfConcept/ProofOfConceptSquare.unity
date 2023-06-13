@@ -2115,6 +2115,10 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 32949146}
+    - target: {fileID: 6540679873977371600, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
+      propertyPath: isServer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568152, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2679,21 +2683,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3886284306474105451, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3886284306474105451, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -2.5
-      objectReference: {fileID: 0}
     - target: {fileID: 3956287467394894184, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
       propertyPath: m_RootOrder
       value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 3956287467394894184, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.2600002
+      value: 4.58
       objectReference: {fileID: 0}
     - target: {fileID: 3956287467394894184, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2701,7 +2697,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3956287467394894184, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.7
+      value: 3.59
       objectReference: {fileID: 0}
     - target: {fileID: 3956287467394894184, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3538,7 +3534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8811221956863568641, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
       propertyPath: team
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8be97c84a0a09f4995ee81511149475, type: 3}
