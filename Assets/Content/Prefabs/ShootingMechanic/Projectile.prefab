@@ -50,9 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c5bfce0bd75cc4eb915f7694397516, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  body: {fileID: 0}
-  speed: 2
+  speed: 3
   decalPrefab: {fileID: 7972664551039509269, guid: 9d0fa2f60170c704898aeb27acdac302, type: 3}
+  decalSize: 1
 --- !u!135 &1401383218499347369
 SphereCollider:
   m_ObjectHideFlags: 0

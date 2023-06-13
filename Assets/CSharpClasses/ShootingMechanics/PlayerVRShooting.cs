@@ -27,6 +27,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private bool isPlayerCoOp = true;
 
+    private Coroutine spawnProjectileCorutine;
 
     [SerializeField] private NetworkVariable<ShootingMode> shootingMode = new NetworkVariable<ShootingMode>(ShootingMode.None, NetworkVariableReadPermission.Everyone);
     public enum ShootingMode
@@ -89,7 +90,11 @@ public class PlayerVRShooting : NetworkBehaviour
         switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
-                StopAllCoroutines();
+                if (spawnProjectileCorutine != null)
+                {
+                    StopCoroutine(spawnProjectileCorutine);
+                    spawnProjectileCorutine = null;
+                }
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 controls.Disable();
                 break;
@@ -179,7 +184,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2PlayerVSPlayerStart()
     {
-        controls = new PlayerInputActions();
         controls.Enable();
         isPlayerCoOp = false;
         Part2PlayerVSPlayerStartServerRpc();
@@ -194,7 +198,9 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void ShootProjectileRightProxi(InputAction.CallbackContext ctx)
     {
-        StartCoroutine(ShootProjectile(ControllerType.Right));
+        Debug.Log("input trigger");
+        if (spawnProjectileCorutine == null)
+            spawnProjectileCorutine = StartCoroutine(ShootProjectile(ControllerType.Right));
     }
     private IEnumerator ShootProjectile(ControllerType controller)
     {
@@ -203,7 +209,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
         projectilePosition = controllerRight.position + projectileOffset;
         projectileRotation = controllerRight.rotation;
-        controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
 
         projectileRotation.z = 0;
 
@@ -211,8 +216,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
-        controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
-
+        spawnProjectileCorutine = null;
     }
 
     [ServerRpc]
@@ -270,6 +274,11 @@ public class PlayerVRShooting : NetworkBehaviour
             switch (shootingMode.Value)
             {
                 case ShootingMode.Projectile:
+                    if (spawnProjectileCorutine != null)
+                    {
+                        StopCoroutine(spawnProjectileCorutine);
+                        spawnProjectileCorutine = null;
+                    }
                     controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                     break;
             }

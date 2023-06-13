@@ -99,6 +99,7 @@ public class PlayerVsPlayerTimer : NetworkBehaviour
         }
         if (PlayerStateManager.Singleton)
         {
+            TimerObject.SetActive(false);
             HideTimerClientRpc();
             PlayerStateManager.Singleton.GameEndServer();
         }

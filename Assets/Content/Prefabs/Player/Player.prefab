@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5d6f47f8bb83642a727d37b24a1335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 5
+  maxHP: 3
   playerHitSoundSource: {fileID: 609244800720756948}
   playerDieSoundSource: {fileID: 8292333848266584962}
   HealthPanel: {fileID: 7832051954569627317}

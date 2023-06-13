@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 0}
-  speed: 1
+  speed: 2.5
   explosionRadius: 5
   earthColumns: {fileID: 4306247637994184295, guid: 41aa9c2700c3d5f4a90822b01547e94b, type: 3}
 --- !u!114 &9132883055920178853

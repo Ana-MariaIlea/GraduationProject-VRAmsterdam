@@ -4882,7 +4882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 0}
-  speed: 1
+  speed: 2
   explosionRadius: 5
 --- !u!114 &3313219830010130050
 MonoBehaviour:
