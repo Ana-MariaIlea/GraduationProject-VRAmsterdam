@@ -49,6 +49,7 @@ public class PlayerVRShooting : NetworkBehaviour
         if (IsOwner && IsClient)
         {
             base.OnNetworkSpawn();
+            controls = new PlayerInputActions();
 
             if (PlayerStateManager.Singleton)
             {
@@ -69,7 +70,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2Start()
     {
-        controls = new PlayerInputActions();
         controls.Enable();
         isPlayerCoOp = true;
         Part2StartServerRpc();
@@ -84,13 +84,14 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void GameEndClient()
     {
+        if (!IsOwner) return;
+
         switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
                 StopAllCoroutines();
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 controls.Disable();
-                controls = null;
                 break;
         }
     }
@@ -170,7 +171,7 @@ public class PlayerVRShooting : NetworkBehaviour
     [ClientRpc]
     private void ChangeShootingModeToProjectileClientRpc()
     {
-        if (controls != null && shootingMode.Value != ShootingMode.Projectile)
+        if (controls != null && shootingMode.Value != ShootingMode.Projectile && IsOwner)
         {
             controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
         }
@@ -264,11 +265,14 @@ public class PlayerVRShooting : NetworkBehaviour
     [ClientRpc]
     public void PlayerDieClientRpc()
     {
-        switch (shootingMode.Value)
+        if (IsOwner)
         {
-            case ShootingMode.Projectile:
-                controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
-                break;
+            switch (shootingMode.Value)
+            {
+                case ShootingMode.Projectile:
+                    controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+                    break;
+            }
         }
     }
 }

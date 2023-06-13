@@ -136,10 +136,13 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [ClientRpc]
     private void PlayerHitClientRPC(float materieanCutoffValue, int currentHP)
     {
-        PlayerHitServerRpc();
-        //Material Cutoff affect the transparency of the health indicator
-        mat.SetFloat("_Cutoff", materieanCutoffValue);
-        HPText.text = currentHP.ToString();
+        if (IsOwner)
+        {
+            PlayerHitServerRpc();
+            //Material Cutoff affect the transparency of the health indicator
+            mat.SetFloat("_Cutoff", materieanCutoffValue);
+            HPText.text = currentHP.ToString();
+        }
     }
 
     [ServerRpc]
@@ -158,7 +161,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     private void Part2Start()
     {
         isPlayerCoOp = true;
-        currentHP = maxHP;
         GetComponent<BoxCollider>().enabled = true;
         HealthPanel.SetActive(true);
         mat.SetFloat("_Cutoff", 1f);
@@ -170,7 +172,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     private void Part2StartServerRpc()
     {
         isPlayerCoOp = true;
-        currentHP = maxHP;
     }
 
     public bool PlayerHitServer(ServerRpcParams serverRpcParams = default)

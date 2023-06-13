@@ -96,7 +96,6 @@ public class ServerUI : NetworkBehaviour
     public void StartGame()
     {
         hasGameStarted = true;
-        StartPlayerVsPlayerGame();
         switch (gameMode)
         {
             case GameMode.NoneSelected:
@@ -141,8 +140,8 @@ public class ServerUI : NetworkBehaviour
     {
         if (PlayerStateManager.Singleton)
         {
-            //PlayerStateManager.Singleton.StartPart1Server(false);
-            PlayerStateManager.Singleton.PreStartPart2PlayerVsPlayerServer();
+            PlayerStateManager.Singleton.StartPart1Server(false);
+            //PlayerStateManager.Singleton.PreStartPart2PlayerVsPlayerServer();
 
             UIElementsPanel.SetActive(false);
         }
