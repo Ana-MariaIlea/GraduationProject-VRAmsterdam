@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ProjectileExplosion : NetworkBehaviour
 {
-    [SerializeField] private ParticleSystem explosionEffect;
+    [SerializeField] private ParticleSystem explosionEffect1;
+    [SerializeField] private ParticleSystem explosionEffect2;
 
     public override void OnNetworkSpawn()
     {
@@ -12,7 +13,8 @@ public class ProjectileExplosion : NetworkBehaviour
 
         if (IsClient)
         {
-            explosionEffect.Play();
+            explosionEffect1.Play();
+            explosionEffect2.Play();
         }
 
         if (IsServer)
@@ -23,7 +25,7 @@ public class ProjectileExplosion : NetworkBehaviour
 
     private IEnumerator PlayEffectAndDestroy()
     {
-        yield return new WaitForSeconds(explosionEffect.main.duration);
+        yield return new WaitForSeconds(explosionEffect1.main.duration);
 
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);

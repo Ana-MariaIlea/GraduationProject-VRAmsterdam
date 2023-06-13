@@ -8,7 +8,7 @@ public abstract class PlayerHitObject : NetworkBehaviour
     protected float damage;
     protected ulong shooterPlayerID;
     protected bool isPlayerCoOp = true;
-    [SerializeField]protected string opposingTeamTag = "Player";
+    protected string opposingTeamTag = "Player";
 
     public float Damage
     {
