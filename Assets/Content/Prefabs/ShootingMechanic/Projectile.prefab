@@ -52,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 0}
   speed: 2
+  decalPrefab: {fileID: 7972664551039509269, guid: 9d0fa2f60170c704898aeb27acdac302, type: 3}
 --- !u!135 &1401383218499347369
 SphereCollider:
   m_ObjectHideFlags: 0
