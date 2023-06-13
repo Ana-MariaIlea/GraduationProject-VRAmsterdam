@@ -2115,10 +2115,6 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 32949146}
-    - target: {fileID: 6540679873977371600, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
-      propertyPath: ServerName
-      value: VRAmsterdam
-      objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568152, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -2162,10 +2158,6 @@ PrefabInstance:
     - target: {fileID: 6681549834280568152, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6681549834280568154, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
-      propertyPath: ConnectionData.Address
-      value: 0.0.0.0
       objectReference: {fileID: 0}
     - target: {fileID: 6681549834280568165, guid: ec4874fcc5512a64fbc4f63a460ce33f, type: 3}
       propertyPath: m_Name

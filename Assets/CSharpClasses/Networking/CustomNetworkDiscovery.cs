@@ -9,27 +9,13 @@ using System.Collections.Generic;
 [RequireComponent(typeof(NetworkManager))]
 public class CustomNetworkDiscovery : NetworkDiscovery<DiscoveryBroadcastData, DiscoveryResponseData>
 {
-
     [SerializeField] GameObject cam;
     [SerializeField] bool isServer = true;
 
-
-    [Serializable]
-    public class ServerFoundEvent : UnityEvent<IPEndPoint, DiscoveryResponseData>
-    {
-    };
-
     NetworkManager m_NetworkManager;
-
-    [SerializeField]
-    [Tooltip("If true NetworkDiscovery will make the server visible and answer to client broadcasts as soon as netcode starts running as server.")]
-    bool m_StartWithServer = true;
 
     public string ServerName = "EnterName";
 
-    public ServerFoundEvent OnServerFound;
-
-    private bool m_HasStartedWithServer = false;
     private bool m_HasStartedClient = false;
 
     Dictionary<IPAddress, DiscoveryResponseData> discoveredServers = new Dictionary<IPAddress, DiscoveryResponseData>();
