@@ -31,7 +31,7 @@ public class MapCalibrationManager : MonoBehaviour
 
     private PlayerCameraCalibration _playerCamCalib;
     
-    private int _currentUI;
+    private int _currentUI = -1;// Start with 1st step in the list
 
     private void Start()
     {
@@ -42,15 +42,8 @@ public class MapCalibrationManager : MonoBehaviour
         HideAllSteps();
         if (shownUiOnStart)
         {
-            StartMapCalibration();
+            ShowNextStep();
         } 
-    }
-    
-    public void StartMapCalibration()
-    {
-        // Start with 1st step in the list
-        _currentUI = -1;
-        ShowNextStep();
     }
     public void FinishCalibration()
     {

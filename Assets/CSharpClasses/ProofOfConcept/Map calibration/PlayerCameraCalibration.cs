@@ -1,4 +1,3 @@
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +8,7 @@ using UnityEngine.UI;
 /// <summary>
 /// This class allows for calibration of the player camera (OVRCameraRig) via controller input (OVRInput).
 /// </summary>
-public class PlayerCameraCalibration : NetworkBehaviour
+public class PlayerCameraCalibration : MonoBehaviour
 {
     [Tooltip("OVRCameraRig transform")]
     public Transform OVRCameraRig;
@@ -18,6 +17,9 @@ public class PlayerCameraCalibration : NetworkBehaviour
     [Space(10)]
     public Slider calibrationSpeedSlider;
     public float calibrationSpeedModifier = 0.1f;
+    [Space(10)]
+    public Animator floorCalibrationAnimator;
+
 
     private float _rotSpeed = 0.1f;
     private float _posVerticalSpeed = 0.1f;
@@ -46,29 +48,26 @@ public class PlayerCameraCalibration : NetworkBehaviour
     }
     void Update()
     {
-        if (IsClient && IsOwner)
+        switch (calibrationControlls)
         {
-            switch (calibrationControlls)
-            {
-                case CalibrationControlls.FLOOR:
-                    CalibrateFloorLevel();
-                    break;
-                case CalibrationControlls.MOVEROTATE:
-                    RotateCameraAround();
-                    MoveCameraLeftRight();
-                    MoveCameraForwardBackward();
-                    break;
-                case CalibrationControlls.ALL:
-                    RotateCameraAround();
-                    MoveCameraLeftRight();
-                    MoveCameraForwardBackward();
-                    CalibrateFloorLevel();
-                    SaveCurrentCalibration();
-                    LoadExistingCalibration();
-                    break;
-                default:
-                    break;
-            }
+            case CalibrationControlls.FLOOR:
+                CalibrateFloorLevel();
+                break;
+            case CalibrationControlls.MOVEROTATE:
+                RotateCameraAround();
+                MoveCameraLeftRight();
+                MoveCameraForwardBackward();
+                break;
+            case CalibrationControlls.ALL:
+                RotateCameraAround();
+                MoveCameraLeftRight();
+                MoveCameraForwardBackward();
+                CalibrateFloorLevel();
+                SaveCurrentCalibration();
+                LoadExistingCalibration();
+                break;
+            default:
+                break;
         }
     }
 
@@ -138,17 +137,26 @@ public class PlayerCameraCalibration : NetworkBehaviour
 
         if (axisValue == 1.0f)
         {
-            float controllerY = floorLevelTransform.position.y;
-            if (controllerY < 0)
+            Invoke("SetTheFloorLevelToControllerY", 1.0f);
+            // Enable obj which plays animation
+            if(floorCalibrationAnimator != null)
             {
-                // Physical floor under virtual -> Make player higher
-                OVRCameraRig.position = new Vector3(OVRCameraRig.position.x, OVRCameraRig.position.y + (controllerY * -1) + _floorLevelOffset, OVRCameraRig.position.z);
+                floorCalibrationAnimator.Play("FloorLevelAnimation");
             }
-            else if (controllerY > 0)
-            {
-                // Physical floor above virtual -> Make player smaller
-                OVRCameraRig.position = new Vector3(OVRCameraRig.position.x, OVRCameraRig.position.y - controllerY + _floorLevelOffset, OVRCameraRig.position.z);
-            }
+        }
+    }
+    private void SetTheFloorLevelToControllerY()
+    {
+        float controllerY = floorLevelTransform.position.y;
+        if (controllerY < 0)
+        {
+            // Physical floor under virtual -> Make player higher
+            OVRCameraRig.position = new Vector3(OVRCameraRig.position.x, OVRCameraRig.position.y + (controllerY * -1) + _floorLevelOffset, OVRCameraRig.position.z);
+        }
+        else if (controllerY > 0)
+        {
+            // Physical floor above virtual -> Make player smaller
+            OVRCameraRig.position = new Vector3(OVRCameraRig.position.x, OVRCameraRig.position.y - controllerY + _floorLevelOffset, OVRCameraRig.position.z);
         }
     }
 
