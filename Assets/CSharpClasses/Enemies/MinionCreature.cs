@@ -10,7 +10,7 @@ public class MinionCreature : NetworkBehaviour
     [SerializeField] private Transform ProjectileShootPoint;
     [SerializeField] private float attackRange = 10;
     [SerializeField] private float minAttackSpeed = 1;
-    [SerializeField] private float maxAttackSpeed = 5;
+    [SerializeField] private float maxAttackSpeed = 5; 
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject minionModel;
     [SerializeField] private Vector3 minionModelScale;
@@ -51,11 +51,16 @@ public class MinionCreature : NetworkBehaviour
     private void InitiallizeMinion()
     {
 
-    }
+    } 
 
     // Update is called once per frame
     void Update()
     {
+        if (playerTarget == null)
+        {
+            meshAgent.SetDestination(transform.position);
+            return;
+        }
         MinionAttack();
     }
 
@@ -77,12 +82,6 @@ public class MinionCreature : NetworkBehaviour
                     minDist = distance.magnitude;
                     playerTarget = hitCollidersSight[i].transform;
                 }
-            }
-
-            if (playerTarget == null)
-            {
-                meshAgent.SetDestination(transform.position);
-                return;
             }
 
             // If the player has food, go to the player
