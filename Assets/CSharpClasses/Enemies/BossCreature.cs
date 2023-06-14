@@ -68,11 +68,6 @@ public class BossCreature : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerTarget == null)
-        {
-            meshAgent.SetDestination(transform.position);
-            return;
-        }
         switch (stage)
         {
             case BossStage.Fight:

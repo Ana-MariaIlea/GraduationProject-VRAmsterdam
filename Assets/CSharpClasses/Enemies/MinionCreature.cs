@@ -56,11 +56,6 @@ public class MinionCreature : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerTarget == null)
-        {
-            meshAgent.SetDestination(transform.position);
-            return;
-        }
         MinionAttack();
     }
 
