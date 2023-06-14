@@ -27,7 +27,7 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2PlayerCoOpStartClient.AddListener(Part2StartClient);
-                PlayerStateManager.Singleton.part2PlayerVsPlayerStartClient.AddListener(Part2StartClient);
+                PlayerStateManager.Singleton.part2PlayerVsPlayerPreStartClient.AddListener(Part2StartClient);
                 PlayerStateManager.Singleton.part1StartClient.AddListener(BindInputActions);
             }
             else

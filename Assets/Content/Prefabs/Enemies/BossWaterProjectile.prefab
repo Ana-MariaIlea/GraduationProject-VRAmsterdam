@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 0}
-  speed: 1
+  speed: 2.2
 --- !u!54 &8761505859257855634
 Rigidbody:
   m_ObjectHideFlags: 0

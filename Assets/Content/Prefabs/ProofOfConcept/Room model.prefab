@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 1955066998275570258}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 7841258860764022721}
   m_Layer: 0
   m_Name: Wall1
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -416,7 +416,6 @@ GameObject:
   - component: {fileID: 4456177008232930696}
   - component: {fileID: 4456177008232930701}
   - component: {fileID: 4456177008232930698}
-  - component: {fileID: 4456177008232930699}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -489,19 +488,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4456177008232930699
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456177008232930697}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4456177008339241982
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,7 +499,6 @@ GameObject:
   - component: {fileID: 4456177008339241953}
   - component: {fileID: 4456177008339241954}
   - component: {fileID: 4456177008339241955}
-  - component: {fileID: 4456177008339241952}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -586,19 +571,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4456177008339241952
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456177008339241982}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4456177008527063034
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +614,6 @@ GameObject:
   - component: {fileID: 4456177009068305531}
   - component: {fileID: 4456177009068305532}
   - component: {fileID: 4456177009068305533}
-  - component: {fileID: 4456177009068305530}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -715,19 +686,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4456177009068305530
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456177009068305528}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4456177009245387188
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +697,6 @@ GameObject:
   - component: {fileID: 4456177009245387191}
   - component: {fileID: 4456177009245387192}
   - component: {fileID: 4456177009245387193}
-  - component: {fileID: 4456177009245387190}
   m_Layer: 0
   m_Name: Floor Extra
   m_TagString: Untagged
@@ -812,20 +769,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4456177009245387190
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456177009245387188}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4456177009420936133
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,7 +876,6 @@ GameObject:
   - component: {fileID: 4456177009855070236}
   - component: {fileID: 4456177009855070209}
   - component: {fileID: 4456177009855070238}
-  - component: {fileID: 4456177009855070239}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -1006,19 +948,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4456177009855070239
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456177009855070237}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4456177010063812334
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +959,6 @@ GameObject:
   - component: {fileID: 4456177010063812113}
   - component: {fileID: 4456177010063812114}
   - component: {fileID: 4456177010063812115}
-  - component: {fileID: 4456177010063812112}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -1103,20 +1031,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4456177010063812112
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4456177010063812334}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &4550914590972871463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,7 +1045,7 @@ GameObject:
   - component: {fileID: 7026693025777451040}
   m_Layer: 0
   m_Name: Cilling
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1228,7 +1142,7 @@ GameObject:
   - component: {fileID: 2944740457886046068}
   m_Layer: 0
   m_Name: Wall4
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1403,7 +1317,7 @@ GameObject:
   - component: {fileID: 7742555021705072933}
   m_Layer: 0
   m_Name: Wall2
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1533,7 +1447,7 @@ GameObject:
   - component: {fileID: 1912490989456613089}
   m_Layer: 0
   m_Name: Wall3
-  m_TagString: Untagged
+  m_TagString: Boundary
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

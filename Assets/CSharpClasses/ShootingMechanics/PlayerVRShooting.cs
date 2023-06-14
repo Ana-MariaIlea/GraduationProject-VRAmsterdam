@@ -27,6 +27,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private bool isPlayerCoOp = true;
 
+    private Coroutine spawnProjectileCorutine;
 
     [SerializeField] private NetworkVariable<ShootingMode> shootingMode = new NetworkVariable<ShootingMode>(ShootingMode.None, NetworkVariableReadPermission.Everyone);
     public enum ShootingMode
@@ -49,6 +50,7 @@ public class PlayerVRShooting : NetworkBehaviour
         if (IsOwner && IsClient)
         {
             base.OnNetworkSpawn();
+            controls = new PlayerInputActions();
 
             if (PlayerStateManager.Singleton)
             {
@@ -69,7 +71,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2Start()
     {
-        controls = new PlayerInputActions();
         controls.Enable();
         isPlayerCoOp = true;
         Part2StartServerRpc();
@@ -84,13 +85,18 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void GameEndClient()
     {
+        if (!IsOwner) return;
+
         switch (shootingMode.Value)
         {
             case ShootingMode.Projectile:
-                StopAllCoroutines();
+                if (spawnProjectileCorutine != null)
+                {
+                    StopCoroutine(spawnProjectileCorutine);
+                    spawnProjectileCorutine = null;
+                }
                 controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
                 controls.Disable();
-                controls = null;
                 break;
         }
     }
@@ -170,7 +176,7 @@ public class PlayerVRShooting : NetworkBehaviour
     [ClientRpc]
     private void ChangeShootingModeToProjectileClientRpc()
     {
-        if (controls != null && shootingMode.Value != ShootingMode.Projectile)
+        if (controls != null && shootingMode.Value != ShootingMode.Projectile && IsOwner)
         {
             controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
         }
@@ -178,7 +184,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void Part2PlayerVSPlayerStart()
     {
-        controls = new PlayerInputActions();
         controls.Enable();
         isPlayerCoOp = false;
         Part2PlayerVSPlayerStartServerRpc();
@@ -193,7 +198,9 @@ public class PlayerVRShooting : NetworkBehaviour
 
     private void ShootProjectileRightProxi(InputAction.CallbackContext ctx)
     {
-        StartCoroutine(ShootProjectile(ControllerType.Right));
+        Debug.Log("input trigger");
+        if (spawnProjectileCorutine == null)
+            spawnProjectileCorutine = StartCoroutine(ShootProjectile(ControllerType.Right));
     }
     private IEnumerator ShootProjectile(ControllerType controller)
     {
@@ -202,7 +209,6 @@ public class PlayerVRShooting : NetworkBehaviour
 
         projectilePosition = controllerRight.position + projectileOffset;
         projectileRotation = controllerRight.rotation;
-        controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
 
         projectileRotation.z = 0;
 
@@ -210,8 +216,7 @@ public class PlayerVRShooting : NetworkBehaviour
 
         yield return new WaitForSeconds(projectileShootCooldown);
 
-        controls.PlayerPart2.ShootingRight.performed += ShootProjectileRightProxi;
-
+        spawnProjectileCorutine = null;
     }
 
     [ServerRpc]
@@ -222,7 +227,7 @@ public class PlayerVRShooting : NetworkBehaviour
             GameObject projectile = Instantiate(projectilePrefab, position, Quaternion.Euler(rotation));
             projectile.GetComponent<Projectile>().Damage = damage;
             projectile.GetComponent<Projectile>().ShooterPlayerID = serverRpcParams.Receive.SenderClientId;
-            if (isPlayerCoOp)
+            if (!isPlayerCoOp)
             {
                 projectile.GetComponent<Projectile>().IsPlayerCoOp = isPlayerCoOp;
                 if (gameObject.tag == "Team1")
@@ -264,17 +269,19 @@ public class PlayerVRShooting : NetworkBehaviour
     [ClientRpc]
     public void PlayerDieClientRpc()
     {
-        switch (shootingMode.Value)
+        if (IsOwner)
         {
-            case ShootingMode.Projectile:
-                controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
-                break;
+            switch (shootingMode.Value)
+            {
+                case ShootingMode.Projectile:
+                    if (spawnProjectileCorutine != null)
+                    {
+                        StopCoroutine(spawnProjectileCorutine);
+                        spawnProjectileCorutine = null;
+                    }
+                    controls.PlayerPart2.ShootingRight.performed -= ShootProjectileRightProxi;
+                    break;
+            }
         }
-    }
-
-    [ServerRpc]
-    public void PlayerDieServerRpc(ServerRpcParams serverRpcParams = default)
-    {
-        ScoreSystemManager.Singleton.DeathAddedToPlayer(serverRpcParams.Receive.SenderClientId);
     }
 }

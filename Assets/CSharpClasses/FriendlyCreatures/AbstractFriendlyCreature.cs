@@ -98,6 +98,11 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
                 UnfriendedBehaviour();
                 break;
             case CreatureState.Befriended:
+                if (playerTarget == null)
+                {
+                    state = CreatureState.Helping;
+                    return;
+                }
                 BefriendedBehaviour();
                 break;
             case CreatureState.Helping:

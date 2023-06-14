@@ -692,6 +692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team1Material: {fileID: 2100000, guid: 0817d61373323324194a6d507904aae2, type: 2}
   team2Material: {fileID: 2100000, guid: 1f68fc24ae5126e40a65ec40b84d1957, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: a71937c5ded457648aa80cf945987830, type: 2}
   playerMesh: {fileID: 7282837531911367700}
   playerVRLiveObject: {fileID: 8890530624155686190}
   PlayerNameText: {fileID: 7016292884799683446}
@@ -5083,7 +5084,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5d6f47f8bb83642a727d37b24a1335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 5
+  maxHP: 3
   playerHitSoundSource: {fileID: 609244800720756948}
   playerDieSoundSource: {fileID: 8292333848266584962}
   HealthPanel: {fileID: 7832051954569627317}

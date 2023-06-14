@@ -183,6 +183,11 @@ MonoBehaviour:
       SourcePrefabToOverride: {fileID: 0}
       SourceHashToOverride: 0
       OverridingTargetPrefab: {fileID: 0}
+    - Override: 0
+      Prefab: {fileID: 7972664551039509269, guid: 9d0fa2f60170c704898aeb27acdac302, type: 3}
+      SourcePrefabToOverride: {fileID: 0}
+      SourceHashToOverride: 0
+      OverridingTargetPrefab: {fileID: 0}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -218,7 +223,7 @@ MonoBehaviour:
   m_MaxConnectAttempts: 60
   m_DisconnectTimeoutMS: 30000
   ConnectionData:
-    Address: 145.76.94.186
+    Address: 0.0.0.0
     Port: 7777
     ServerListenAddress: 
   DebugSimulator:
@@ -242,7 +247,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   isServer: 1
   m_StartWithServer: 1
-  ServerName: EnterName
+  ServerName: VRAmsterdam
   OnServerFound:
     m_PersistentCalls:
       m_Calls: []
