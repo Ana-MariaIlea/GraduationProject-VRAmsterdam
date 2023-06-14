@@ -68,11 +68,6 @@ public class BossCreature : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerTarget == null)
-        {
-            meshAgent.SetDestination(transform.position);
-            return;
-        }
         switch (stage)
         {
             case BossStage.Fight:
@@ -103,6 +98,13 @@ public class BossCreature : NetworkBehaviour
                     playerTarget = hitCollidersSight[i].transform;
                 }
             }
+
+            if (playerTarget == null)
+            {
+                meshAgent.SetDestination(transform.position);
+                return;
+            }
+
             // If the player has food, go to the player
             if (minDist > attackRange)
             {
