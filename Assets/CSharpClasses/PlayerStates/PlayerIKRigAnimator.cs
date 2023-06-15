@@ -1,9 +1,15 @@
-using System.Collections;
+//Made by Ana-Maria Ilea
+
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Script for inverse kinematics
+// </summary>
+//------------------------------------------------------------------------------
 public class PlayerIKRigAnimator : NetworkBehaviour
 {
     [SerializeField] private VRMap LeftHand;
