@@ -1,7 +1,15 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Grabbable item manager
+//      Handles the items between the server and the client
+// </summary>
+//------------------------------------------------------------------------------
 public class GrabbableItemManager : NetworkBehaviour
 {
     public static GrabbableItemManager Singleton { get; private set; }

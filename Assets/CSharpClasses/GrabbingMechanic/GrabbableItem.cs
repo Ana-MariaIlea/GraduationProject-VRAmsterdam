@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GrabbableItem : NetworkBehaviour
 {
@@ -13,7 +12,6 @@ public class GrabbableItem : NetworkBehaviour
     {
         get
         {
-            //Some other code
             return objectID.Value;
         }
         set
@@ -25,12 +23,13 @@ public class GrabbableItem : NetworkBehaviour
     {
         get
         {
-            //Some other code
             return itemID;
         }
     }
 }
 
+//Item ID enum
+//Can be replaced by the creature type
 public enum ItemID
 {
     [HideInInspector]
