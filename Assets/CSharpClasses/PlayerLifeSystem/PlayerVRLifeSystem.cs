@@ -1,13 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
 // </summary>
-//     Player life system class. This class handles collision with enemy projectiles
+//     Player life system class. This class handles collision with enemy and player projectiles
 //     PlayerHit and PlayerDie are called when a collision happens
 // </summary>
 //------------------------------------------------------------------------------
@@ -31,8 +30,6 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         base.OnNetworkSpawn();
         if (!IsServer)
         {
-            //GetComponent<BoxCollider>().enabled = false;
-            //this.enabled = false;
             if (IsOwner)
             {
                 if (PlayerStateManager.Singleton)
@@ -82,29 +79,38 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         if (!IsServer) return;
         if (isPlayerCoOp)
         {
-            if (other.tag == "EnemyHitObject")
-            {
-                PlayerHitServer();
-
-                other.GetComponent<EnemyHitObject>().DestroyProjectileServer();
-            }
+            HandlePlayerCoOpTriggers(other);
         }
         else
         {
-            if (other.tag == "PlayerHitObject")
-            {
-                if (other.GetComponent<Projectile>().OpposingTeamTag == gameObject.tag)
-                {
-                    ScoreSystemManager.Singleton.ScoreAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
-                    bool otherHP = PlayerHitServer();
-                    if (otherHP)
-                    {
-                        ScoreSystemManager.Singleton.KillAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
-                        PlayerDiePvPClientRPC();
-                    }
+            HandlePvPTriggers(other);
+        }
+    }
+    private void HandlePlayerCoOpTriggers(Collider other)
+    {
+        if (other.tag == "EnemyHitObject")
+        {
+            PlayerHitServer();
 
-                    other.GetComponent<PlayerHitObject>().DestroyProjectileServer();
+            other.GetComponent<EnemyHitObject>().DestroyProjectileServer();
+        }
+    }
+
+    private void HandlePvPTriggers(Collider other)
+    {
+        if (other.tag == "PlayerHitObject")
+        {
+            if (other.GetComponent<Projectile>().OpposingTeamTag == gameObject.tag)
+            {
+                ScoreSystemManager.Singleton.ScoreAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
+                bool otherHP = PlayerHitServer();
+                if (otherHP)
+                {
+                    ScoreSystemManager.Singleton.KillAddedToPlayer(other.GetComponent<Projectile>().ShooterPlayerID);
+                    PlayerDiePvPClientRPC();
                 }
+
+                other.GetComponent<PlayerHitObject>().DestroyProjectileServer();
             }
         }
     }
@@ -118,6 +124,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [ServerRpc]
     private void PlayerDiePvPServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        //Server rpc done to get the correct player ID
         ScoreSystemManager.Singleton.DeathAddedToPlayer(serverRpcParams.Receive.SenderClientId);
     }
 
@@ -139,6 +146,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
         if (IsOwner)
         {
             PlayerHitServerRpc();
+
             //Material Cutoff affect the transparency of the health indicator
             mat.SetFloat("_Cutoff", materieanCutoffValue);
             HPText.text = currentHP.ToString();
@@ -148,6 +156,7 @@ public class PlayerVRLifeSystem : NetworkBehaviour
     [ServerRpc]
     private void PlayerHitServerRpc(ServerRpcParams serverRpcParams = default)
     {
+        //Server rpc done to get the correct player ID
         if (currentHP == 0)
         {
             SoundManager.Singleton.PlaySoundAllPlayers(playerDieSoundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);
