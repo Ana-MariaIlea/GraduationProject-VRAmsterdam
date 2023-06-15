@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -56,6 +58,8 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                     playerTarget = hitCollidersSight[i].gameObject;
 
                     PlayerVRGrabbing[] grab = playerTarget.GetComponentsInChildren<PlayerVRGrabbing>();
+
+                    //Check if the player holds food
                     if (grab.Length > 0)
                     {
                         if (grab[0].GrabedItemID == ItemID.Food)
@@ -112,10 +116,6 @@ public class FireFriendlyCreature : AbstractFriendlyCreature
                 meshAgent.SetDestination(unbefriendedInitialSpace);
             }
         }
-    }
-    protected override void HelpingBehaviour()
-    {
-        
     }
 
     //------------------------------------------------------------------------------

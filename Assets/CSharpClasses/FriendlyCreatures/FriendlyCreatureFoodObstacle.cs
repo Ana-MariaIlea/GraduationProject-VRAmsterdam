@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
 // </summary>
-//     Food Obstacle class inherited from FriendlyCreatureItemObstacle
+//     Food(Earth creature) Obstacle class inherited from FriendlyCreatureItemObstacle
 // </summary>
 //------------------------------------------------------------------------------
 public class FriendlyCreatureFoodObstacle : FriendlyCreatureItemObstacle

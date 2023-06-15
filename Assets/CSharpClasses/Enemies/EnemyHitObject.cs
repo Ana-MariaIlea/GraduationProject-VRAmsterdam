@@ -3,7 +3,11 @@
 using Unity.Netcode;
 using UnityEngine;
 
-//Base class for enemy projectile
+//------------------------------------------------------------------------------
+// </summary>
+//      Base class for enemy projectile
+// </summary>
+//------------------------------------------------------------------------------
 public class EnemyHitObject : NetworkBehaviour
 {
     [SerializeField] protected Rigidbody body;

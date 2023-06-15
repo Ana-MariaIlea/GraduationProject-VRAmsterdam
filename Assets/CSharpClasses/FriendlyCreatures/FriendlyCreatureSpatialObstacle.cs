@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
 
 //------------------------------------------------------------------------------
 // </summary>
-//     Spatial Obstacle class inherited from FriendlyCreatureItemObstacle
+//     Spatial (Water Creature) Obstacle class inherited from FriendlyCreatureItemObstacle
 // </summary>
 //------------------------------------------------------------------------------
 public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
@@ -16,7 +16,6 @@ public class FriendlyCreatureSpatialObstacle : FriendlyCreatureItemObstacle
         if (isObstacleClear == false)
         {
             isObstacleClear = true;
-            Debug.Log("Water obstacle clear server rpc");
             GetComponentInParent<WaterFriendlyCreature>().CreadureBefriendTransition(serverRpcParams.Receive.SenderClientId);
             GetComponent<BoxCollider>().enabled = false;
             SoundManager.Singleton.PlaySoundAllPlayers(soundSource.SoundID, true, serverRpcParams.Receive.SenderClientId);

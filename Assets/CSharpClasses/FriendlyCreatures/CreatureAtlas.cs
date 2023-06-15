@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +11,6 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 public class CreatureAtlas : MonoBehaviour
 {
-
     [System.Serializable]
     public struct CreatureVisualData
     {

@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using UnityEngine;
-using System.Linq;
 using Unity.Netcode;
 
 //------------------------------------------------------------------------------

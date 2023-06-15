@@ -1,8 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Food(Fire Creature) Obstacle class inherited from FriendlyCreatureItemObstacle
+// </summary>
+//------------------------------------------------------------------------------
 public class FriendlyCreatureFireObstacle : FriendlyCreatureItemObstacle
 {
     [ServerRpc(RequireOwnership = false)]
