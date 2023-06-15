@@ -557,8 +557,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1747182525}
-  m_Father: {fileID: 861473377}
-  m_RootOrder: 8
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &293357351
 GameObject:
@@ -2068,11 +2068,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
---- !u!4 &861473377 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4456177007966299706, guid: 21282f429984c714ca7ac1689465f39a, type: 3}
-  m_PrefabInstance: {fileID: 861473376}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &906029623
 GameObject:
   m_ObjectHideFlags: 0
