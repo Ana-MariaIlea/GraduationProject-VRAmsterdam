@@ -1,8 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 
+//------------------------------------------------------------------------------
+// </summary>
+//      Base class for player projectiles
+// </summary>
+//------------------------------------------------------------------------------
 public abstract class PlayerHitObject : NetworkBehaviour
 {
     protected float damage;

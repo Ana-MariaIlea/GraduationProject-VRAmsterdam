@@ -1,7 +1,14 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//      Effect for the projectile colision with a wall or boundery
+// </summary>
+//------------------------------------------------------------------------------
 public class ProjectileExplosion : NetworkBehaviour
 {
     [SerializeField] private ParticleSystem explosionEffect1;
