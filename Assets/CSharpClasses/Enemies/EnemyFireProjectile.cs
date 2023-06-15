@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
+//Made by Ana-Maria Ilea
+
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyFireProjectile : EnemyHitObject
 {
     [SerializeField] float explosionRadius = 5;
 
+    //Funtion not used
     private void Explode()
     {
         GetComponent<SphereCollider>().radius = explosionRadius;

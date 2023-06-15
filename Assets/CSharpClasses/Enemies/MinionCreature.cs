@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -35,23 +37,22 @@ public class MinionCreature : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
+        //Simple animation for spawning minion
         LeanTween.scale(minionModel, minionModelScale, 1f).setEaseOutBack();
+
         if (IsServer)
         {
+            //The script runs on the server
             base.OnNetworkSpawn();
             meshAgent = GetComponent<NavMeshAgent>();
             health = MaxHealth;
         }
         else
         {
+            //If it is not server, disable the script
             this.enabled = false;
         }
     }
-
-    private void InitiallizeMinion()
-    {
-
-    } 
 
     // Update is called once per frame
     void Update()
@@ -79,13 +80,14 @@ public class MinionCreature : NetworkBehaviour
                 }
             }
 
-            // If the player has food, go to the player
             if (minDist > attackRange)
             {
+                //If the player is in not the range, move to closest player
                 meshAgent.SetDestination(playerTarget.position);
             }
             else
             {
+                //if the player is in the range, attack
                 meshAgent.SetDestination(transform.position);
                 if (attackCorutine == null)
                 {
@@ -97,10 +99,16 @@ public class MinionCreature : NetworkBehaviour
 
     private IEnumerator AttackCorutine()
     {
+        //Get direction and orientation of the projectile
+        //Add offset to the player y position to the direction hits around the centre of the chest
         Vector3 destinationPos = new Vector3(playerTarget.position.x, playerTarget.position.y + 1f, playerTarget.position.z);
         ProjectileShootPoint.LookAt(destinationPos);
+
+        //Spawn projectile
         GameObject projectile = Instantiate(projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
         projectile.GetComponent<NetworkObject>().Spawn(true);
+
+        //Wait for some time
         float attacktime = Random.Range(minAttackSpeed, maxAttackSpeed);
         yield return new WaitForSeconds(attacktime);
         attackCorutine = null;
@@ -118,12 +126,14 @@ public class MinionCreature : NetworkBehaviour
 
     private void MinionDie()
     {
+        //Invoke minion die event - the boss will recognize a minion has died
         minionDie?.Invoke();
 
         minionDie.RemoveAllListeners();
 
         if (attackCorutine != null)
         {
+            //Stop attacking if the corutine is not finished
             StopCoroutine(attackCorutine);
         }
         StartCoroutine(MinionDieCorutine());

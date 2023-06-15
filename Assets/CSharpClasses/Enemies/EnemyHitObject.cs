@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
 
+//Base class for enemy projectile
 public class EnemyHitObject : NetworkBehaviour
 {
     [SerializeField] protected Rigidbody body;
@@ -36,7 +37,6 @@ public class EnemyHitObject : NetworkBehaviour
         return false;
     }
 
-   // [ServerRpc(RequireOwnership = false)]
     public void DestroyProjectileServer()
     {
         GetComponent<NetworkObject>().Despawn();

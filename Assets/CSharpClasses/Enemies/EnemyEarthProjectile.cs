@@ -1,6 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,7 +7,9 @@ public class EnemyEarthProjectile : EnemyHitObject
 {
     [SerializeField] float explosionRadius = 5;
     [SerializeField] GameObject earthColumns;
-    private void Explode()
+
+    //Function not used
+    private void SpawnEarthColumn()
     {
         GameObject creature = Instantiate(earthColumns, transform.position, Quaternion.identity, transform);
         creature.GetComponent<NetworkObject>().Spawn(true);

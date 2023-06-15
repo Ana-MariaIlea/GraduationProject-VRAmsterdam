@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,10 +50,12 @@ public class BossSpawnPoint : NetworkBehaviour
 
     private void SpawnBoss()
     {
+        //Get minion and boss spawn points
         minionSpawnPoints = FindObjectsOfType<MinionSpawnPoint>().ToList();
         bossSpawnPoints = FindObjectsOfType<BossSpawnPoint>().ToList();
-        GameObject creature;
-        creature = Instantiate(bossPrefab, transform.position, Quaternion.identity);
+
+        //Spawn and initialize boss
+        GameObject creature = Instantiate(bossPrefab, transform.position, Quaternion.identity);
         creature.GetComponent<NetworkObject>().Spawn(true);
         creature.GetComponent<BossCreature>().InitMinionSpawnpoints(minionSpawnPoints);
         creature.GetComponent<BossCreature>().InitBossSpawnpoints(bossSpawnPoints);

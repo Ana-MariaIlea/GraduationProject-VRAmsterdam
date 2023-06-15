@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,8 +9,7 @@ public class MinionSpawnPoint : NetworkBehaviour
 
     public MinionCreature SpawnMinion(CreatureType creatureType)
     {
-        GameObject creature;
-        creature = Instantiate(minionPrefab, transform.position, Quaternion.identity);
+        GameObject creature = Instantiate(minionPrefab, transform.position, Quaternion.identity);
         MinionCreature minion = creature.GetComponent<MinionCreature>();
         minion.CCreatureType = creatureType;
         creature.GetComponent<NetworkObject>().Spawn(true);
