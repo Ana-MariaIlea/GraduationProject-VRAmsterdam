@@ -1,4 +1,5 @@
-using Oculus.Platform.Samples.VrHoops;
+//Made by Ana-Maria Ilea
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -206,6 +207,7 @@ public class ScoreSystemManager : NetworkBehaviour
                 scoreBoardElements[i].playerDeaths.text = finalScoreList[i].deaths.ToString();
             }
         }
+
         //ClientRpc Update UI with leaderboard
         CalcLeaderboardClientRpc(isGameCoOp);
     }
