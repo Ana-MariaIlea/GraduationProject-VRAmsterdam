@@ -14,9 +14,12 @@ public class MapCalibrationManager : MonoBehaviour
 {
     public bool shownUiOnStart = true;
     public bool disableLaserPointerOnCalibrationFinish = false;
+
     [Space(10)]
     [Tooltip("This obj enables interaction with regular UI elements, such as buttons in the calibration steps, through a laser pointer.")]
     public GameObject uiHelpersObj;
+    public GameObject uiOriginIndicator;
+
     [Space(10)]
     [Tooltip("This list represents the consequent steps in the map calibration.")]
     [SerializeField] public CalibrationStep[] calibrationSteps;
@@ -27,18 +30,15 @@ public class MapCalibrationManager : MonoBehaviour
         public GameObject ui;
         public PlayerCameraCalibration.CalibrationControlls assignedControll;
     }
-
-
     private PlayerCameraCalibration _playerCamCalib;
-    
     private int _currentUI = -1;// Start with 1st step in the list
 
     private void Start()
     {
         _playerCamCalib = GetComponent<PlayerCameraCalibration>();
         _playerCamCalib.LoadExistingCalibration();
-        
 
+        uiOriginIndicator.SetActive(true);
         HideAllSteps();
         if (shownUiOnStart)
         {
@@ -49,6 +49,7 @@ public class MapCalibrationManager : MonoBehaviour
     {
         _playerCamCalib.SaveCurrentCalibration();
         HideAllSteps();
+        uiOriginIndicator.SetActive(false);
 
         if (disableLaserPointerOnCalibrationFinish)
         {
@@ -89,6 +90,27 @@ public class MapCalibrationManager : MonoBehaviour
             else
             {
                 FinishCalibration();
+            }
+        }
+    }
+    
+    public void ShowPreviousStep()
+    {
+        if (calibrationSteps.Length == 0)
+        {
+            Debug.LogError($"There are no Calibration Steps assigned to start the map calibration tutorial!");
+            return;
+        }
+
+        if (_currentUI > 0)
+        {
+            calibrationSteps[_currentUI].ui.SetActive(false);//hide existing previous
+
+            if (_currentUI <= (calibrationSteps.Length - 1))
+            {
+                _currentUI -= 1;
+                calibrationSteps[_currentUI].ui.SetActive(true);
+                SwitchCalibrationControlls(_currentUI);
             }
         }
     }
