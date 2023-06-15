@@ -1,6 +1,7 @@
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ClientUI : NetworkBehaviour
 {
