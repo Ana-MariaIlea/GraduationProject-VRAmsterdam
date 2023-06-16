@@ -1,13 +1,14 @@
-using System.Runtime.CompilerServices;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-
-//Quest controllers input in Unity:
-//https://docs.unity3d.com/560/Documentation/Manual/OculusControllers.html
-
+using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
-/// This class allows for calibration of the player camera (OVRCameraRig) via controller input (OVRInput).
+/// This class takes care of the functionality behind each step in the map calibration.
+/// It modifies properties of the player's camera transform (OVRCameraRig) via controller input (OVRInput).
+/// 
+/// Author: Kristyna Pavlatova
+/// Date: June 2023
 /// </summary>
 public class PlayerCameraCalibration : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class PlayerCameraCalibration : MonoBehaviour
     public float rotationSpeed = 0.1f;
     public float frowardBackwardsSpeed = 0.01f;    
     public float rightLeftSpeed = 0.01f;
-    private float RIGTH_LEFT_SENSITIVITY_THRESHOLD = 0.5f;
+    private float THUMBSTICK_SENSITIVITY_THRESHOLD = 0.5f;
     [Tooltip("The floor's resulting Y position has an offset from the concrete Y position of the controller.")]
     public float floorLevelOffset = 0.05f;
     private float _calibrationSpeedMultiplayer = 1;// The initial value all calibration speed values will be multiplayed by. Gets changed by the calibrationSpeedModifier
@@ -52,7 +53,7 @@ public class PlayerCameraCalibration : MonoBehaviour
 
     private void Start()
     {
-        InitiateCalibrationSpeedSlider();
+        InitiateValuesInCalibrationSpeedSlider();
         ShowAndPlayFloorCalibrationAnimation(false);
     }
     void Update()
@@ -84,15 +85,18 @@ public class PlayerCameraCalibration : MonoBehaviour
     {
         float axisValue = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick).x;
 
-        if (axisValue != 0)
+        if (axisValue >= THUMBSTICK_SENSITIVITY_THRESHOLD || axisValue <= (THUMBSTICK_SENSITIVITY_THRESHOLD * -1))
         {
             //Left
             if (axisValue < 0)
+            {
                 ovrCameraRig.Rotate(Vector3.up, (rotationSpeed * _calibrationSpeedMultiplayer), Space.Self);
-
+            }
             //Right
             if (axisValue > 0)
+            {
                 ovrCameraRig.Rotate(Vector3.up, -(rotationSpeed * _calibrationSpeedMultiplayer), Space.Self);
+            }
         }
     }
     private void MoveCameraForwardBackward()
@@ -119,7 +123,7 @@ public class PlayerCameraCalibration : MonoBehaviour
     {
         float axisValue = OVRInput.Get(OVRInput.Axis2D.SecondaryThumbstick).x;
 
-        if (axisValue >= RIGTH_LEFT_SENSITIVITY_THRESHOLD || axisValue <= (RIGTH_LEFT_SENSITIVITY_THRESHOLD * -1))
+        if (axisValue >= THUMBSTICK_SENSITIVITY_THRESHOLD || axisValue <= (THUMBSTICK_SENSITIVITY_THRESHOLD * -1))
         {
             //Forward
             if (axisValue < 0)
@@ -137,8 +141,8 @@ public class PlayerCameraCalibration : MonoBehaviour
         }
     }
     /// <summary>
-    /// Allows for setting the correct level of the virtual floor.
-    /// It making the player CameraRig.y higher or lower based on the floorLevelTransform.y position when the left grab button is pressed.
+    /// Changes the player's height based on the controller.y.
+    /// Invokes the "SetFloorLevelToControllerY" function once UI animation is over.
     /// </summary>
     private void CalibrateFloorLevel()
     {
@@ -156,10 +160,10 @@ public class PlayerCameraCalibration : MonoBehaviour
             {
                 Debug.LogError($"Reference to floorCalibrationAnimator is missing!");
             }
-            Invoke("SetTheFloorLevelToControllerY", CUSTOM_ANIMATION_LENGTH);// feels more responsive than the precise value from floorCalibrationAnimator.GetCurrentAnimatorStateInfo(0).length
+            Invoke("SetFloorLevelToControllerY", CUSTOM_ANIMATION_LENGTH);// feels more responsive than the precise value from floorCalibrationAnimator.GetCurrentAnimatorStateInfo(0).length
         }
     }
-    private void SetTheFloorLevelToControllerY()
+    private void SetFloorLevelToControllerY()
     {
         float controllerY = floorLevelTransform.position.y;
         if (controllerY < 0)
@@ -177,9 +181,6 @@ public class PlayerCameraCalibration : MonoBehaviour
         ShowAndPlayFloorCalibrationAnimation(_isFloorCalibrationInProgress);
     }
 
-    /// <summary>
-    /// Saves current position and rotation of the CameraRig into PlayerPreferences (local memory available only to this instance of the application).
-    /// </summary>
     public void SaveCurrentCalibration()
     {
         PlayerPrefs.SetFloat(_savedPositionKey + "x", ovrCameraRig.position.x);
@@ -191,9 +192,6 @@ public class PlayerCameraCalibration : MonoBehaviour
         PlayerPrefs.SetFloat(_savedRotationKey + "z", ovrCameraRig.rotation.z);
         PlayerPrefs.SetFloat(_savedRotationKey + "w", ovrCameraRig.rotation.w);
     }
-    /// <summary>
-    /// Loads any existing camera calibration data from the PlayerPreferences.
-    /// </summary>
     public void LoadExistingCalibration()
     {
         //if (OVRCameraRig.gameObject.activeSelf)
@@ -221,7 +219,7 @@ public class PlayerCameraCalibration : MonoBehaviour
         if (_calibrationSpeedMultiplayer <= (MAX_CALIBRATION_SPEED - calibrationSpeedModifier))
         {
             _calibrationSpeedMultiplayer += calibrationSpeedModifier;
-            calibrationSpeedUiSlider.value = _calibrationSpeedMultiplayer;
+            SetValueToCalibrationSpeedSlider(_calibrationSpeedMultiplayer);
         }
     }
     public void DecreaseCalibrationSpeed()
@@ -229,17 +227,21 @@ public class PlayerCameraCalibration : MonoBehaviour
         if (_calibrationSpeedMultiplayer >= calibrationSpeedModifier)
         {
             _calibrationSpeedMultiplayer -= calibrationSpeedModifier;
-            calibrationSpeedUiSlider.value = _calibrationSpeedMultiplayer;
+            SetValueToCalibrationSpeedSlider(_calibrationSpeedMultiplayer);
         }
     }
-    private void InitiateCalibrationSpeedSlider()
+
+    private void InitiateValuesInCalibrationSpeedSlider()
     {
         if (calibrationSpeedUiSlider != null)
         {
             calibrationSpeedUiSlider.maxValue = MAX_CALIBRATION_SPEED;
-            calibrationSpeedUiSlider.value = MAX_CALIBRATION_SPEED / 2;
+            SetValueToCalibrationSpeedSlider(MAX_CALIBRATION_SPEED / 2);
         }
-
+    }
+    public void SetValueToCalibrationSpeedSlider(float value)
+    {
+        calibrationSpeedUiSlider.value = value;
     }
 
     private void ShowAndPlayFloorCalibrationAnimation(bool isVisible)

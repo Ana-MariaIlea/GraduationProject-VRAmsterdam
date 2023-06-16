@@ -5694,7 +5694,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "In the next step Rotate and Move the map so that it aligns with the real
     surroundings.\n\nFit               , present in the game,\n                    
-    , that is made out of a duct tape somewhere in the real room."
+    , that is made out of a duct tape somewhere on the floor in the real room."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 594edfc0dbb946b499143404a65dd691, type: 2}
   m_sharedMaterial: {fileID: 5039118521025443373, guid: 594edfc0dbb946b499143404a65dd691, type: 2}

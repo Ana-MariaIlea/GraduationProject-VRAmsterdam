@@ -111,7 +111,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1832948889761303923}
   m_Layer: 0
-  m_Name: UI Origin Indicator
+  m_Name: Origin Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5,12 +5,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
-/// This class manages UI and functionality for map calibration.
-/// The map calibration happens through adjusting the player's camera transform (OVRCameraRig) happening inside the PlayerCameraCalibration.
+/// This class manages the switching of UI steps in the map calibration process.
+/// Based on the current step it switches the controllers executed in the PlayerCameraCalibration script.
+/// 
+/// Author: Kristyna Pavlatova
+/// Date: June 2023
 /// </summary>
 
 [RequireComponent(typeof(PlayerCameraCalibration))]
-public class MapCalibrationManager : MonoBehaviour
+public class MapCalibrationUiManager : MonoBehaviour
 {
     public bool shownUiOnStart = true;
     public bool disableLaserPointerOnCalibrationFinish = false;
@@ -18,7 +21,7 @@ public class MapCalibrationManager : MonoBehaviour
     [Space(10)]
     [Tooltip("This obj enables interaction with regular UI elements, such as buttons in the calibration steps, through a laser pointer.")]
     public GameObject uiHelpersObj;
-    public GameObject uiOriginIndicator;
+    public GameObject originIndicator;
 
     [Space(10)]
     [Tooltip("This list represents the consequent steps in the map calibration.")]
@@ -37,19 +40,23 @@ public class MapCalibrationManager : MonoBehaviour
     {
         _playerCamCalib = GetComponent<PlayerCameraCalibration>();
         _playerCamCalib.LoadExistingCalibration();
-
-        uiOriginIndicator.SetActive(true);
         HideAllSteps();
+
         if (shownUiOnStart)
         {
-            ShowNextStep();
-        } 
+            StartMapCalibration();
+        }
+    }
+    public void StartMapCalibration()
+    {
+        originIndicator.SetActive(true);
+        ShowNextStep();
     }
     public void FinishCalibration()
     {
         _playerCamCalib.SaveCurrentCalibration();
         HideAllSteps();
-        uiOriginIndicator.SetActive(false);
+        originIndicator.SetActive(false);
 
         if (disableLaserPointerOnCalibrationFinish)
         {
@@ -93,7 +100,6 @@ public class MapCalibrationManager : MonoBehaviour
             }
         }
     }
-    
     public void ShowPreviousStep()
     {
         if (calibrationSteps.Length == 0)
