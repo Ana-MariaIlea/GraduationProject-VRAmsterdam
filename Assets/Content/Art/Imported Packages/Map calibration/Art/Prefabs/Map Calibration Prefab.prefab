@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: ShowPreviousStep
         m_Mode: 1
@@ -1553,7 +1553,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: ShowPreviousStep
         m_Mode: 1
@@ -1687,7 +1687,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: ShowNextStep
         m_Mode: 1
@@ -1821,7 +1821,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: ShowPreviousStep
         m_Mode: 1
@@ -2919,7 +2919,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5544376906687764961}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerCameraCalibration, Assembly-CSharp
         m_MethodName: DecreaseCalibrationSpeed
         m_Mode: 1
@@ -3679,7 +3679,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5544376906687764961}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerCameraCalibration, Assembly-CSharp
         m_MethodName: IncreaseCalibrationSpeed
         m_Mode: 1
@@ -4828,7 +4828,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: ShowNextStep
         m_Mode: 1
@@ -5014,10 +5014,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1855560567528425705}
-  - component: {fileID: 8257006210649179944}
-  - component: {fileID: 5544376906687764961}
+  - component: {fileID: 44912918838881130}
+  - component: {fileID: 538099736290340640}
   m_Layer: 6
-  m_Name: Map Calibration Manager
+  m_Name: Map Calibration Prefab
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5039,7 +5039,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8257006210649179944
+--- !u!114 &44912918838881130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5048,25 +5048,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6044475397455850056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e819149d3ad2a6743bcd6a6bd3ff1035, type: 3}
+  m_Script: {fileID: 11500000, guid: 1218ed41be42c4d45a9f7e80cc788820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shownUiOnStart: 1
   disableLaserPointerOnCalibrationFinish: 0
   uiHelpersObj: {fileID: 0}
-  uiOriginIndicator: {fileID: 0}
-  calibrationSteps:
-  - ui: {fileID: 2456341433446065924}
-    assignedControll: 0
-  - ui: {fileID: 1972817644875634853}
-    assignedControll: 1
-  - ui: {fileID: 2351672971297423264}
-    assignedControll: 0
-  - ui: {fileID: 3740345549152470736}
-    assignedControll: 2
-  - ui: {fileID: 4331140848590869030}
-    assignedControll: 0
---- !u!114 &5544376906687764961
+  originIndicator: {fileID: 0}
+  calibrationSteps: []
+--- !u!114 &538099736290340640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5075,7 +5065,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6044475397455850056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03fba201d7488b8499501226e8a547e2, type: 3}
+  m_Script: {fileID: 11500000, guid: b6c8bb179ff596b46810674fa94ddef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ovrCameraRig: {fileID: 0}
@@ -5085,7 +5075,7 @@ MonoBehaviour:
   frowardBackwardsSpeed: 0.01
   rightLeftSpeed: 0.01
   floorLevelOffset: 0.05
-  calibrationSpeedUiSlider: {fileID: 3740345550004578644}
+  calibrationSpeedUiSlider: {fileID: 0}
   floorCalibrationAnimator: {fileID: 0}
   calibrationControlls: 0
 --- !u!1 &6605599998364503825
@@ -5345,7 +5335,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: ShowNextStep
         m_Mode: 1
@@ -5479,7 +5469,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: ShowNextStep
         m_Mode: 1
@@ -6158,7 +6148,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: FinishCalibration
         m_Mode: 1
@@ -6781,7 +6771,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8257006210649179944}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MapCalibrationManager, Assembly-CSharp
         m_MethodName: FinishCalibration
         m_Mode: 1

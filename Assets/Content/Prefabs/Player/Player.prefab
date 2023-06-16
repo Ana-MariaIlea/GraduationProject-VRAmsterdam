@@ -4141,6 +4141,10 @@ PrefabInstance:
       propertyPath: uiHelperObj
       value: 
       objectReference: {fileID: 7170225001325894199}
+    - target: {fileID: 4719393161247877036, guid: cfb9d45aca4ca214c9da4f60c6e427e6, type: 3}
+      propertyPath: uiHelpersObj
+      value: 
+      objectReference: {fileID: 7170225001325894199}
     - target: {fileID: 5165039129911538670, guid: cfb9d45aca4ca214c9da4f60c6e427e6, type: 3}
       propertyPath: pointer
       value: 
@@ -4162,9 +4166,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8417744091863558367}
     - target: {fileID: 9158620826808285541, guid: cfb9d45aca4ca214c9da4f60c6e427e6, type: 3}
+      propertyPath: ovrCameraRig
+      value: 
+      objectReference: {fileID: 8417744091863558367}
+    - target: {fileID: 9158620826808285541, guid: cfb9d45aca4ca214c9da4f60c6e427e6, type: 3}
       propertyPath: LeftHandController
       value: 
       objectReference: {fileID: 8417744091863509257}
+    - target: {fileID: 9158620826808285541, guid: cfb9d45aca4ca214c9da4f60c6e427e6, type: 3}
+      propertyPath: floorLevelTransform
+      value: 
+      objectReference: {fileID: 8417744091863509257}
+    - target: {fileID: 9158620826808285541, guid: cfb9d45aca4ca214c9da4f60c6e427e6, type: 3}
+      propertyPath: floorCalibrationAnimator
+      value: 
+      objectReference: {fileID: 1220100797855186868}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfb9d45aca4ca214c9da4f60c6e427e6, type: 3}
 --- !u!4 &8242539961576402132 stripped
@@ -5330,8 +5346,21 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5067040611827472581, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7223631488896044526, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+--- !u!95 &1220100797855186868 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7223631488896044527, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
+  m_PrefabInstance: {fileID: 8417744091863691867}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8417744091863506189 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 487254, guid: 126d619cf4daa52469682f85c1378b4a, type: 3}
