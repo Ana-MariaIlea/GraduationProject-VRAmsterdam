@@ -10,7 +10,7 @@ using static UnityEngine.Rendering.DebugUI;
 /// Author: Kristyna Pavlatova
 /// Date: June 2023
 /// </summary>
-public class PlayerCameraCalibration : MonoBehaviour
+public class PlayerCameraCalibrationController : MonoBehaviour
 {
     [Header("Player Camera:")]
     [Tooltip("OVRCameraRig transform")]

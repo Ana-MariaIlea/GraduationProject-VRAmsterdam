@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 /// Date: June 2023
 /// </summary>
 
-[RequireComponent(typeof(PlayerCameraCalibration))]
+[RequireComponent(typeof(PlayerCameraCalibrationController))]
 public class MapCalibrationUiManager : MonoBehaviour
 {
     public bool shownUiOnStart = true;
@@ -31,14 +31,14 @@ public class MapCalibrationUiManager : MonoBehaviour
     public struct CalibrationStep
     {
         public GameObject ui;
-        public PlayerCameraCalibration.CalibrationControlls assignedControll;
+        public PlayerCameraCalibrationController.CalibrationControlls assignedControll;
     }
-    private PlayerCameraCalibration _playerCamCalib;
+    private PlayerCameraCalibrationController _playerCamCalib;
     private int _currentUI = -1;// Start with 1st step in the list
 
     private void Start()
     {
-        _playerCamCalib = GetComponent<PlayerCameraCalibration>();
+        _playerCamCalib = GetComponent<PlayerCameraCalibrationController>();
         _playerCamCalib.LoadExistingCalibration();
         HideAllSteps();
 

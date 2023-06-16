@@ -24,8 +24,7 @@ EditorBuildSettings:
     path: Assets/Content/Scenes/ProofOfConcept/ProofOfConceptSquare.unity
     guid: dafe34b7a3a4bb249851152495163734
   - enabled: 1
-    path: Assets/Content/Art/Images/Map calibration - end product/Scenes/Map calibration
-      - Example Scene.unity
+    path: Assets/Map calibration/Scenes/Map calibration - Example Scene.unity
     guid: 181364682824c2e4791421db2dc2f9cc
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: df0f0ea6dcf0eff47880f6480d39859b, type: 2}
