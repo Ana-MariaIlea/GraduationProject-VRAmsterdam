@@ -1,7 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+//Made by Ana-Maria Ilea
+
 using UnityEngine;
 
+//------------------------------------------------------------------------------
+// </summary>
+//     Handles trigger enter and stay between the controllers and the items on the client side
+//      Script is used due to the server not having access to the controllers
+// </summary>
+//------------------------------------------------------------------------------
 public class VRGrabbingCollisionHandler : MonoBehaviour
 {
     [SerializeField] private PlayerVRGrabbing grabbing;

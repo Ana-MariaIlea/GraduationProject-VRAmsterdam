@@ -1,5 +1,6 @@
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -49,11 +50,12 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
     {
         if (IsServer)
         {
+            //The script runs on the server
             base.OnNetworkSpawn();
 
             meshAgent = GetComponent<NavMeshAgent>();
             InitializeCreatureVisuals();
-            GetComponent<NetworkTransform>().enabled = true;
+
             if (PlayerStateManager.Singleton)
             {
                 PlayerStateManager.Singleton.part2PlayerCoOpStartServer.AddListener(Part2Start);
@@ -67,12 +69,14 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
         }
         else
         {
+            //If it is not server, disable the script
             this.enabled = false;
         }
     }
 
     private void GameEnd()
     {
+        //Unsubscribed from events
         if (PlayerStateManager.Singleton)
         {
             PlayerStateManager.Singleton.part2PlayerCoOpStartServer.RemoveListener(Part2Start);
@@ -83,8 +87,12 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
         {
             Debug.LogError("No PlayerStateManager in the scene");
         }
+
+        //Despawn and destroy the visuals
         visuals.GetComponent<NetworkObject>().Despawn();
         Destroy(visuals);
+
+        //Destroy and despawn the creature
         GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
     }
@@ -98,6 +106,7 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
                 UnfriendedBehaviour();
                 break;
             case CreatureState.Befriended:
+                //If the player is null - player disconnects - creature starts helping
                 if (playerTarget == null)
                 {
                     state = CreatureState.Helping;
@@ -118,7 +127,6 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
 
     void InitializeCreatureVisuals()
     {
-        
         // Get the atlas
         CreatureAtlas atlas = GetComponent<CreatureAtlas>();
 
@@ -180,23 +188,24 @@ public abstract class AbstractFriendlyCreature : NetworkBehaviour
     //------------------------------------------------------------------------------
     protected virtual void HelpingBehaviour()
     {
+        //Get distance to the helping space
         Vector3 distance = transform.position - helpingSpace.position;
         float minDist = distance.magnitude;
 
         if (minDist < 20f)
         {
+            //Go to the helping space
             meshAgent.SetDestination(helpingSpace.position);
         }
         else
         {
+            //if it is at the helping space, set destination of the agent to self
             meshAgent.SetDestination(transform.position);
-
         }
     }
 
     public void BefriendCreature()
     {
-        Debug.Log("Befriend creature");
         state = CreatureState.Befriended;
     }
 }

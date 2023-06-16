@@ -1,9 +1,9 @@
-using System;
+//Extended by Ana-Maria Ilea from the ExampleNetworkDiscovery
+
 using System.Net;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine;
-using UnityEngine.Events;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(NetworkManager))]

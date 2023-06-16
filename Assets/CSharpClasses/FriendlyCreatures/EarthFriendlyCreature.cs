@@ -1,6 +1,6 @@
-using Oculus.Platform.Samples.VrHoops;
+//Made by Ana-Maria Ilea
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 

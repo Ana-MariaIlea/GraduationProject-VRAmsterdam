@@ -1,9 +1,9 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.InputSystem;
-using System;
 
 public class PlayerVRShield : NetworkBehaviour
 {

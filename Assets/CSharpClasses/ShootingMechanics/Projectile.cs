@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+//Made by Ana-Maria Ilea
+
 using Unity.Netcode;
 using UnityEngine;
 
@@ -70,7 +69,6 @@ public class Projectile : PlayerHitObject
         }
         if (other.tag != "ChargingStation" && other.tag!="Team1" && other.tag != "Team2" && other.tag != "Player")
         {
-            //add decal
             GetComponent<NetworkObject>().Despawn();
             Destroy(this);
         }

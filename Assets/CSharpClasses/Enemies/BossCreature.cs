@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -53,15 +55,19 @@ public class BossCreature : NetworkBehaviour
     {
         if (IsServer)
         {
+            //The script runs on the server
             base.OnNetworkSpawn();
             meshAgent = GetComponent<NavMeshAgent>();
             health = MaxHealth;
         }
         else
         {
+            //If it is not server, disable the script
             this.enabled = false;
             GetComponent<CapsuleCollider>().enabled = false;
         }
+
+        //Add simple animation for boss spawning
         LeanTween.scale(bossModel, Vector3.one, 1f).setEaseOutBack();
     }
 
@@ -98,13 +104,15 @@ public class BossCreature : NetworkBehaviour
                     playerTarget = hitCollidersSight[i].transform;
                 }
             }
-            // If the player has food, go to the player
+            
             if (minDist > attackRange)
             {
+                //If the player is in not the range, move to closest player
                 meshAgent.SetDestination(playerTarget.position);
             }
             else
             {
+                //if the player is in the range, attack
                 meshAgent.SetDestination(transform.position);
                 if (attackCorutine == null)
                 {
@@ -116,10 +124,16 @@ public class BossCreature : NetworkBehaviour
 
     private IEnumerator AttackCorutine()
     {
+        //Get direction and orientation of the projectile
+        //Add offset to the player y position to the direction hits around the centre of the chest
         Vector3 destinationPos = new Vector3(playerTarget.position.x, playerTarget.position.y + 1f, playerTarget.position.z);
         ProjectileShootPoint.LookAt(destinationPos);
+
+        //Spawn projectile
         GameObject projectile = Instantiate(thresholds[thresholdIndex].projectilePrefab, ProjectileShootPoint.position, ProjectileShootPoint.rotation);
         projectile.GetComponent<NetworkObject>().Spawn(true);
+
+        //Wait for some time
         float attacktime = Random.Range(minAttackSpeed,maxAttackSpeed);
         yield return new WaitForSeconds(attacktime);
         attackCorutine = null;
@@ -129,7 +143,7 @@ public class BossCreature : NetworkBehaviour
     {
         Collider[] hitCollidersSight = Physics.OverlapSphere(transform.position, 1.5f, LayerMask.GetMask("Player"));
 
-        // If there is a player in sight
+        // If there is a player in sight teleport
         if (hitCollidersSight.Length >= 1)
         {
             TeleportBoss();
@@ -143,6 +157,7 @@ public class BossCreature : NetworkBehaviour
         {
             rand = Random.Range(0, bossSpawnPoints.Count);
         }
+
         teleportSpawnPointIndex = rand;
 
         if (teleportCorutine == null)
@@ -169,14 +184,21 @@ public class BossCreature : NetworkBehaviour
         }
         if (health < thresholds[thresholdIndex].healthThreshhold)
         {
+            //If the boss health reches a threshold change behavior
             stage = BossStage.Shield;
+
+            //Spawn minions
             foreach (var point in minionSpawnPoints)
             {
                 MinionCreature minion = point.SpawnMinion(thresholds[thresholdIndex].minionTypeToSpawn);
                 minion.minionDie.AddListener(MinionDied);
             }
             minionNumber = minionSpawnPoints.Count;
+            
+            //Increase the threshold index
             thresholdIndex++;
+
+            //Make the boss dissaprer - replaced the teleporting feature
             bossModel.SetActive(false);
             GetComponent<CapsuleCollider>().enabled = false;
             meshAgent.enabled = false;
@@ -187,27 +209,12 @@ public class BossCreature : NetworkBehaviour
     [ClientRpc]
     private void TurnOffBossModelClientRpc()
     {
-        //bossModel.SetActive(false);
         StartCoroutine(BossSpawningDespawing(false));
-    }
-
-    public void MinionDied()
-    {
-        minionNumber--;
-        if (minionNumber == 0)
-        {
-            stage = BossStage.Fight;
-            bossModel.SetActive(true);
-            GetComponent<CapsuleCollider>().enabled = true;
-            meshAgent.enabled = true;
-            TurnOnBossModelClientRpc();
-        }
     }
 
     [ClientRpc]
     private void TurnOnBossModelClientRpc()
     {
-        //bossModel.SetActive(true);
         StartCoroutine(BossSpawningDespawing(true));
     }
 
@@ -216,7 +223,6 @@ public class BossCreature : NetworkBehaviour
         if (isSpawning)
         {
             LeanTween.scale(bossModel, Vector3.one, 1f).setEaseOutBack();
-
         }
         else
         {
@@ -225,19 +231,39 @@ public class BossCreature : NetworkBehaviour
         yield return null;
     }
 
+
+    public void MinionDied()
+    {
+        minionNumber--;
+        if (minionNumber == 0)
+        {
+            //If all the minions have died, the boss starts to attack
+            stage = BossStage.Fight;
+            bossModel.SetActive(true);
+            GetComponent<CapsuleCollider>().enabled = true;
+            meshAgent.enabled = true;
+            TurnOnBossModelClientRpc();
+        }
+    }
+
     private void BossDie()
     {
         if (PlayerStateManager.Singleton)
         {
+            //Trigger event for game end
             PlayerStateManager.Singleton.GameEndServer();
         }
         else
         {
             Debug.LogError("No PlayerStateManager in the scene");
         }
+
+        //Set oss for ending
         stage = BossStage.Die;
         meshAgent.SetDestination(transform.position);
         if (attackCorutine != null) StopCoroutine(attackCorutine);
+
+        //Despawn and destory boss
         GetComponent<NetworkObject>().Despawn();
         Destroy(this);
     }

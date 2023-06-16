@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -19,7 +21,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [SerializeField] ControllerType controllerType;
 
     [SerializeField] private Transform anchor;
-    private NetworkVariable<Vector3> anchorPositionNetworked = new NetworkVariable<Vector3>(Vector3.zero, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [SerializeField] PlayerCreatureUIPanel creatureUIPanel;
 
@@ -34,7 +35,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         get
         {
-            //Some other code
             return grabedItem;
         }
     }
@@ -43,12 +43,10 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         get
         {
-            //Some other code
             return grabedItemID.Value;
         }
         set
         {
-            //Some other code
             grabedItemID.Value = value;
         }
     }
@@ -101,19 +99,32 @@ public class PlayerVRGrabbing : NetworkBehaviour
     }
     public void TriggerEnterGrab(Collider other)
     {
+        //Function called by the VRGrabbingColisionHandler when the controllers collides with an item
         if (grabbing.Value == false)
         {
             grabedItem = other.GetComponent<GrabbableItem>();
         }
     }
+
+    public void TriggerExit()
+    {
+        //Function called by the VRGrabbingColisionHandler when the controllers ends collision with an item
+        if (grabbing.Value == false)
+        {
+            grabedItem = null;
+        }
+    }
+
     public void TriggerEnterGrabDestination(Collider other)
     {
+        //Function called by the VRGrabbingColisionHandler when the controllers collides with an obstacle
         CreatureType otherType = other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType;
 
         if (other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleItemID == grabedItemID.Value &&
             !PlayerCreatureHandler.Singleton.CheckCollectedCreature(otherType, OwnerClientId) &&
             other.GetComponent<FriendlyCreatureItemObstacle>().isObstacleClear == false)
         {
+            //If the player has the correct item, has not colected the creature type and the obstacle is not cleared
             CollectCreatureCallServerRPC(other.GetComponent<FriendlyCreatureItemObstacle>().CCreatureType);
             other.GetComponent<FriendlyCreatureItemObstacle>().ObstacleClearedServerRpc();
             DestroyItemServerRPC();
@@ -133,10 +144,7 @@ public class PlayerVRGrabbing : NetworkBehaviour
     {
         StartCoroutine(DestroyItemCorutine());
     }
-    public void DestroyItemServerCall()
-    {
-        StartCoroutine(DestroyItemCorutine());
-    }
+
     private IEnumerator DestroyItemCorutine()
     {
         if (grabedItem != null)
@@ -147,14 +155,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
             GrabbableItemManager.Singleton.RemoveGivenObject(aux);
             aux.GetComponent<NetworkObject>().Despawn();
             Destroy(aux.gameObject);
-        }
-    }
-
-    public void TriggerExit()
-    {
-        if (grabbing.Value == false)
-        {
-            grabedItem = null;
         }
     }
 
@@ -186,11 +186,6 @@ public class PlayerVRGrabbing : NetworkBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (!IsServer)
-            anchorPositionNetworked.Value = anchor.position;
-    }
     void Part2Start()
     {
         UnBindInputActions();
@@ -207,12 +202,15 @@ public class PlayerVRGrabbing : NetworkBehaviour
     [ServerRpc]
     private void GrabItemServerRPC(int ObjectID, ServerRpcParams serverRpcParams = default)
     {
+        //Find the objects the player is grabbing
         grabedItem = GrabbableItemManager.Singleton.FindGivenObject(ObjectID);
+        
         if (grabedItem != null)
         {
             grabedItemID.Value = grabedItem.IItemID;
             grabbing.Value = true;
 
+            //Change ownership so that the player can change the position of the item
             grabedItem.GetComponent<NetworkObject>().ChangeOwnership(serverRpcParams.Receive.SenderClientId);
             GrabClientRpc();
         }
@@ -226,8 +224,8 @@ public class PlayerVRGrabbing : NetworkBehaviour
 
     private IEnumerator GrabbingObjectCorutineServer()
     {
-
-        yield return new WaitForFixedUpdate();
+        //Wait for the networking variables to update
+        yield return new WaitForSeconds(0.1f);
         grabedItemOffset = grabedItem.transform.position - anchor.position;
 
         while (grabbing.Value && grabedItem != null)

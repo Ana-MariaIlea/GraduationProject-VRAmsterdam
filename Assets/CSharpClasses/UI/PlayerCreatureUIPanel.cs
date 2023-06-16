@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.UI;
@@ -78,7 +80,6 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
     {
         UnBindInputActions();
         controls.Disable();
-        //TurnOffOnPanelServerRpc(true);
         panel.SetActive(false);
         fireCreatureImage.sprite = defaultSprite;
         waterCreatureImage.sprite = defaultSprite;
@@ -89,7 +90,6 @@ public class PlayerCreatureUIPanel : NetworkBehaviour
     void Part2StartServerRpc()
     {
         panel.SetActive(false);
-        //TurnOffOnPanelServerRpc(true);
         fireCreatureImage.sprite = defaultSprite;
         waterCreatureImage.sprite = defaultSprite;
         earthCreatureImage.sprite = defaultSprite;

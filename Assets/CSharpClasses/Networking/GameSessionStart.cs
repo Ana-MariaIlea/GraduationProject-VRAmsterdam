@@ -1,3 +1,5 @@
+//Made by Ana-Maria Ilea
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -7,6 +9,7 @@ using UnityEngine;
 // </summary>
 //     Class for starting Server or Clients.
 //     Used for testing when there is no lobby system to start the session
+//     Replaced by the custom network discovery
 // </summary>
 //------------------------------------------------------------------------------
 public class GameSessionStart : MonoBehaviour
