@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/Content/Scenes/SpatialAnchors/SpatialAnchorsCreation.unity
     guid: dae6718858ea5ae4e92a1817a42b73fc
   - enabled: 0
-    path: Assets/Content/Scenes/SpatialAnchors/POCScene NetworkingPassthrough.unity
+    path: Assets/Content/Scenes/ProofOfConcept/ProofOfConcept/POCScene NetworkingPassthrough.unity
     guid: d5c430802f351bc49976cad3ba5ff0ce
   - enabled: 0
     path: Assets/Content/Scenes/ProofOfConcept/ProofOfConcept.unity
