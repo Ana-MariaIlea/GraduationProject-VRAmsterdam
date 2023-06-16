@@ -1,0 +1,12 @@
+Map calibration package
+- This package consists of things neccessary for executing a map calibration.
+- Map calibration allows a player to align the virtual game map with their real surroundings by modifying their OVRCameraRig properties.
+
+Note:
+- Some objects have sprites, fonts or materials which have not been created by the author. Therefore, they have been left out and might be missing once the package is imported. Packages that might be missing are listed below.
+Other used packages:
+- Oculus integration package (https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022)
+- LeanTween (https://assetstore.unity.com/packages/tools/animation/leantween-3595)
+
+Author: Kristyna Pavlatova
+Date: June 2023
