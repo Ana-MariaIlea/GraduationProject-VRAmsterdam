@@ -5017,7 +5017,7 @@ GameObject:
   - component: {fileID: 8257006210649179944}
   - component: {fileID: 5544376906687764961}
   m_Layer: 6
-  m_Name: Map Calibration Manager
+  m_Name: Map Calibration Prefab
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5054,7 +5054,7 @@ MonoBehaviour:
   shownUiOnStart: 1
   disableLaserPointerOnCalibrationFinish: 0
   uiHelpersObj: {fileID: 0}
-  uiOriginIndicator: {fileID: 0}
+  originIndicator: {fileID: 0}
   calibrationSteps:
   - ui: {fileID: 2456341433446065924}
     assignedControll: 0
