@@ -2013,7 +2013,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7176063811560978119}
   - component: {fileID: 7066481052367247203}
-  - component: {fileID: 995692175310714077}
   m_Layer: 0
   m_Name: UIHelpers
   m_TagString: Player
@@ -2051,19 +2050,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef803169364cc6e4d9b4df31d9c7fed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &995692175310714077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7170225001325894199}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19cffc4a267afb64f895014c98849818, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  eventSystemObj: {fileID: 7170821564082138237}
 --- !u!1 &7170449636129933925
 GameObject:
   m_ObjectHideFlags: 0
